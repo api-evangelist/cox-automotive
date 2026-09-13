@@ -1,0 +1,1013 @@
+generated: '2026-09-13'
+method: derived
+source: openapi/cox-automotive-kbb-advertising-data-openapi.yml, openapi/cox-automotive-kbb-batch-vin-openapi.yml, openapi/cox-automotive-kbb-idws-editorial-openapi.yml,
+  openapi/cox-automotive-kbb-idws-vehicle-openapi.yml, openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+docs:
+- https://developer.kbb.com/idws/2-Definitions
+- https://developer.kbb.com/ico/1-Default
+- https://developer.manheim.com/pages/hypermedia.html
+note: 'Entity graph derived from the $ref links in the five harvested Kelley Blue Book Swagger 2.0 contracts, plus the
+  documented Manheim hypermedia entity graph, which has no machine-readable contract and is therefore recorded from the
+  reference pages rather than derived. Two independent cores exist and they do not share identifiers: the Kelley Blue
+  Book vehicle taxonomy (year -> make -> model -> trim, with options, specifications and values hanging off a configured
+  vehicle) and the Manheim auction lifecycle (unit -> consignment -> offering -> transaction, with valuations, condition
+  reports and images attached to the unit or VIN). The VIN is the only identifier that spans both.'
+cores:
+- name: Kelley Blue Book vehicle taxonomy
+  root: ModelYear
+  chain:
+  - ModelYear
+  - Make
+  - Model
+  - Trim
+  - Vehicle
+  keys:
+  - vehicleId
+  - makeId
+  - modelId
+  - trimId
+  - vin
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- name: Kelley Blue Book Instant Cash Offer
+  root: Prospect
+  chain:
+  - Vehicle
+  - Prospect
+  - Offer
+  keys:
+  - prospectId
+  - offerId
+  - dealerId
+  - vin
+  lifecycle: A Vehicle configuration creates a Prospect; submitting the Prospect creates an Offer and invalidates the
+    prospectId. Offer statuses are enumerated in errors/cox-automotive-error-codes.yml.
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- name: Manheim auction lifecycle
+  root: Unit
+  chain:
+  - Unit
+  - Consignment
+  - Offering
+  - Transaction
+  - Purchase
+  - Title
+  keys:
+  - unit href
+  - consignment id
+  - offering id
+  - VIN
+  - auctionCode
+  - customer id
+  linking: 'Hypermedia: every resource carries its own href and links to related resources by nested href-only objects
+    (a consignment embeds its unit href and vice versa).'
+  source: https://developer.manheim.com/pages/hypermedia.html
+entity_count: 122
+relationship_count: 71
+entities:
+- name: Response
+  schema: Response
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 1
+- name: DataVersion
+  schema: DataVersion
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 3
+- name: CTO
+  schema: CTO
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 15
+- name: CTOAttribute
+  schema: CTOAttribute
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 5
+- name: CTOYearSummary
+  schema: CTOYearSummary
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 2
+- name: Pricing
+  schema: Pricing
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 5
+- name: ExpertRatings
+  schema: ExpertRatings
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 4
+- name: ConsumerRatings
+  schema: ConsumerRatings
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 5
+- name: ExpertReveiws
+  schema: ExpertReveiws
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 4
+- name: Vehicle
+  schema: Vehicle
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 5
+- name: FuelCost
+  schema: FuelCost
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 7
+- name: FuelCostDetail
+  schema: FuelCostDetail
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 6
+- name: Specs
+  schema: Specs
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 6
+- name: SpecsEdts
+  schema: SpecsEdts
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 4
+- name: SpecsMpgs
+  schema: SpecsMpgs
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 2
+- name: ConsumerReviews
+  schema: ConsumerReviews
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 8
+- name: VehicleLinks
+  schema: VehicleLinks
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 21
+- name: Awards
+  schema: Awards
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 3
+- name: AwardBrand
+  schema: AwardBrand
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 16
+- name: AwardCto
+  schema: AwardCto
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 18
+- name: AwardBrva
+  schema: AwardBrva
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  fields: 22
+- name: Object
+  schema: Object
+  source: openapi/cox-automotive-kbb-batch-vin-openapi.yml
+  fields: 0
+- name: BatchJobPostDetails
+  schema: BatchJobPostDetails
+  source: openapi/cox-automotive-kbb-batch-vin-openapi.yml
+  fields: 54
+- name: TokenRequestModel
+  schema: TokenRequestModel
+  source: openapi/cox-automotive-kbb-batch-vin-openapi.yml
+  fields: 2
+- name: ConsumerRatingResponse
+  schema: IDWS.Editorial.Contracts.Contracts.V1.ConsumerRatingResponse
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 7
+- name: Rating
+  schema: IDWS.Editorial.Contracts.Contracts.V1.Rating
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 2
+- name: ReturnResponse
+  schema: IDWS.Platform.ResponseMessage.ReturnResponse
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 2
+- name: ReturnResponse.ResponseMessage
+  schema: IDWS.Platform.ResponseMessage.ReturnResponse+ResponseMessage
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 2
+- name: ConsumerReview
+  schema: IDWS.Editorial.Contracts.Contracts.V1.ConsumerReview
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 26
+- name: ExpertRatingResponse
+  schema: IDWS.Editorial.Contracts.Contracts.V1.ExpertRatingResponse
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 6
+- name: ExpertRatingResponse.Rating
+  schema: IDWS.Editorial.Contracts.Contracts.V1.ExpertRatingResponse+Rating
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 2
+- name: ExpertReviewResponse
+  schema: IDWS.Editorial.Contracts.Contracts.V1.ExpertReviewResponse
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 6
+- name: ReviewSection
+  schema: IDWS.Editorial.Contracts.Contracts.V1.ReviewSection
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 2
+- name: TopTenListsResponse
+  schema: IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 1
+- name: TopTenListsResponse.TopTenList
+  schema: IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse+TopTenList
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 3
+- name: TopTenListsResponse.TopTenVehicle
+  schema: IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse+TopTenVehicle
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  fields: 7
+- name: ApplyConfigurationRequest
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationRequest
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: VehicleConfigurationModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: VehicleConfigurationChangeModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationChangeModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 3
+- name: ApplyConfigurationResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: WarningModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.WarningModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 5
+- name: CtoRequest
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: CtoResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 13
+- name: ValueRatingAttributes
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Cto.ValueRatingAttributes
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 3
+- name: CostPerMileAttributes
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Cto.CostPerMileAttributes
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 3
+- name: ResponseAttributes
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 9
+- name: IDWSMessage
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: CpoProgramsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.CpoPrograms.CpoProgramsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: CpoProgramsResponse.CpoProgramsContract
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.CpoPrograms.CpoProgramsResponse+CpoProgramsContract
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 18
+- name: LinksResponseModel
+  schema: IDWS.Vehicle.Domain.Common.Models.External.LinksResponseModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: MakesResponse.MakeModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse+MakeModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: MakesResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: ModelsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ModelsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: ModelsResponse.ModelContract
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ModelsResponse+ModelContract
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 5
+- name: ModelYearsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: ModelYearsResponse.ModelYear
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse+ModelYear
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: SpecificationsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: SpecificationsResponse.SpecificationModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse+SpecificationModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: TrimsResponse.TrimModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse+TrimModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 11
+- name: TrimsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: TypicalsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: TypicalsResponse.TypiacalResponseModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse+TypiacalResponseModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 3
+- name: ValidateConfigurationRequest
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationRequest
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 1
+- name: ValidateConfigurationResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 3
+- name: ValuesRequest
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 4
+- name: ValuesResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 4
+- name: Price
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Values.Price
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 11
+- name: Price.OptionPrice
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.Values.Price+OptionPrice
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 3
+- name: VehicleResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: VehicleResponse.Vehicle
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse+Vehicle
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 44
+- name: VRSVehicleOptionsResponseModel
+  schema: IDWS.Vehicle.Domain.Common.Models.VRSRepo.VRSVehicleOptionsResponseModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: VRSVehicleOptionsResponseModel.VehicleOption
+  schema: IDWS.Vehicle.Domain.Common.Models.VRSRepo.VRSVehicleOptionsResponseModel+VehicleOption
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 16
+- name: VehicleSpecsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: VehicleSpecsResponse.VehicleSpecs
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse+VehicleSpecs
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 5
+- name: VinResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.VinResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 2
+- name: VinResponse.VinResult
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.VinResponse+VinResult
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 24
+- name: VinResponse.VinVehicleOption
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.VinResponse+VinVehicleOption
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 17
+- name: YearsResponse
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 6
+- name: YearsResponse.YearModel
+  schema: IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse+YearModel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  fields: 1
+- name: DecodedVin
+  schema: DecodedVin
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 1
+- name: VinPossibility
+  schema: VinPossibility
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 8
+- name: VehicleIdentity
+  schema: VehicleIdentity
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 9
+- name: VehicleEligibility
+  schema: VehicleEligibility
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 4
+- name: ProspectRequest
+  schema: ProspectRequest
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 4
+- name: Prospect
+  schema: Prospect
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Year
+  schema: Year
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Years
+  schema: Years
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Make
+  schema: Make
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Makes
+  schema: Makes
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Model
+  schema: Model
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Models
+  schema: Models
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Trim
+  schema: Trim
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Trims
+  schema: Trims
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Color
+  schema: Color
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Colors
+  schema: Colors
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Transmission
+  schema: Transmission
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Transmissions
+  schema: Transmissions
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Engine
+  schema: Engine
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Engines
+  schema: Engines
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Drivetrain
+  schema: Drivetrain
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: Drivetrains
+  schema: Drivetrains
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: OptionRequest
+  schema: OptionRequest
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: OptionsRequest
+  schema: OptionsRequest
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Option
+  schema: Option
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Options
+  schema: Options
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: QuestionRequest
+  schema: QuestionRequest
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Question
+  schema: Question
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: YesNo
+  schema: YesNo
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Text
+  schema: Text
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Number
+  schema: Number
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Enum
+  schema: Enum
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Questions
+  schema: Questions
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: QuestionsRequest
+  schema: QuestionsRequest
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: ContactInfoRequest
+  schema: ContactInfoRequest
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 7
+- name: ContactInfo
+  schema: ContactInfo
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Offer
+  schema: Offer
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: Plate2VinResponse
+  schema: Plate2VinResponse
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 1
+- name: Plate2Vin
+  schema: Plate2Vin
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 1
+- name: Plate2VinStateResponse
+  schema: Plate2VinStateResponse
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 1
+- name: Plate2VinState
+  schema: Plate2VinState
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 2
+- name: uuid
+  schema: uuid
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+- name: url
+  schema: url
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  fields: 0
+relationships:
+- from: Response
+  to: DataVersion
+  cardinality: has_one
+  via: dataVersion
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOAttribute
+  cardinality: has_one
+  via: fuel
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOAttribute
+  cardinality: has_one
+  via: insurance
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOAttribute
+  cardinality: has_one
+  via: finance
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOAttribute
+  cardinality: has_one
+  via: stateFees
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOAttribute
+  cardinality: has_one
+  via: maintenance
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOAttribute
+  cardinality: has_one
+  via: repairs
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOAttribute
+  cardinality: has_one
+  via: depreciation
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: CTO
+  to: CTOYearSummary
+  cardinality: has_one
+  via: yearSummary
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: FuelCost
+  to: FuelCostDetail
+  cardinality: has_one
+  via: fuel
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: FuelCost
+  to: FuelCostDetail
+  cardinality: has_one
+  via: electric
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: Awards
+  to: AwardBrand
+  cardinality: has_many
+  via: brandImageAwards
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: Awards
+  to: AwardBrva
+  cardinality: has_many
+  via: brvaAwards
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: Awards
+  to: AwardCto
+  cardinality: has_many
+  via: ctoAwards
+  source: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+- from: ConsumerRatingResponse
+  to: Rating
+  cardinality: has_many
+  via: ratings
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+- from: ReturnResponse
+  to: ReturnResponse.ResponseMessage
+  cardinality: has_many
+  via: errors
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+- from: ReturnResponse
+  to: ReturnResponse.ResponseMessage
+  cardinality: has_many
+  via: warnings
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+- from: ExpertRatingResponse
+  to: ExpertRatingResponse.Rating
+  cardinality: has_many
+  via: ratings
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+- from: ExpertReviewResponse
+  to: ReviewSection
+  cardinality: has_many
+  via: reviewSections
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+- from: TopTenListsResponse
+  to: TopTenListsResponse.TopTenList
+  cardinality: has_many
+  via: topTenLists
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+- from: TopTenListsResponse.TopTenList
+  to: TopTenListsResponse.TopTenVehicle
+  cardinality: has_many
+  via: vehicles
+  source: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+- from: ApplyConfigurationRequest
+  to: VehicleConfigurationModel
+  cardinality: has_one
+  via: startingConfiguration
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ApplyConfigurationRequest
+  to: VehicleConfigurationChangeModel
+  cardinality: has_many
+  via: configurationChanges
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ApplyConfigurationResponse
+  to: VehicleConfigurationModel
+  cardinality: has_one
+  via: finalConfiguration
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ApplyConfigurationResponse
+  to: WarningModel
+  cardinality: has_many
+  via: warnings
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ReturnResponse
+  to: ReturnResponse.ResponseMessage
+  cardinality: has_many
+  via: errors
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ReturnResponse
+  to: ReturnResponse.ResponseMessage
+  cardinality: has_many
+  via: warnings
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoRequest
+  to: VehicleConfigurationModel
+  cardinality: has_one
+  via: configuration
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ValueRatingAttributes
+  cardinality: has_one
+  via: valueRating
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: CostPerMileAttributes
+  cardinality: has_one
+  via: costPerMile
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ResponseAttributes
+  cardinality: has_one
+  via: fuel
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ResponseAttributes
+  cardinality: has_one
+  via: insurance
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ResponseAttributes
+  cardinality: has_one
+  via: financing
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ResponseAttributes
+  cardinality: has_one
+  via: stateFees
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ResponseAttributes
+  cardinality: has_one
+  via: maintenanceAndRepairs
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ResponseAttributes
+  cardinality: has_one
+  via: depreciation
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: ResponseAttributes
+  cardinality: has_one
+  via: yearTotal
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CtoResponse
+  to: IDWSMessage
+  cardinality: has_many
+  via: warnings
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: CpoProgramsResponse
+  to: CpoProgramsResponse.CpoProgramsContract
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: MakesResponse
+  to: MakesResponse.MakeModel
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ModelsResponse
+  to: ModelsResponse.ModelContract
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ModelYearsResponse
+  to: ModelYearsResponse.ModelYear
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: SpecificationsResponse
+  to: SpecificationsResponse.SpecificationModel
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: TrimsResponse
+  to: TrimsResponse.TrimModel
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: TypicalsResponse
+  to: TypicalsResponse.TypiacalResponseModel
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ValidateConfigurationRequest
+  to: VehicleConfigurationModel
+  cardinality: has_one
+  via: startingConfiguration
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ValidateConfigurationResponse
+  to: VehicleConfigurationModel
+  cardinality: has_one
+  via: finalConfiguration
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ValidateConfigurationResponse
+  to: WarningModel
+  cardinality: has_many
+  via: warnings
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ValuesRequest
+  to: VehicleConfigurationModel
+  cardinality: has_one
+  via: configuration
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ValuesResponse
+  to: Price
+  cardinality: has_many
+  via: prices
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: ValuesResponse
+  to: IDWSMessage
+  cardinality: has_many
+  via: warnings
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: Price
+  to: Price.OptionPrice
+  cardinality: has_many
+  via: optionPrices
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: VehicleResponse
+  to: VehicleResponse.Vehicle
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: VRSVehicleOptionsResponseModel
+  to: VRSVehicleOptionsResponseModel.VehicleOption
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: VehicleSpecsResponse
+  to: VehicleSpecsResponse.VehicleSpecs
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: VinResponse
+  to: VinResponse.VinResult
+  cardinality: has_many
+  via: vinResults
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: VinResponse
+  to: IDWSMessage
+  cardinality: has_many
+  via: warnings
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: VinResponse.VinResult
+  to: VinResponse.VinVehicleOption
+  cardinality: has_many
+  via: vehicleOptions
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: YearsResponse
+  to: YearsResponse.YearModel
+  cardinality: has_many
+  via: items
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- from: DecodedVin
+  to: VinPossibility
+  cardinality: has_many
+  via: possibilities
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Year
+  cardinality: has_one
+  via: year
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Make
+  cardinality: has_one
+  via: make
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Model
+  cardinality: has_one
+  via: model
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Trim
+  cardinality: has_one
+  via: trim
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Drivetrain
+  cardinality: has_many
+  via: drivetrains
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Engine
+  cardinality: has_many
+  via: engines
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Transmission
+  cardinality: has_many
+  via: transmissions
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: VinPossibility
+  to: Option
+  cardinality: has_many
+  via: options
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: ProspectRequest
+  to: VehicleIdentity
+  cardinality: has_one
+  via: vehicle
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: Plate2VinResponse
+  to: Plate2Vin
+  cardinality: has_many
+  via: possibilities
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- from: Plate2VinStateResponse
+  to: Plate2VinState
+  cardinality: has_many
+  via: states
+  source: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+manheim_entities:
+- name: Unit
+  description: A vehicle in the Manheim inventory system.
+  endpoints:
+  - GET /units/id/{ID}
+  - GET /units/mine
+  - POST /units
+  - POST /units/id/{ID}
+  source: https://developer.manheim.com/apis/inventory/units.html
+- name: Consignment
+  description: A unit consigned to an auction.
+  endpoints:
+  - GET /consignments/id/{ID}
+  - GET /consignments/unit/{ID}
+  - GET /consignments/mine
+  - GET /consignments/lifecycles/unit/{LIFECYCLE_ID}
+  source: https://developer.manheim.com/apis/inventory/consignments.html
+- name: Offering
+  description: A unit offered for sale in a channel (in-lane, OVE, MBOnDemand, direct sales, ACTUOS).
+  endpoints:
+  - GET /offerings/unit/{ID}
+  - GET /offerings/consignment/{ID}
+  - GET /offerings/search
+  - POST /offerings/in-lane
+  - POST /offerings/ove
+  - POST /offerings/actions/assign_lane_and_run
+  - POST /offerings/actions/unassign_lane_and_run
+  source: https://developer.manheim.com/apis/marketplace/offerings.html
+- name: Transaction
+  description: A completed sale keyed by customer, auction, sale year/number, lane and run, or by VIN.
+  endpoints:
+  - GET /transactions/customer/{ID}
+  - GET /transactions/customer/{ID}/auction/{auctionCode}/vin/{VIN}
+  source: https://developer.manheim.com/apis/marketplace/transactions.html
+- name: Purchase
+  description: A purchase order against a transaction.
+  endpoints:
+  - GET /orders/purchases/id/{ID}
+  - GET /orders/purchases/customer/{ID}
+  source: https://developer.manheim.com/apis/marketplace/purchases.html
+- name: Title
+  description: Title details for a sold vehicle.
+  endpoints:
+  - GET /titles/details/id/{titleID}
+  source: https://developer.manheim.com/apis/marketplace/titles.html
+- name: Valuation
+  description: Manheim Market Report valuation for a VIN, with region, colour, grade and odometer qualifiers, plus forecasts.
+  endpoints:
+  - GET /valuations/vin/{VIN}
+  - POST /valuations/batch/vins
+  - GET /valuations/forecast/vin/{VIN}
+  - POST /valuations/batch/forecast/vins
+  source: https://developer.manheim.com/apis/marketplace/valuations.html
+- name: Location
+  description: A Manheim auction location.
+  endpoints:
+  - GET /locations
+  - GET /locations/id/{ID}
+  source: https://developer.manheim.com/apis/auction/locations.html
+- name: Profile
+  description: A user or organisation profile, resolvable by source system and alternate id.
+  endpoints:
+  - GET /profiles/mine
+  - GET /profiles/id/{profileId}
+  - GET /profiles/alternateIdTypes
+  source: https://developer.manheim.com/apis/users/profiles.html
+- name: Preference
+  description: A user preference under a profile, typed by a preference definition.
+  endpoints:
+  - GET /preferences/mine
+  - GET /preferences/profile/{profileId}
+  - POST /preferences
+  - DELETE /preferences/id/{preferenceId}
+  source: https://developer.manheim.com/apis/users/preferences.html
+- name: Context
+  description: A context grouping preferences.
+  endpoints:
+  - GET /contexts/all
+  - GET /contexts/id/{contextId}
+  - POST /contexts
+  source: https://developer.manheim.com/apis/users/contexts.html
+- name: Subscriber
+  description: A company registered to receive Manheim event notifications.
+  endpoints:
+  - GET /subscribers/mine
+  - POST /subscribers
+  - DELETE /subscribers/id/{ID}
+  source: https://developer.manheim.com/apis/events/subscribers.html
+- name: Subscription
+  description: Filter criteria under a subscriber selecting which events are delivered.
+  endpoints:
+  - GET /subscriptions/mine
+  - POST /subscriptions
+  - DELETE /subscriptions/id/{ID}
+  source: https://developer.manheim.com/apis/events/subscriptions.html
+- name: Event
+  description: A NOUN.VERB business event with a thin body carrying the changed resource URL.
+  endpoints:
+  - POST /events
+  - GET /events/id/{ID}
+  - GET /events/subscriber/{ID}
+  - GET /events/subscription/{ID}
+  source: https://developer.manheim.com/apis/events/events.html

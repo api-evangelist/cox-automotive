@@ -1,0 +1,180 @@
+generated: '2026-09-13'
+method: searched
+source: https://developer.manheim.com/pages/hypermedia.html
+docs:
+- https://developer.manheim.com/pages/hypermedia.html
+- https://developer.manheim.com/pages/authentication.html
+- https://developer.manheim.com/pages/apiUsage.html
+- https://developer.manheim.com/pages/errors.html
+- https://developer.kbb.com/idws/1-Default
+- https://developer.kbb.com/data/3-Versioning
+- https://developer.kbb.com/ico/4-Envelopes
+note: >-
+  Cox Automotive does not run one API programme; it runs three with materially different conventions.
+  Manheim is a hypermedia (href-linked) JSON suite behind OAuth 2.0. Kelley Blue Book is a set of
+  api_key-on-the-query-string services, two of which (IDWS, ICO) impose their own response envelope. The
+  Integration Platform storefront sits behind sign-in and its conventions could not be read
+  unauthenticated. Everything recorded below was read from a public page or a harvested contract.
+authentication:
+  style: mixed
+  manheim: OAuth 2.0 client_credentials / password grant; Basic-encoded Mashery package key + secret on the token request.
+  kelley_blue_book: api_key query-string parameter; Batch VIN additionally requires a bearer token from its own /Token endpoint.
+  transport: HTTPS only; Kelley Blue Book IDWS is explicitly server-side only (no CORS).
+  docs: https://developer.manheim.com/pages/authentication.html
+hypermedia:
+  supported: true
+  style: href-on-every-resource
+  description: >-
+    Every Manheim resource is a JSON object carrying an `href` property holding its own canonical URL;
+    collections carry a collection-level `href` plus an `items[]` array of resources each with its own
+    `href`. Related resources are embedded as nested objects containing only an `href`, so a consignment
+    links to its unit and the unit links back to its consignments. Kelley Blue Book ICO carries a
+    lighter form in `meta.links[]` as {rel, href, method}.
+  docs: https://developer.manheim.com/pages/hypermedia.html
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  retention: null
+  evidence:
+  - No Idempotency-Key (or equivalent) header, parameter or extension appears in any of the five
+    harvested Kelley Blue Book Swagger 2.0 contracts.
+  - No Manheim documentation page describes replay protection, a request key, or safe retry semantics.
+  note: >-
+    This is a real gap, not an unread one. Manheim's write surface is substantial — POST /units,
+    POST /consignments-adjacent writes, POST /offerings/ove, POST /offerings/in-lane,
+    POST /offerings/actions/assign_lane_and_run, POST /subscribers, POST /subscriptions, POST /events —
+    and a client that times out on any of them has no documented way to establish whether the write
+    landed. Kelley Blue Book ICO's POST /prospects and POST /offers are likewise unprotected; ICO's own
+    result code 400093 "Offer already processed" is the symptom a replay produces, which is a rejection
+    rather than a replay-safe repeat of the original result.
+pagination:
+  supported: partial
+  style: query-parameter
+  note: >-
+    Manheim collection endpoints expose per-API search/filter parameters rather than one catalogue-wide
+    pagination contract, and no cursor/offset convention is documented at the programme level. The
+    harvested Kelley Blue Book contracts declare no pagination parameters — every list operation returns
+    a complete result set.
+field_expansion:
+  supported: true
+  mechanism: POST /expand on the Manheim Events API
+  description: >-
+    Rather than sparse fieldsets on a read, Manheim expands EVENTS: a subscriber may request that a
+    delivered event carry the embedded response of the API endpoint the event references, so a consumer
+    receives the changed resource without a follow-up call.
+  docs: https://developer.manheim.com/apis/events/expand.html
+metadata:
+  supported: true
+  mechanism: ICO meta/data envelope; Manheim X-Manheim-Media-Type response header
+request_tracing:
+  supported: partial
+  note: >-
+    No request-id or correlation header is documented on any public Cox Automotive page. The developer
+    portal control plane (control.api.coxautoinc.com) returns a W3C traceparent-shaped `traceId` inside
+    its problem+json body, observed on an unauthenticated probe, but that is not a documented product
+    convention and no product API is documented as echoing one.
+versioning:
+  supported: true
+  schemes:
+  - scheme: media-type
+    detail: 'Kelley Blue Book IDWS 4.0 requires callers to declare a major version: Accept: application/vnd.coxauto.v1+json'
+    docs: https://developer.kbb.com/idws/1-Default
+  - scheme: uri-path
+    detail: 'Advertising Data API: http://BASE_URL/v1/resource; Instant Cash Offer: /ico/v1'
+    docs: https://developer.kbb.com/data/3-Versioning
+  - scheme: header
+    detail: 'Advertising Data API also accepts Accept: application/json; version=1'
+    docs: https://developer.kbb.com/data/3-Versioning
+  - scheme: component-version
+    detail: >-
+      The Cox Automotive API status page versions its runtime components individually (Order API - 2.x,
+      MMR - 1.x, Quotes API - 2.x, Eventer Publishing - 1.x), so the storefront's products carry
+      independent major versions.
+    docs: https://coxautoapi.statuspage.io/
+  breaking_change_policy: >-
+    Additive changes (new endpoints, new response fields, new optional arguments) ship inside the
+    current major version and clients are told to ignore what they do not expect. A removal, a rename,
+    or a new required input is a breaking change and gets a new major version.
+error_envelope:
+  see: errors/cox-automotive-problem-types.yml
+  rfc9457: false
+rate_limit_signaling:
+  see: rate-limits/cox-automotive-rate-limits.yml
+  headers_returned: true
+  standard: vendor
+reversibility:
+  grade: documented
+  coverage: partial
+  note: >-
+    Reversal paths exist on three of the documented write surfaces, and not one of them publishes a
+    window. An agent can establish THAT an action can be undone and cannot establish FOR HOW LONG,
+    which is the half it needs before acting.
+  surfaces:
+  - write: POST /subscriptions (Manheim Events)
+    reversal: DELETE /subscriptions/id/{ID}
+    window: not stated
+    docs: https://developer.manheim.com/apis/events/subscriptions.html
+  - write: POST /subscribers (Manheim Events)
+    reversal: DELETE /subscribers/id/{ID}
+    window: not stated
+    docs: https://developer.manheim.com/apis/events/subscribers.html
+  - write: POST /offerings/actions/assign_lane_and_run (Manheim Marketplace)
+    reversal: POST /offerings/actions/unassign_lane_and_run
+    window: not stated
+    docs: https://developer.manheim.com/apis/marketplace/offerings.html
+  - write: POST /preferences (Manheim Users)
+    reversal: DELETE /preferences/id/{preferenceId}
+    window: not stated
+    docs: https://developer.manheim.com/apis/users/preferences.html
+  - write: POST /BatchJobs (Kelley Blue Book Batch VIN)
+    reversal: PUT /batchjobs/{id}/cancel
+    operationId: BatchJobs_CancelBatchJob
+    window: not stated
+    docs: openapi/cox-automotive-kbb-batch-vin-openapi.yml
+  - write: POST /prospects then POST /offers (Kelley Blue Book ICO)
+    reversal: none
+    window: 'n/a'
+    note: >-
+      Creating an Offer ends the Prospect's lifecycle and invalidates the prospectId; the published
+      documentation describes no cancel, void or re-issue path, and result code 400093 rejects a repeat.
+      Offers do EXPIRE (status EXPIRED), but no expiry duration is published.
+    docs: https://developer.kbb.com/ico/1-Default
+  - write: POST /units, POST /units/id/{ID} (Manheim Inventory)
+    reversal: DELETE on the unit href
+    window: not stated
+    note: >-
+      The hypermedia guide states a consumer may "retrieve the object with a GET call, update the object
+      with a POST call, or delete the object with a DELETE call" against a resource href, but no unit
+      deletion endpoint is separately documented and no undo window is stated.
+    docs: https://developer.manheim.com/pages/hypermedia.html
+dry_run_mode:
+  supported: true
+  coverage: partial
+  mechanism: >-
+    IDWS 4.0 publishes POST /idws/vehicle/validateconfiguration, which validates a vehicle configuration
+    without committing anything, and POST /idws/vehicle/applyconfiguration, which returns warnings for a
+    proposed change. ICO publishes GET /vehicles/eligibility so a caller can test whether a vehicle can
+    receive an offer before creating a prospect. No programme-wide dry-run flag exists.
+  operations:
+  - IdwsVehicleValidateconfigurationPost
+  - IdwsVehicleApplyconfigurationPost
+environments:
+- name: production
+  manheim: https://api.manheim.com
+  kbb: https://api.kbb.com
+- name: pre-production
+  manheim: https://uat.api.manheim.com
+- name: qa
+  manheim: https://integration1.api.manheim.com
+- name: sandbox
+  kbb: https://sandbox.api.kbb.com
+  idws: https://idws-sandbox.datasolutions.coxautoinc.com
+  note: Kelley Blue Book sandbox valuations are deliberately six months stale and are not current values.
+cross_links:
+  errors: errors/cox-automotive-problem-types.yml
+  error_codes: errors/cox-automotive-error-codes.yml
+  lifecycle: lifecycle/cox-automotive-lifecycle.yml
+  authentication: authentication/cox-automotive-authentication.yml
+  rate_limits: rate-limits/cox-automotive-rate-limits.yml

@@ -1,0 +1,85 @@
+generated: '2026-09-13'
+method: searched
+source: https://coxautoapi.statuspage.io/
+docs:
+- https://developer.kbb.com/idws/1-Default
+- https://developer.kbb.com/data/3-Versioning
+- https://developer.manheim.com/apis/events/subscriptions.html
+- https://coxautoapi.statuspage.io/
+versioning:
+  scheme: mixed
+  detail: >-
+    Media-type versioning on IDWS 4.0 (Accept: application/vnd.coxauto.v1+json), URI-path and
+    Accept-header versioning on the Advertising Data API, /ico/v1 in the path for Instant Cash Offer,
+    and independent major versions per runtime component on the storefront (Order API 2.x, MMR 1.x,
+    Quotes API 2.x, Eventer Publishing 1.x).
+  current:
+    kbb_idws: '4.0'
+    kbb_ico: v1
+    kbb_advertising_data: '2016-06-30'
+    kbb_batch_vin: v1
+  breaking_change_policy: >-
+    "By default all updates will be backwards compatible. If a breaking change is introduced a new
+    version of that service will be released." A removal, rename, or new required input is breaking;
+    new fields and new optional arguments are not.
+  docs: https://developer.kbb.com/data/3-Versioning
+deprecation:
+  policy_url: https://developer.manheim.com/apis/events/subscriptions.html
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    Cox Automotive publishes no deprecation POLICY — no notice period, no sunset schedule, no RFC 8594
+    Sunset/Deprecation header support is documented anywhere. What it does publish is a concrete,
+    in-flight deprecation, announced inline at the top of the affected reference pages: the Manheim
+    Events and Subscriptions APIs are "no longer available for onboarding", superseded by Eventer on the
+    Cox Automotive API Storefront. Existing consumers are told to contact Cox Automotive for access to
+    the replacement. No retirement date is given for the old surface.
+  deprecated_surfaces:
+  - surface: Manheim Events API (/events)
+    status: closed-to-new-onboarding
+    replacement: Eventer (Cox Automotive API Storefront)
+    retirement_date: not published
+    docs: https://developer.manheim.com/apis/events/events.html
+  - surface: Manheim Subscriptions API (/subscriptions)
+    status: closed-to-new-onboarding
+    replacement: Eventer (Cox Automotive API Storefront)
+    retirement_date: not published
+    docs: https://developer.manheim.com/apis/events/subscriptions.html
+  - surface: Manheim legacy OAuth token endpoint (https://api.manheim.com/oauth2/token)
+    status: retained-for-legacy-clients
+    replacement: https://api.manheim.com/oauth2/token.oauth2
+    note: >-
+      Clients authenticating with a Company ID MUST keep using the legacy endpoint; new clients use
+      token.oauth2. Two live token endpoints with opposite instructions per client class.
+    docs: https://developer.manheim.com/pages/authentication.html
+deprecated_operations: []
+status_page:
+  url: https://coxautoapi.statuspage.io/
+  provider: Atlassian Statuspage
+  machine_readable: https://coxautoapi.statuspage.io/api/v2/summary.json
+  component_count: 72
+  probed: '2026-09-13'
+  http_status: 200
+  note: >-
+    The single most complete public inventory of Cox Automotive's API estate. 72 components grouped
+    under DealXG, Digital Retailing, Inventory Solutions, Registration & Title Management and others,
+    each carrying its own major version — Dealertrack Credit Application, Reg & Title Transaction,
+    Vehicle Intelligence Pricing, Order API 2.x, MMR 1.x and MMR Batch Service 1.x, Fleet Customer API
+    1.0, DMS Plus Service and Partner APIs 1.x, Listings Search 1.x, recon-inventory-api 1.x, Eventer
+    Publishing 1.x, Eventer Kiosk 1.x, Quotes API 2.x, Taxonomy 1.x, Expander 1.x,
+    condition-reports-api 1.1, purchase-api 1.x, Deal Push (DCON) 1.x, Service Hub DSP Integration 2.x,
+    API Authorization Bridge 1 and 2, Connect Event Service, AutoGrade, Document Upload, Payment
+    Services and more. Most of these have no public reference page.
+sla:
+  published: false
+  note: No uptime target, credit schedule or support-response SLA is published on any public Cox Automotive developer page.
+support:
+  manheim: https://developer.manheim.com/support/help.html
+  manheim_faq: https://developer.manheim.com/support/faq.html
+  kbb: https://b2b.kbb.com/contact/
+  storefront: https://developer.coxautoinc.com/contact
+  emails:
+  - DataSyndication@coxautoinc.com
+  - eventer-team@coxautoinc.com
+  - kbb.infodriversupport@coxautoinc.com

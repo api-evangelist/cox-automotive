@@ -1,0 +1,630 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "IDWS Editorial Service"
+  },
+  "schemes": ["https"],
+  "host": "idws-sandbox.datasolutions.coxautoinc.com",
+  "paths": {
+    "/idws/editorial/consumerratings/id/{vehicleId}": {
+      "get": {
+        "tags": ["ConsumerRatings"],
+        "summary": "Gets a list of Consumer Ratings for a given vehicle",
+        "operationId": "IdwsEditorialConsumerratingsIdByVehicleIdGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "description": "The vehicle for which to fetch Consumer Ratings",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.ConsumerRatingResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/idws/editorial/ConsumerReviews": {
+      "get": {
+        "tags": ["ConsumerReviews"],
+        "summary": "Gets a list of Consumer Reviews for a given vehicle",
+        "operationId": "IdwsEditorialConsumerReviewsGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "query",
+            "description": "The vehicle for which to fetch Consumer Reviews",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "One of: mosthelpful, newestdate, oldestdate, highestrating, lowestrating",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of reviews to return. The maximum limit is 100 reviews.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Index of the review that begins the return set",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.ConsumerReview"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/idws/editorial/errorcodes": {
+      "get": {
+        "tags": ["ErrorCodes"],
+        "operationId": "IdwsEditorialErrorcodesGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/idws/editorial/expertratings/id/{vehicleId}": {
+      "get": {
+        "tags": ["ExpertRatings"],
+        "summary": "Gets the Kelley Blue Book Expert Ratings for a vehicle.",
+        "operationId": "IdwsEditorialExpertratingsIdByVehicleIdGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "description": "The vehicleId for which to fetch the Expert Ratings",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.ExpertRatingResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/idws/editorial/expertreviews/id/{vehicleId}": {
+      "get": {
+        "tags": ["ExpertReviews"],
+        "summary": "Gets the Kelley Blue Book Expert Reviews for a vehicle.",
+        "operationId": "IdwsEditorialExpertreviewsIdByVehicleIdGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "description": "The vehicleId for which to fetch the Expert Reviews",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.ExpertReviewResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/idws/editorial/toptenlists": {
+      "get": {
+        "tags": ["TopTenLists"],
+        "summary": "Returns a list of the Top Ten Lists available on kbb.com. Each list includes a list of vehicles that are on that particular Top Ten List.",
+        "operationId": "IdwsEditorialToptenlistsGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "query",
+            "description": "Only returns lists that contain the requested vehicleId. If vehicleId is supplied, then yearId, makeId, and modelId are ignored",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "yearId",
+            "in": "query",
+            "description": "Only returns lists that contain vehicles having the requested yearId",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "makeId",
+            "in": "query",
+            "description": "Only returns lists that contain vehicles having the requested makeId",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "modelId",
+            "in": "query",
+            "description": "Only returns lists that contain vehicles having the requested modelId",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of lists to return. Default is 5.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Index of the list that begins the returned set.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "IDWS.Editorial.Contracts.Contracts.V1.ConsumerRatingResponse": {
+      "type": "object",
+      "properties": {
+        "vehicleId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "generationName": {
+          "type": "string"
+        },
+        "generationStartYear": {
+          "type": "string"
+        },
+        "generationEndYear": {
+          "type": "string"
+        },
+        "numberOfReviews": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "ratingScale": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "ratings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.Rating"
+          }
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.Rating": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "IDWS.Platform.ResponseMessage.ReturnResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse+ResponseMessage"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse+ResponseMessage"
+          }
+        }
+      }
+    },
+    "IDWS.Platform.ResponseMessage.ReturnResponse+ResponseMessage": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.ConsumerReview": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "reviewId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "generationName": {
+          "type": "string"
+        },
+        "generationStartYear": {
+          "type": "string"
+        },
+        "generationEndYear": {
+          "type": "string"
+        },
+        "submissionDate": {
+          "type": "string"
+        },
+        "nickName": {
+          "type": "string"
+        },
+        "year": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "pros": {
+          "type": "string"
+        },
+        "cons": {
+          "type": "string"
+        },
+        "characterCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "text": {
+          "type": "string"
+        },
+        "ownershipStatus": {
+          "type": "string"
+        },
+        "mileage": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "numberOfFeedbacks": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "numberOfPositiveFeedbacks": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "overallRating": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "value": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "reliability": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "comfort": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "quality": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "performance": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "styling": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "recommendation": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "ratingScale": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.ExpertRatingResponse": {
+      "type": "object",
+      "properties": {
+        "ratings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.ExpertRatingResponse+Rating"
+          }
+        },
+        "ratingScale": {
+          "format": "int32",
+          "type": "integer",
+          "readOnly": true
+        },
+        "year": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "vehicleId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.ExpertRatingResponse+Rating": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.ExpertReviewResponse": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "reviewSections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.ReviewSection"
+          }
+        },
+        "authorName": {
+          "type": "string"
+        },
+        "publishDate": {
+          "type": "string"
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.ReviewSection": {
+      "type": "object",
+      "properties": {
+        "sectionHeader": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse": {
+      "type": "object",
+      "properties": {
+        "topTenLists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse+TopTenList"
+          }
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse+TopTenList": {
+      "type": "object",
+      "properties": {
+        "topTenListTitle": {
+          "type": "string"
+        },
+        "overviewUrl": {
+          "type": "string"
+        },
+        "vehicles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse+TopTenVehicle"
+          }
+        }
+      }
+    },
+    "IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse+TopTenVehicle": {
+      "type": "object",
+      "properties": {
+        "articleTitle": {
+          "type": "string"
+        },
+        "articleUrl": {
+          "type": "string"
+        },
+        "rank": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "yearId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "makeId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "modelId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "vehicleId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "name": "api_key",
+      "in": "query",
+      "type": "apiKey",
+      "description": "Mashery API Key"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

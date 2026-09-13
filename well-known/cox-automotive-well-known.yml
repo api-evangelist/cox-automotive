@@ -1,0 +1,458 @@
+generated: '2026-09-13'
+method: probed
+source: direct HTTPS probe of every host in apis.yml plus the OpenAPI servers[] hosts and the three developer/docs hosts
+probed: '2026-09-13'
+hit_count: 2
+note: 'Twelve hosts probed against the closed path list, each with a negative control. Two real documents were found,
+  both RFC 9116 security.txt files (www.coxautoinc.com and www.manheim.com), and both point at the same Cox Automotive
+  responsible-disclosure policy. Everything else missed. The two developer portals (developer.coxautoinc.com, developer2.coxautoinc.com)
+  answer HTTP 200 with their single-page-app HTML shell for a handful of /.well-known/* paths — openid-configuration,
+  oauth-authorization-server, oauth-protected-resource and api-catalog — which is a router artefact, not a served document;
+  each is recorded with its status and a note and none is counted. The negative control confirms these hosts are not
+  blanket path-echoers: a /.well-known/ path that cannot exist returns 403 from the same origin. No apis.json, no api-catalog,
+  no ai-plugin, no AAuth resource and no agent card exists on any Cox Automotive host.'
+hosts:
+- host: https://coxautoinc.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 2xx but nothing document-shaped was returned; not saved.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 404
+- host: https://www.coxautoinc.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: cox-automotive-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 404
+- host: https://developer.coxautoinc.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/ucp.json
+    status: 403
+  - path: /.well-known/acp.json
+    status: 403
+  - path: /.well-known/aauth-resource.json
+    status: 403
+  - path: /.well-known/apis.json
+    status: 403
+  - path: /apis.json
+    status: 403
+  - path: /apis.yml
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+  - path: /llms.txt
+    status: 403
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 403
+- host: https://developer2.coxautoinc.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: HTTP 200 returned the developer-portal single-page-app HTML shell, not a document. Not a hit.
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/ucp.json
+    status: 403
+  - path: /.well-known/acp.json
+    status: 403
+  - path: /.well-known/aauth-resource.json
+    status: 403
+  - path: /.well-known/apis.json
+    status: 403
+  - path: /apis.json
+    status: 403
+  - path: /apis.yml
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+  - path: /llms.txt
+    status: 403
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 403
+- host: https://api.coxautoinc.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 502
+  - path: /.well-known/openid-configuration
+    status: 502
+  - path: /.well-known/oauth-authorization-server
+    status: 502
+  - path: /.well-known/oauth-protected-resource
+    status: 502
+  - path: /.well-known/api-catalog
+    status: 502
+  - path: /.well-known/ai-plugin.json
+    status: 502
+  - path: /.well-known/ucp.json
+    status: 502
+  - path: /.well-known/acp.json
+    status: 502
+  - path: /.well-known/aauth-resource.json
+    status: 502
+  - path: /.well-known/apis.json
+    status: 502
+  - path: /apis.json
+    status: 403
+  - path: /apis.yml
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 502
+  - path: /.well-known/agent.json
+    status: 502
+  - path: /llms.txt
+    status: 403
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 502
+- host: https://control.api.coxautoinc.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 404
+- host: https://manheim.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 2xx but nothing document-shaped was returned; not saved.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 404
+- host: https://www.manheim.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: cox-automotive-manheim-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 404
+- host: https://developer.manheim.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/ucp.json
+    status: 403
+  - path: /.well-known/acp.json
+    status: 403
+  - path: /.well-known/aauth-resource.json
+    status: 403
+  - path: /.well-known/apis.json
+    status: 403
+  - path: /apis.json
+    status: 403
+  - path: /apis.yml
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+  - path: /llms.txt
+    status: 403
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 403
+- host: https://api.manheim.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 596
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 596
+  - path: /.well-known/oauth-protected-resource
+    status: 596
+  - path: /.well-known/api-catalog
+    status: 596
+  - path: /.well-known/ai-plugin.json
+    status: 596
+  - path: /.well-known/ucp.json
+    status: 596
+  - path: /.well-known/acp.json
+    status: 596
+  - path: /.well-known/aauth-resource.json
+    status: 596
+  - path: /.well-known/apis.json
+    status: 596
+  - path: /apis.json
+    status: 596
+  - path: /apis.yml
+    status: 596
+  - path: /.well-known/agent-card.json
+    status: 596
+  - path: /.well-known/agent.json
+    status: 596
+  - path: /llms.txt
+    status: 596
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 596
+- host: https://uat.api.manheim.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 596
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 596
+  - path: /.well-known/oauth-protected-resource
+    status: 596
+  - path: /.well-known/api-catalog
+    status: 596
+  - path: /.well-known/ai-plugin.json
+    status: 596
+  - path: /.well-known/ucp.json
+    status: 596
+  - path: /.well-known/acp.json
+    status: 596
+  - path: /.well-known/aauth-resource.json
+    status: 596
+  - path: /.well-known/apis.json
+    status: 596
+  - path: /apis.json
+    status: 596
+  - path: /apis.yml
+    status: 596
+  - path: /.well-known/agent-card.json
+    status: 596
+  - path: /.well-known/agent.json
+    status: 596
+  - path: /llms.txt
+    status: 596
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 596
+- host: https://integration1.api.manheim.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 596
+  - path: /.well-known/openid-configuration
+    status: 596
+  - path: /.well-known/oauth-authorization-server
+    status: 596
+  - path: /.well-known/oauth-protected-resource
+    status: 596
+  - path: /.well-known/api-catalog
+    status: 596
+  - path: /.well-known/ai-plugin.json
+    status: 596
+  - path: /.well-known/ucp.json
+    status: 596
+  - path: /.well-known/acp.json
+    status: 596
+  - path: /.well-known/aauth-resource.json
+    status: 596
+  - path: /.well-known/apis.json
+    status: 596
+  - path: /apis.json
+    status: 596
+  - path: /apis.yml
+    status: 596
+  - path: /.well-known/agent-card.json
+    status: 596
+  - path: /.well-known/agent.json
+    status: 596
+  - path: /llms.txt
+    status: 596
+  path_echo_control: passed
+  negative_control:
+    path: /.well-known/cox-automotive-negative-control-7f3ab91c.json
+    status: 596

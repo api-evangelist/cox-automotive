@@ -1,0 +1,144 @@
+generated: '2026-09-13'
+method: searched
+source: https://developer.manheim.com/apis/events/index.html
+docs:
+- https://developer.manheim.com/apis/events/index.html
+- https://developer.manheim.com/apis/events/events.html
+- https://developer.manheim.com/apis/events/subscribers.html
+- https://developer.manheim.com/apis/events/subscriptions.html
+- https://developer.manheim.com/apis/events/expand.html
+spec_type: Webhooks
+asyncapi_published: false
+note: >-
+  Cox Automotive runs a real publish/subscribe event surface over the Manheim auction lifecycle and
+  publishes no AsyncAPI document for it. The catalogue below is the webhook/event surface as documented
+  on developer.manheim.com; nothing here is generated. The surface is in transition: both the Events and
+  the Subscriptions reference pages open with a notice that this version "is no longer available for
+  onboarding" and that its replacement is Eventer, available through the Cox Automotive API Storefront,
+  where the reference is behind sign-in. Eventer Publishing 1.x and Eventer Kiosk 1.x are both visible
+  as live components on the public status page.
+delivery:
+  model: push-to-consumer-callback
+  transport: HTTPS
+  description: >-
+    A consumer registers a Subscriber for their company, then creates one or more Subscriptions under it
+    carrying filter criteria. Matching events are delivered to the consumer's callback. A consumer may
+    additionally call POST /expand so the delivered event carries the embedded response of the API
+    endpoint it references, removing the follow-up fetch.
+  replay:
+    supported: true
+    mechanism: >-
+      Past events can be retrieved after the fact by id, by subscriber, by subscription or by resource
+      criteria through the Events API, so a consumer that misses a delivery can reconcile.
+    endpoints:
+    - GET /events/id/{ID}
+    - GET /events/subscriber/{ID}
+    - GET /events/subscription/{ID}
+    - GET /events/resource/{resourceId}
+  signature_verification: not documented
+  retry_policy: not documented
+event_naming:
+  scheme: NOUN.VERB or NOUN.NOUN.VERB
+  case: uppercase, dot-separated
+  description: >-
+    "The eventType field contains the title of the event written in all capital letters with spaces
+    replaced by a '.'". The first token is the subject noun, the last is the action.
+  examples_published:
+  - TEST.TESTED
+  - VEHICLE.REGISTERED
+  - USER.ANNOUNCED
+  documented_business_events:
+  - UNIT.CREATED
+  - CONSIGNMENT.CREATED
+  note: >-
+    Cox Automotive does not publish a closed event-type registry. UNIT.CREATED and CONSIGNMENT.CREATED
+    are named in the overview as the events the Inventory system publishes when a vehicle enters the
+    auction, and TEST.TESTED / VEHICLE.REGISTERED / USER.ANNOUNCED are given as naming-convention
+    illustrations. No other event names are published, so none are listed here.
+event_payload:
+  shape:
+    eventType: Title of the event in NOUN.VERB form. Required.
+    resource: URL of the source information of the event. Required.
+    body: Event detail; deliberately thin, carrying the specific data plus API endpoint URLs for the business process it supports.
+    relatedResources: One or more URLs leading to more information about the event. Optional.
+    created: Timestamp of when the event actually happened, not when it was delivered.
+  design_note: >-
+    The body is intentionally thin — for example UNIT.CREATED carries the VIN and the Unit endpoint URL
+    rather than the unit itself — which is why the Expander exists.
+publishers:
+  model: system-of-record
+  description: >-
+    Events are published by the system of record as vehicle information changes — the Inventory system
+    publishes UNIT.CREATED and CONSIGNMENT.CREATED, and Manheim applications including Inventory, Images
+    and Valuations all notify through the same bus.
+subscription_filters:
+- criterion: resource
+  detail: URL uniquely identifying a resource, for example an auction location. A company ID URL is required when filtering by type or text.
+- criterion: type
+  detail: An event type matching an auction business scenario, for example UNIT.CREATED.
+- criterion: text
+  detail: A VIN, for tracking one vehicle through its auction lifecycle.
+- criterion: richFilter
+  detail: 'Expression over the event body, for example body.status==''SOLD''.'
+operations:
+- method: POST
+  path: /subscribers
+  summary: Register a company to receive event notifications.
+- method: GET
+  path: /subscribers/mine
+- method: GET
+  path: /subscribers/id/{ID}
+- method: POST
+  path: /subscribers/id/{ID}
+  summary: Update a subscriber.
+- method: DELETE
+  path: /subscribers/id/{ID}
+- method: POST
+  path: /subscriptions
+  summary: Create a subscription with resource, type, text or richFilter criteria under an existing subscriber.
+- method: GET
+  path: /subscriptions/mine
+- method: GET
+  path: /subscriptions/id/{ID}
+- method: GET
+  path: /subscriptions/subscriber/{ID}
+- method: POST
+  path: /subscriptions/id/{ID}
+  summary: Update a subscription.
+- method: DELETE
+  path: /subscriptions/id/{ID}
+- method: POST
+  path: /events
+  summary: Create an event that subscribed consumers will receive.
+- method: GET
+  path: /events/id/{ID}
+- method: GET
+  path: /events/subscriber/{ID}
+- method: GET
+  path: /events/subscription/{ID}
+- method: GET
+  path: /events/resource/{resourceId}
+- method: POST
+  path: /expand
+  summary: Request delivery of an event with the referenced API response embedded.
+environments:
+  production: https://api.manheim.com
+  pre_production: https://uat.api.manheim.com
+  qa: https://integration1.api.manheim.com
+authentication:
+  grant: client_credentials
+  token_endpoint: https://api.manheim.com/oauth2/token
+  note: >-
+    External customers calling the Subscriptions API with the client_credentials grant MUST use the
+    legacy token endpoint (https://api.manheim.com/oauth2/token), not token.oauth2 — this applies to
+    every create, update, retrieve and delete method on that API.
+  docs: https://developer.manheim.com/pages/authentication.html
+gap:
+  finding: >-
+    A well-designed event surface with filtering, replay and response expansion, and no machine-readable
+    description of it — no AsyncAPI, no event-type registry, no payload schema, no signature scheme and
+    no retry policy. A consumer cannot generate a handler or validate a delivery from anything Cox
+    Automotive publishes.
+  remedy: >-
+    Publish an AsyncAPI 3.x document for Eventer covering channels, the event-type enumeration, the
+    envelope schema and the callback security scheme.

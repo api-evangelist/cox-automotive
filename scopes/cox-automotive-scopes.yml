@@ -1,0 +1,33 @@
+generated: '2026-09-13'
+method: searched
+source: https://developer.manheim.com/pages/authentication.html
+docs: https://developer.manheim.com/pages/authentication.html
+note: >-
+  Manheim's OAuth 2.0 implementation is scope-aware — the token request accepts a space-delimited
+  `scope` parameter and the authorization server, per RFC 6749, attaches no scopes unless the client
+  sends them — but Cox Automotive does NOT publish a scope registry. The documentation states only that
+  "Manheim determines which scope(s) are appropriate for each API client" and shows an opaque example
+  (`scope=APP1%3AABC%20APP@%3ACDE`), implying an `APP:ACCOUNT` shaped value assigned per client rather
+  than a fixed vocabulary. A client that omits `scope` still receives a token, but any call to a
+  scope-protected endpoint then fails. No scope list is derivable from the five harvested Kelley Blue
+  Book Swagger 2.0 contracts either — all of them declare apiKey security, not oauth2.
+schemes:
+- name: ManheimOAuth2
+  source: https://developer.manheim.com/pages/authentication.html
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.manheim.com/oauth2/token.oauth2
+  - flow: clientCredentials
+    tokenUrl: https://uat.api.manheim.com/oauth2/token.oauth2
+  - flow: password
+    tokenUrl: https://api.manheim.com/oauth2/token.oauth2
+scopes: []
+scope_count: 0
+scope_registry_published: false
+gap:
+  finding: >-
+    Scopes are enforced but undocumented. An integrator cannot discover which scopes an API requires
+    before requesting access, and cannot self-diagnose a scope-related 401/403.
+  remedy: >-
+    Publish the scope vocabulary per API on developer.manheim.com and in the storefront product pages,
+    and declare oauth2 securitySchemes with a populated `scopes` map in the machine-readable contracts.

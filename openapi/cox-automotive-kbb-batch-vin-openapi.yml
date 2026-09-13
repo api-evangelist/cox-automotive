@@ -1,0 +1,440 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Batch VIN API
+  description: "#### Setting up Authorization on this \"Try Me!\" page\n1. Click the green \"Authorize\" button \n2. Enter\
+    \ your API Key into second section (name:api_key), click \"Authorize\" \n3. Expand \"POST /Token\" section (bottom of\
+    \ this page) \n4. Under parameters, click the example model (beige box on right) which will provide a template to modify\
+    \ (white box on left)\n5. client_id is the user name and client_secret is the password used on https://idbv.syndication.kbb.com,\
+    \ click \"Try it out\" \n5. Copy the value of \"access_token\"\n6. Click the green \"Authorize\" button again\n7. In the\
+    \ textbox in the first section (name:Authorization), type in \"Bearer \" and then paste access_token value, click \"Authorize\"\
+    \n"
+host: sandbox.api.kbb.com
+schemes:
+- https
+basePath: /idbv
+securityDefinitions:
+  Authorization:
+    type: apiKey
+    description: 'Authorization value: "Bearer {access_token}" where access_token is received by a successful post to api/token
+
+      '
+    in: header
+    name: Authorization
+  apiKey:
+    type: apiKey
+    description: API Key
+    in: query
+    name: api_key
+paths:
+  /Token:
+    post:
+      security:
+      - apiKey: []
+      tags:
+      - Token
+      operationId: Token_PostCredentials
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: model
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TokenRequestModel'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Object'
+      deprecated: false
+  /BatchJobs:
+    get:
+      security:
+      - Authorization: []
+      - apiKey: []
+      tags:
+      - BatchJobs
+      operationId: BatchJobs_GetBatchJobs
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: fromDate
+        in: query
+        description: Any BatchJobs returned that are more than 90 days old will not have input & output files available
+        required: false
+        type: string
+        format: date-time
+      - name: toDate
+        in: query
+        required: false
+        type: string
+        format: date-time
+      - name: status
+        in: query
+        description: Comma separated list of ints (0=Created,1=Running,2=Suspended,3=Terminated,4=Completed)
+        required: false
+        type: string
+      - name: orderBy
+        in: query
+        description: CreatedBy, BatchJobStatus, or AccountName
+        enum:
+        - CreatedBy
+        - BatchJobStatus
+        - AccountName
+        required: false
+        type: string
+      - name: orderDirection
+        in: query
+        description: desc (default) or asc
+        enum:
+        - desc
+        - asc
+        required: false
+        type: string
+      - name: pageNumber
+        in: query
+        description: default = 1
+        required: false
+        type: integer
+        format: int32
+      - name: pageSize
+        in: query
+        description: default = 100
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Object'
+      deprecated: false
+    post:
+      security:
+      - Authorization: []
+      - apiKey: []
+      tags:
+      - BatchJobs
+      operationId: BatchJobs_PostBatchJob
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: bjPostDetail
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/BatchJobPostDetails'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Object'
+      deprecated: false
+  /BatchJobs/{id}:
+    get:
+      security:
+      - Authorization: []
+      - apiKey: []
+      tags:
+      - BatchJobs
+      operationId: BatchJobs_GetBatchJob
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Object'
+      deprecated: false
+  /batchjobs/{id}/output:
+    get:
+      security:
+      - Authorization: []
+      - apiKey: []
+      tags:
+      - BatchJobs
+      operationId: BatchJobs_GetBatchJobOutputFile
+      consumes: []
+      produces:
+      - application/octet-stream
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+      - name: fileType
+        in: query
+        enum:
+        - csv
+        - txt
+        required: false
+        type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Object'
+      deprecated: false
+  /batchjobs/{id}/input:
+    get:
+      security:
+      - Authorization: []
+      - apiKey: []
+      tags:
+      - BatchJobs
+      operationId: BatchJobs_GetBatchJobInputFile
+      consumes: []
+      produces:
+      - application/octet-stream
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+      - name: fileType
+        in: query
+        enum:
+        - csv
+        - txt
+        required: false
+        type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Object'
+      deprecated: false
+  /batchjobs/{id}/cancel:
+    put:
+      security:
+      - Authorization: []
+      - apiKey: []
+      tags:
+      - BatchJobs
+      operationId: BatchJobs_CancelBatchJob
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Object'
+      deprecated: false
+definitions:
+  Object:
+    type: object
+    properties: {}
+  BatchJobPostDetails:
+    type: object
+    properties:
+      DataVersionDate:
+        type: string
+        required: true
+        default: 00/00/0000
+      BatchJobOutputType:
+        type: string
+        enum:
+        - Used
+        - New
+        required: true
+      ZipCode:
+        type: string
+        required: true
+        default: '92618'
+      InputType:
+        type: string
+        enum:
+        - Standard
+        - Dynamic
+      VINColumnID:
+        format: int32
+        type: integer
+      MileageColumnID:
+        format: int32
+        type: integer
+      ZipCodeColumnID:
+        format: int32
+        type: integer
+      RecordIDColumnID:
+        format: int32
+        type: integer
+      HasHeader:
+        type: boolean
+        default: false
+      InputFileName:
+        type: string
+        default: DefaultInputFileName.csv
+        required: true
+      ConfiguredValues:
+        type: boolean
+        default: false
+      FinalValues:
+        type: boolean
+        default: true
+      UsedCarFairPurchasePrice:
+        type: boolean
+        default: false
+      UsedCarFairMarketRange:
+        type: boolean
+        default: false
+      Lending:
+        type: boolean
+        default: false
+      Retail:
+        type: boolean
+        default: false
+      CPO:
+        type: boolean
+        default: false
+      ListPrice:
+        type: boolean
+        default: false
+      AuctionAll:
+        type: boolean
+        readOnly: true
+        default: false
+      AuctionExcellent:
+        type: boolean
+        default: false
+      AuctionVeryGood:
+        type: boolean
+        default: false
+      AuctionGood:
+        type: boolean
+        default: false
+      AuctionFair:
+        type: boolean
+        default: false
+      PrivatePartyAll:
+        type: boolean
+        readOnly: true
+        default: false
+      PrivatePartyExcellent:
+        type: boolean
+        default: false
+      PrivatePartyVeryGood:
+        type: boolean
+        default: false
+      PrivatePartyGood:
+        type: boolean
+        default: false
+      PrivatePartyFair:
+        type: boolean
+        default: false
+      TradeInAll:
+        type: boolean
+        readOnly: true
+        default: false
+      TradeInExcellent:
+        type: boolean
+        default: false
+      TradeInVeryGood:
+        type: boolean
+        default: false
+      TradeInGood:
+        type: boolean
+        default: false
+      TradeInFair:
+        type: boolean
+        default: false
+      TradeInExcellentHigh:
+        type: boolean
+        default: false
+      TradeInVeryGoodHigh:
+        type: boolean
+        default: false
+      TradeInGoodHigh:
+        type: boolean
+        default: false
+      TradeInFairHigh:
+        type: boolean
+        default: false
+      TradeInExcellentLow:
+        type: boolean
+        default: false
+      TradeInVeryGoodLow:
+        type: boolean
+        default: false
+      TradeInGoodLow:
+        type: boolean
+        default: false
+      TradeInFairLow:
+        type: boolean
+        default: false
+      Invoice:
+        type: boolean
+        default: false
+      LegacyOutputFileFormat:
+        type: boolean
+        default: false
+      MSRP:
+        type: boolean
+        default: false
+      NewCarFairPurchasePrice:
+        type: boolean
+        default: false
+      NewCarFairMarketRange:
+        type: boolean
+        default: false
+      ShowOptionNames:
+        type: boolean
+      MultipleModelsType:
+        type: string
+        enum:
+        - All
+        - High
+        - Low
+        default: All
+      MultipleTrimsType:
+        type: string
+        enum:
+        - All
+        - High
+        - Low
+        default: All
+      BaseValueType:
+        type: string
+        default: None
+      Emails:
+        type: string
+        default: youremail@test.com
+        required: true
+      BatchJobNotes:
+        type: string
+      FileData:
+        type: string
+        default: 137DA8337SE165779
+        required: true
+      CheckDigitFlag:
+        type: boolean
+  TokenRequestModel:
+    type: object
+    properties:
+      client_id:
+        type: string
+        required: true
+      client_secret:
+        type: string
+        required: true

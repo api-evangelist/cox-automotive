@@ -1,0 +1,150 @@
+generated: '2026-09-13'
+method: searched
+source: registry.npmjs.org, rubygems.org, pypi.org, github.com/Cox-Automotive, github.com/manheim
+probed: '2026-09-13'
+api_client_sdks_published: false
+finding: >-
+  Cox Automotive publishes NO first-party client SDK for any of its documented public APIs. npm, PyPI,
+  RubyGems, Maven Central, NuGet, pkg.go.dev, crates.io and Packagist were searched for Kelley Blue
+  Book, Manheim, Dealertrack, VinSolutions and Cox Automotive client libraries, and the reference pages
+  on developer.kbb.com, developer.manheim.com and developer.coxautoinc.com link to none. An integrator
+  writes their own HTTP client against the Swagger 2.0 contracts or the hypermedia reference. What Cox
+  Automotive DOES publish, and publishes actively, is internal cloud and delivery tooling under the
+  Cox-Automotive and manheim GitHub organisations — ALKS (their AWS role-brokering service) has a
+  maintained CLI, a JavaScript client and a Terraform provider, all released within the last two months.
+  Those are catalogued below with official: true and api_client: false, because crediting them as SDKs
+  would misrepresent the Kelley Blue Book and Manheim APIs as having client libraries when they do not.
+  No SDKs pointer is wired in apis.yml for that reason.
+packages:
+- language: javascript
+  registry: npm
+  name: alks
+  url: https://www.npmjs.com/package/alks
+  install: npm install -g alks
+  version: 4.2.1
+  published: '2026-08-25'
+  official: true
+  api_client: false
+  wraps: ALKS (AWS Labs Key Service) — Cox Automotive's internal AWS role-brokering API, not a product API.
+  repo: https://github.com/Cox-Automotive/alks-cli
+- language: javascript
+  registry: npm
+  name: alks.js
+  url: https://www.npmjs.com/package/alks.js
+  install: npm install alks.js
+  version: 2.15.2
+  published: '2026-07-21'
+  official: true
+  api_client: true
+  wraps: ALKS API
+  repo: https://github.com/Cox-Automotive/alks.js
+- language: javascript
+  registry: npm
+  name: alks-node
+  url: https://www.npmjs.com/package/alks-node
+  install: npm install alks-node
+  version: 0.12.1
+  published: '2020-10-14'
+  official: true
+  api_client: true
+  wraps: ALKS API
+  repo: https://github.com/Cox-Automotive/alks-node
+  note: Superseded by alks.js; last release 2020.
+- language: javascript
+  registry: npm
+  name: '@cox-automotive/yaml-changelog'
+  url: https://www.npmjs.com/package/@cox-automotive/yaml-changelog
+  install: npm install @cox-automotive/yaml-changelog
+  version: 0.1.9
+  published: '2019-06-05'
+  official: true
+  api_client: false
+  repo: https://github.com/Cox-Automotive/yaml-changelog
+- language: javascript
+  registry: npm
+  name: '@makemydeal/cai-api-version-manager'
+  url: https://www.npmjs.com/package/@makemydeal/cai-api-version-manager
+  install: npm install @makemydeal/cai-api-version-manager
+  version: 1.0.8
+  published: '2024-03-25'
+  official: true
+  api_client: false
+  note: >-
+    Published under the Make My Deal (Cox Automotive) npm scope. Handles Accept-header based API version
+    routing — the closest thing in any public registry to a Cox Automotive API client helper.
+- language: hcl
+  registry: terraform-registry
+  name: Cox-Automotive/alks
+  url: https://registry.terraform.io/providers/Cox-Automotive/alks/latest
+  version: null
+  published: null
+  official: true
+  api_client: true
+  wraps: ALKS API
+  repo: https://github.com/Cox-Automotive/terraform-provider-alks
+  note: >-
+    version/published recorded as null — the Terraform Registry was not queried in this pass; the
+    source repository's last push was 2026-07-10.
+- language: go
+  registry: github
+  name: alks-go
+  url: https://github.com/Cox-Automotive/alks-go
+  version: null
+  published: null
+  official: true
+  api_client: true
+  wraps: ALKS API
+  note: Go client distributed by module path only; no proxy.golang.org version was resolved in this pass.
+- language: ruby
+  registry: rubygems
+  name: vinbot
+  url: https://rubygems.org/gems/vinbot
+  install: gem install vinbot
+  version: 3.0.0
+  published: '2025-07-29'
+  official: true
+  api_client: false
+  publisher: Manheim (Cox Automotive)
+  note: >-
+    Generates decodeable VINs and vehicle objects for testing. The only domain-relevant package Cox
+    Automotive publishes, and it is a test-data generator rather than a client.
+  repo: https://github.com/manheim/vinbot
+- language: python
+  registry: pypi
+  name: manheim-c7n-tools
+  url: https://pypi.org/project/manheim-c7n-tools/
+  install: pip install manheim-c7n-tools
+  version: 1.4.3
+  published: '2022-05-24'
+  official: true
+  api_client: false
+  publisher: Manheim (Cox Automotive)
+  repo: https://github.com/manheim/manheim-c7n-tools
+- language: ruby
+  registry: rubygems
+  name: awssume
+  url: https://rubygems.org/gems/awssume
+  install: gem install awssume
+  version: 1.0.1
+  published: '2019-04-09'
+  official: true
+  api_client: false
+  publisher: Manheim (Cox Automotive)
+registries_searched:
+- npm
+- PyPI
+- RubyGems
+- Maven Central
+- NuGet
+- pkg.go.dev
+- crates.io
+- Packagist
+github_organizations:
+- url: https://github.com/Cox-Automotive
+  public_repos: 64
+- url: https://github.com/manheim
+  public_repos: 66
+- url: https://github.com/dealertrack
+  public_repos: 12
+- url: https://github.com/vauto
+  public_repos: 17

@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Kelley Blue Book Instant Cash Offer (ICO) API
+  version: 1.0.0
+extends: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+x-generated: '2026-09-13'
+x-method: generated
+x-source: apis.yml + repo artifacts; the harvested contract at openapi/_original/ is never mutated
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: Cox Automotive
+    x-apievangelist-brand: Kelley Blue Book
+    x-apievangelist-docs: https://developer.kbb.com/ico/1-Default
+    x-apievangelist-harvested: '2026-09-13'
+    x-apievangelist-spec-version: Swagger 2.0 as published; no OpenAPI 3.x is published by the provider
+    x-apievangelist-operations: 42
+    x-apievangelist-paths: 21
+- target: $.info
+  update:
+    x-apievangelist-authentication: authentication/cox-automotive-authentication.yml
+    x-apievangelist-conventions: conventions/cox-automotive-conventions.yml
+    x-apievangelist-errors: errors/cox-automotive-problem-types.yml
+    x-apievangelist-lifecycle: lifecycle/cox-automotive-lifecycle.yml
+    x-apievangelist-rate-limits: rate-limits/cox-automotive-rate-limits.yml
+    x-apievangelist-sandbox: sandbox/cox-automotive-sandbox.yml
+- target: $.info
+  update:
+    x-apievangelist-idempotency: none — no idempotency key is documented or declared anywhere in this provider's surface
+    x-apievangelist-agentic-access: agentic-access/cox-automotive-agentic-access.yml
+- target: $.info
+  update:
+    x-apievangelist-error-codes: errors/cox-automotive-error-codes.yml

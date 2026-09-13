@@ -1,0 +1,80 @@
+generated: '2026-09-13'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.coxautoinc.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  4 12:33:03 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: developer.kbb.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb  2 23:59:59 2027 GMT
+  hsts: false
+- host: idws.datasolutions.coxautoinc.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Dec 10 23:59:59 2026 GMT
+  hsts: null
+- host: developer.manheim.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan 30 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.manheim.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec 26 23:59:59 2026 GMT
+  hsts: false
+- host: uat.api.manheim.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec 26 23:59:59 2026 GMT
+  hsts: false
+- host: api.kbb.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  2 14:47:50 2026 GMT
+  hsts: false
+- host: sandbox.api.kbb.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  2 14:46:11 2026 GMT
+  hsts: false
+- host: developer.coxautoinc.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Mar  6 23:59:59 2027 GMT
+  hsts: false
+- host: api.coxautoinc.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan 23 23:59:59 2027 GMT
+  hsts: false
+domains:
+- domain: coxautoinc.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: kbb.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: manheim.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+note: Probed 2026-09-13. Ten hosts across three registrable domains. Every reachable host negotiates TLS 1.2 or better;
+  HSTS is present on www.coxautoinc.com and developer.manheim.com but absent from both API gateways (api.manheim.com,
+  api.kbb.com), from the Kelley Blue Book developer portal, and from the IDWS production host. No CAA record is published
+  on any of the three domains. manheim.com is DNSSEC-signed (a DS record is present); coxautoinc.com and kbb.com are
+  not. All three publish SPF and a DMARC p=reject policy.

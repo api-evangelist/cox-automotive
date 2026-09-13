@@ -1,0 +1,86 @@
+generated: '2026-09-13'
+method: searched
+source: openapi/cox-automotive-kbb-advertising-data-openapi.yml, openapi/cox-automotive-kbb-batch-vin-openapi.yml,
+  openapi/cox-automotive-kbb-idws-editorial-openapi.yml, openapi/cox-automotive-kbb-idws-vehicle-openapi.yml,
+  openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+docs:
+- https://developer.manheim.com/pages/authentication.html
+- https://developer.kbb.com/access
+- https://developer.kbb.com/data/2-Authentication
+- https://developer.kbb.com/batchvin/2-Authentication
+note: >-
+  Two distinct authentication models run side by side across Cox Automotive's public API estate. The
+  Kelley Blue Book APIs (IDWS 4.0, Advertising Data, Instant Cash Offer, Batch VIN) authenticate with a
+  Mashery-issued api_key on the query string, which is what the five harvested Swagger 2.0 contracts
+  declare. The Manheim hypermedia suite authenticates with OAuth 2.0 against the Mashery token endpoint,
+  using the Mashery package key as the OAuth client_id and its secret as the client secret. Batch VIN is
+  the hybrid: it requires the api_key AND a bearer token minted by its own /Token endpoint. Credentials
+  are never self-serve — Cox Automotive reviews the organisation and the application before issuing a
+  package key.
+summary:
+  types:
+  - apiKey
+  - oauth2
+  api_key_in:
+  - header
+  - query
+  oauth2_flows:
+  - clientCredentials
+  - password
+schemes:
+- name: keyQuery
+  type: apiKey
+  in: query
+  parameter: api_key
+  description: Mashery API Key, supplied on the query string of every Kelley Blue Book API call.
+  sources:
+  - openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  - openapi/cox-automotive-kbb-batch-vin-openapi.yml
+  - openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  - openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  - openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+- name: Authorization
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'Authorization value: "Bearer {access_token}" where access_token is received
+    by a successful post to api/token'
+  sources:
+  - openapi/cox-automotive-kbb-batch-vin-openapi.yml
+- name: ManheimOAuth2
+  type: oauth2
+  description: >-
+    OAuth 2.0 through the Cox Automotive Mashery gateway. The Mashery package key is the OAuth client_id
+    and the key's secret is the client secret; both are base64-encoded into a Basic authorization header
+    on the token request. Tokens must be cached by the client and refreshed on expiry, not on a timer.
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.manheim.com/oauth2/token.oauth2
+    environment: production
+  - flow: clientCredentials
+    tokenUrl: https://uat.api.manheim.com/oauth2/token.oauth2
+    environment: pre-production
+  - flow: clientCredentials
+    tokenUrl: https://api.manheim.com/oauth2/token
+    environment: production-legacy
+    note: >-
+      Clients that authenticate with a Company ID, and all Subscriptions API clients using the
+      client_credentials grant, must continue to use this legacy token endpoint.
+  - flow: password
+    note: Resource Owner Password Credentials grant, offered for client-facing applications with an end user.
+  sources:
+  - https://developer.manheim.com/pages/authentication.html
+credential_issuance:
+  self_serve: false
+  process: >-
+    Cox Automotive reviews and evaluates the organisation and the application, then registers the client
+    in Mashery and issues a package key and secret. A separate key request is required per environment
+    (sandbox vs production) and per application.
+  request_urls:
+  - https://developer.coxautoinc.com/signup
+  - https://developer.manheim.com/support/accessRequest.html
+  - https://developer.kbb.com/access
+  - https://b2b.kbb.com/contact/
+  contacts:
+  - DataSyndication@coxautoinc.com
+  - kbb.infodriversupport@coxautoinc.com

@@ -1,0 +1,186 @@
+# Kelley Blue Book Instant Cash Offer result-code registry — Cox Automotive
+generated: '2026-09-13'
+method: searched
+source: https://developer.kbb.com/ico/5-ErrorCodes
+docs:
+- https://developer.kbb.com/ico/5-ErrorCodes
+- https://developer.kbb.com/ico/4-Envelopes
+- https://developer.kbb.com/ico/6-OfferStatus
+applies_to: Kelley Blue Book Instant Cash Offer (ICO) API
+envelope_field: meta.codes[]
+note: 'Cox Automotive''s Kelley Blue Book Instant Cash Offer API publishes a six-digit numeric result-code registry
+  carried in the response envelope''s meta.codes[] array. The leading three digits mirror the HTTP status (200xxx
+  success, 4xxxxx client error, 5xxxxx server error) and the trailing three identify the specific condition. This
+  is the non-payments sibling of a decline-code table: it is the registry an integrator needs to tell ''this VIN
+  is not eligible'' apart from ''this request was malformed''. Captured verbatim from the published reference; no
+  code was inferred.'
+code_count: 44
+error_codes:
+- code: 400001
+  meaning: Schema validation error
+  http_status: 400
+- code: 400010
+  meaning: Invalid vehicle configuration
+  http_status: 400
+- code: 400011
+  meaning: Unavailable vehicle year
+  http_status: 400
+- code: 400012
+  meaning: Unavailable vehicle make
+  http_status: 400
+- code: 400013
+  meaning: Unavailable vehicle model
+  http_status: 400
+- code: 400014
+  meaning: Unavailable vehicle trim
+  http_status: 400
+- code: 400015
+  meaning: Unavailable vehicle color
+  http_status: 400
+- code: 400016
+  meaning: Unavailable vehicle transmission
+  http_status: 400
+- code: 400017
+  meaning: Unavailable vehicle engine
+  http_status: 400
+- code: 400018
+  meaning: Unavailable vehicle drivetrain
+  http_status: 400
+- code: 400020
+  meaning: ZIP code not servicable
+  http_status: 400
+- code: 400021
+  meaning: Invalid VIN length, or invalid characters (17 long, I, O, Q), or invalid format
+  http_status: 400
+- code: 400022
+  meaning: Prospect vehicle does not match VIN decode vehicle
+  http_status: 400
+- code: 400030
+  meaning: Unavailable dealer
+  http_status: 400
+- code: 400050
+  meaning: Invalid vehicle ownership answer
+  http_status: 400
+- code: 400051
+  meaning: Invalid vehicle title answer
+  http_status: 400
+- code: 400052
+  meaning: Invalid vehicle history report answer
+  http_status: 400
+- code: 400053
+  meaning: Invalid vehicle insurance claim answer
+  http_status: 400
+- code: 400054
+  meaning: Invalid vehicle odor answer
+  http_status: 400
+- code: 400055
+  meaning: Invalid vehicle service records answer
+  http_status: 400
+- code: 400056
+  meaning: Invalid vehicle key set answer
+  http_status: 400
+- code: 400057
+  meaning: Invalid vehicle auto auction answer
+  http_status: 400
+- code: 400058
+  meaning: Invalid vehicle rental answer
+  http_status: 400
+- code: 400060
+  meaning: Invalid vehicle option setting
+  http_status: 400
+- code: 400070
+  meaning: Invalid vehicle condition setting
+  http_status: 400
+- code: 400071
+  meaning: Duplicate vehicle condition answer
+  http_status: 400
+- code: 400072
+  meaning: Unsolicited vehicle condition answer
+  http_status: 400
+- code: 400073
+  meaning: Vehicle condition answer too long
+  http_status: 400
+- code: 400080
+  meaning: Invalid first name answer
+  http_status: 400
+- code: 400081
+  meaning: Invalid last name answer
+  http_status: 400
+- code: 400082
+  meaning: Invalid email answer
+  http_status: 400
+- code: 400083
+  meaning: Invalid confirm email answer
+  http_status: 400
+- code: 400084
+  meaning: Invalid phone number answer
+  http_status: 400
+- code: 400085
+  meaning: Invalid legal acceptance answer
+  http_status: 400
+- code: 400086
+  meaning: Email and confirmation do not match
+  http_status: 400
+- code: 400091
+  meaning: Vehicle history questions have not been answered in full
+  http_status: 400
+- code: 400092
+  meaning: Contact information questions have not been answered in full
+  http_status: 400
+- code: 400093
+  meaning: Offer already processed
+  http_status: 400
+- code: 400094
+  meaning: Unsupported usage detected
+  http_status: 400
+- code: 400110
+  meaning: Invalid prospectId
+  http_status: 400
+- code: 400400
+  meaning: Resource not found
+  http_status: 400
+- code: 403000
+  meaning: Invalid authorization
+  http_status: 403
+- code: 404000
+  meaning: Invalid license plate number and/or state.
+  http_status: 404
+- code: 500000
+  meaning: Internal server error
+  http_status: 500
+offer_statuses:
+- status: CLEARED
+  description: This is the normal state of an Offer that is not pending review, but has not been taken in by a dealer.
+  occurs_when: Offer Created
+- status: INELIGIBLE
+  description: This will happen when an ICO cannot be given for the entered vehicle (Insufficient market data, recently
+    auctioned, intentionally disqualified vehicles, etc.).
+  occurs_when: Offer Created
+- status: FR
+  description: This is the status that indicates that an offer is pending review by adjusters. It will stay in this
+    status until manually changed by an adjuster, at which point it could become CLEARED or INSPECTION or INELIGIBLE.
+  occurs_when: Offer Created
+- status: EXPIRED
+  description: This happens when an Offer has expired.
+  occurs_when: Dealer / Adjuster Interaction
+- status: INSPECTION
+  description: This happens when an adjuster marks the Offer for inspection by a dealer instead of offsetting it.
+  occurs_when: Certain conditions are selected / Dealer / Adjuster Interaction
+- status: AUCTION
+  description: This happens after the dealer has taken it in, grounded it, and sent it to auction.
+  occurs_when: Dealer / Adjuster Interaction
+- status: CONFIRMED
+  description: This happens after the dealer has taken it in and inspected the vehicle and confirmed its condition.
+  occurs_when: Dealer / Adjuster Interaction
+- status: GROUNDED
+  description: This happens after the dealer has accepted the vehicle from the customer.
+  occurs_when: Dealer / Adjuster Interaction
+- status: PURCHASED
+  description: This happens when a dealer has taken it in, grounded it, and decided to keep it on their lot as inventory.
+  occurs_when: Dealer / Adjuster Interaction
+- status: RECEIVED
+  description: This happens when the vehicle has been received at an auction.
+  occurs_when: Dealer / Adjuster Interaction
+- status: SOLD
+  description: This happens when the vehicle has been sold at an auction.
+  occurs_when: Dealer / Adjuster Interaction

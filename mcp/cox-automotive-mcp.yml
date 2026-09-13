@@ -1,0 +1,535 @@
+generated: '2026-09-13'
+method: derived
+status: candidate
+source: openapi/cox-automotive-kbb-advertising-data-openapi.yml, openapi/cox-automotive-kbb-batch-vin-openapi.yml, openapi/cox-automotive-kbb-idws-editorial-openapi.yml,
+  openapi/cox-automotive-kbb-idws-vehicle-openapi.yml, openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+deployment:
+  mode: none
+  auth: api-key
+  verified: searched
+note: 'Cox Automotive ships no MCP server. Searched 2026-09-13: nothing on developer.coxautoinc.com, developer.kbb.com
+  or developer.manheim.com, nothing in the Cox-Automotive, manheim, dealertrack or vauto GitHub organisations, nothing
+  under an npm or PyPI Cox/Manheim/KBB scope, and no /mcp endpoint on api.manheim.com (HTTP 596 from the Mashery gateway),
+  api.coxautoinc.com (403) or control.api.coxautoinc.com (404). A third-party community server (sanjibani/cox-automotive-mcp)
+  exists on the Glama directory; it is NOT published by Cox Automotive, is not endorsed by them, and is recorded here
+  only so a reader does not mistake it for a first-party surface. The tool list below is a CANDIDATE derived one-to-one
+  from the operations in the five harvested Kelley Blue Book Swagger 2.0 contracts — every tool inherits its real input
+  contract from the parameters and body of the operation named in source_operation. The Manheim hypermedia suite and
+  the Integration Platform storefront have no machine-readable contract, so no candidate tools were derived for them.'
+third_party_servers:
+- name: cox-automotive-mcp
+  author: sanjibani
+  url: https://glama.ai/mcp/servers/sanjibani/cox-automotive-mcp
+  first_party: false
+server:
+  name: cox-automotive
+  transport: http
+  url: null
+tool_count: 82
+tools:
+- name: kbb_ads_get_cto_default
+  description: The cost of ownership resources will provide the developer the dataset and segments for 5 year cost to
+    own
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/cto/default
+  http:
+    method: GET
+    path: /{version}/cto/default
+- name: kbb_ads_get_pricing_default
+  description: The pricing resource provide Kelley Blue book pricing information using the vehicles default configuration.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/pricing/default/{class}
+  http:
+    method: GET
+    path: /{version}/pricing/default/{class}
+- name: kbb_ads_get_ratings_expert
+  description: The expert ratings resource provides vehicle ratings content by Kelley Blue Book.  The following ratings
+    content secrtions are available in the response object.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/ratings/expert
+  http:
+    method: GET
+    path: /{version}/ratings/expert
+- name: kbb_ads_get_ratings_consumer
+  description: The consumer ratings resource provides vehicle ratings content producted by users.  The following ratings
+    content sections are available in the response object.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/ratings/consumer
+  http:
+    method: GET
+    path: /{version}/ratings/consumer
+- name: kbb_ads_get_reviews_expert
+  description: 'The expert review resource proviudes editoral content produced by Kelley Blue Book.  The following content
+    sections are available in the response object. ``` - '
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/reviews/expert
+  http:
+    method: GET
+    path: /{version}/reviews/expert
+- name: kbb_ads_get_reviews_consumer
+  description: The consumer review resource provides input provided by consumers.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/reviews/consumer
+  http:
+    method: GET
+    path: /{version}/reviews/consumer
+- name: kbb_ads_get_vehiclelinks
+  description: The vehicle links resource provides links from KBB.COM for a vehicle or a year, make, model.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/vehiclelinks
+  http:
+    method: GET
+    path: /{version}/vehiclelinks
+- name: kbb_ads_get_vehicle
+  description: The vehicle endpoint is used to retrieve the following information of a vehicle
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/vehicle
+  http:
+    method: GET
+    path: /{version}/vehicle
+- name: kbb_ads_create_fuelcost_configured
+  description: The fuel cost calculator s used to illustrate an annual fuel cost savings of a vehicle
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/fuelcost/configured
+  http:
+    method: POST
+    path: /{version}/fuelcost/configured
+- name: kbb_ads_create_fuelcost_default
+  description: The fuel cost calculator s used to illustrate an annual fuel cost savings of a vehicle
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/fuelcost/default
+  http:
+    method: POST
+    path: /{version}/fuelcost/default
+- name: kbb_ads_create_specs
+  description: This endpoint returns the MPGs and specs for all engines, drivetrains, transmissions and a subset of vehicle
+    specs for the VehicleId that is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs
+  http:
+    method: POST
+    path: /{version}/specs
+- name: kbb_ads_create_specs_default
+  description: This endpoint returns the MPG and specs for the default engine, drivetrain, transmission and a subset
+    of vehicle specs for the VehicleId that is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/default
+  http:
+    method: POST
+    path: /{version}/specs/default
+- name: kbb_ads_create_specs_configured
+  description: This endpoint returns the MPG and specs for a specific engine, drivetrain, and transmission and a subset
+    of vehicle specs for the VehicleId that is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/configured
+  http:
+    method: POST
+    path: /{version}/specs/configured
+- name: kbb_ads_create_specs_edts
+  description: This endpoint returns all the specs for the engines, drivetrains, and transmission for the VehicleId that
+    is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/edts
+  http:
+    method: POST
+    path: /{version}/specs/edts
+- name: kbb_ads_create_specs_edts_default
+  description: This endpoint returns the default engine, drivetrain, and transmission for the VehicleId that is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/edts/default
+  http:
+    method: POST
+    path: /{version}/specs/edts/default
+- name: kbb_ads_create_specs_edts_configured
+  description: This endpoint returns the specs for a specific engine, drivetrain, and transmission for the VehicleId
+    that is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/edts/configured
+  http:
+    method: POST
+    path: /{version}/specs/edts/configured
+- name: kbb_ads_create_specs_mpgs
+  description: This endpoint returns all the MPGs for the VehicleId that is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/mpgs
+  http:
+    method: POST
+    path: /{version}/specs/mpgs
+- name: kbb_ads_create_specs_mpgs_default
+  description: This endpoint returns the MPG for the default engine, drivetrain and transmission for the VehicleId that
+    is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/mpgs/default
+  http:
+    method: POST
+    path: /{version}/specs/mpgs/default
+- name: kbb_ads_create_specs_mpgs_configured
+  description: This endpoint returns the MPG for a specific engine, drivetrain and transmission combination for the VehicleId
+    that is specified.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#POST /{version}/specs/mpgs/configured
+  http:
+    method: POST
+    path: /{version}/specs/mpgs/configured
+- name: kbb_ads_get_awards
+  description: Returns Brand Image Awards, Best Resale Value Awards and CTO Awards for a Vehicle, or a Year, Make, Model
+    combination.
+  source_operation: openapi/cox-automotive-kbb-advertising-data-openapi.yml#GET /{version}/awards
+  http:
+    method: GET
+    path: /{version}/awards
+- name: kbb_batchvin_token_post_credentials
+  description: POST /Token
+  source_operation: openapi/cox-automotive-kbb-batch-vin-openapi.yml#Token_PostCredentials
+  http:
+    method: POST
+    path: /Token
+- name: kbb_batchvin_batch_jobs_get_batch_jobs
+  description: GET /BatchJobs
+  source_operation: openapi/cox-automotive-kbb-batch-vin-openapi.yml#BatchJobs_GetBatchJobs
+  http:
+    method: GET
+    path: /BatchJobs
+- name: kbb_batchvin_batch_jobs_post_batch_job
+  description: POST /BatchJobs
+  source_operation: openapi/cox-automotive-kbb-batch-vin-openapi.yml#BatchJobs_PostBatchJob
+  http:
+    method: POST
+    path: /BatchJobs
+- name: kbb_batchvin_batch_jobs_get_batch_job
+  description: GET /BatchJobs/{id}
+  source_operation: openapi/cox-automotive-kbb-batch-vin-openapi.yml#BatchJobs_GetBatchJob
+  http:
+    method: GET
+    path: /BatchJobs/{id}
+- name: kbb_batchvin_batch_jobs_get_batch_job_output_file
+  description: GET /batchjobs/{id}/output
+  source_operation: openapi/cox-automotive-kbb-batch-vin-openapi.yml#BatchJobs_GetBatchJobOutputFile
+  http:
+    method: GET
+    path: /batchjobs/{id}/output
+- name: kbb_batchvin_batch_jobs_get_batch_job_input_file
+  description: GET /batchjobs/{id}/input
+  source_operation: openapi/cox-automotive-kbb-batch-vin-openapi.yml#BatchJobs_GetBatchJobInputFile
+  http:
+    method: GET
+    path: /batchjobs/{id}/input
+- name: kbb_batchvin_batch_jobs_cancel_batch_job
+  description: PUT /batchjobs/{id}/cancel
+  source_operation: openapi/cox-automotive-kbb-batch-vin-openapi.yml#BatchJobs_CancelBatchJob
+  http:
+    method: PUT
+    path: /batchjobs/{id}/cancel
+- name: kbb_idws_editorial_idws_editorial_consumerratings_id_by_vehicle_
+  description: Gets a list of Consumer Ratings for a given vehicle
+  source_operation: openapi/cox-automotive-kbb-idws-editorial-openapi.yml#IdwsEditorialConsumerratingsIdByVehicleIdGet
+  http:
+    method: GET
+    path: /idws/editorial/consumerratings/id/{vehicleId}
+- name: kbb_idws_editorial_idws_editorial_consumer_reviews_get
+  description: Gets a list of Consumer Reviews for a given vehicle
+  source_operation: openapi/cox-automotive-kbb-idws-editorial-openapi.yml#IdwsEditorialConsumerReviewsGet
+  http:
+    method: GET
+    path: /idws/editorial/ConsumerReviews
+- name: kbb_idws_editorial_idws_editorial_errorcodes_get
+  description: GET /idws/editorial/errorcodes
+  source_operation: openapi/cox-automotive-kbb-idws-editorial-openapi.yml#IdwsEditorialErrorcodesGet
+  http:
+    method: GET
+    path: /idws/editorial/errorcodes
+- name: kbb_idws_editorial_idws_editorial_expertratings_id_by_vehicle_id
+  description: Gets the Kelley Blue Book Expert Ratings for a vehicle.
+  source_operation: openapi/cox-automotive-kbb-idws-editorial-openapi.yml#IdwsEditorialExpertratingsIdByVehicleIdGet
+  http:
+    method: GET
+    path: /idws/editorial/expertratings/id/{vehicleId}
+- name: kbb_idws_editorial_idws_editorial_expertreviews_id_by_vehicle_id
+  description: Gets the Kelley Blue Book Expert Reviews for a vehicle.
+  source_operation: openapi/cox-automotive-kbb-idws-editorial-openapi.yml#IdwsEditorialExpertreviewsIdByVehicleIdGet
+  http:
+    method: GET
+    path: /idws/editorial/expertreviews/id/{vehicleId}
+- name: kbb_idws_editorial_idws_editorial_toptenlists_get
+  description: Returns a list of the Top Ten Lists available on kbb.com. Each list includes a list of vehicles that are
+    on that particular Top Ten List.
+  source_operation: openapi/cox-automotive-kbb-idws-editorial-openapi.yml#IdwsEditorialToptenlistsGet
+  http:
+    method: GET
+    path: /idws/editorial/toptenlists
+- name: kbb_idws_vehicle_idws_vehicle_applyconfiguration_post
+  description: Takes a collection of ConfigurationChanges and applies them to a specified vehicle configuration
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleApplyconfigurationPost
+  http:
+    method: POST
+    path: /idws/vehicle/applyconfiguration
+- name: kbb_idws_vehicle_idws_vehicle_bodystyles_get
+  description: Gets a list of Body Styles
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleBodystylesGet
+  http:
+    method: GET
+    path: /idws/vehicle/bodystyles
+- name: kbb_idws_vehicle_idws_vehicle_costtoown_post
+  description: Provides 5 Year Cost To Own Vehicle Information.
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleCosttoownPost
+  http:
+    method: POST
+    path: /idws/vehicle/costtoown
+- name: kbb_idws_vehicle_idws_vehicle_cpoprograms_get
+  description: Get CPO Program Details.
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleCpoprogramsGet
+  http:
+    method: GET
+    path: /idws/vehicle/cpoprograms
+- name: kbb_idws_vehicle_idws_vehicle_errorcodes_get
+  description: Gets a list of error codes for IDWS Vehicle referencing from VRS
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleErrorcodesGet
+  http:
+    method: GET
+    path: /idws/vehicle/errorcodes
+- name: kbb_idws_vehicle_idws_vehicle_links_id_by_vehicle_id_get
+  description: Gets a link to a vehicle on kbb.com
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleLinksIdByVehicleIdGet
+  http:
+    method: GET
+    path: /idws/vehicle/links/id/{vehicleId}
+- name: kbb_idws_vehicle_idws_vehicle_makes_id_by_make_id_get
+  description: Gets a single make
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleMakesIdByMakeIdGet
+  http:
+    method: GET
+    path: /idws/vehicle/makes/id/{makeId}
+- name: kbb_idws_vehicle_idws_vehicle_makes_get
+  description: Gets a list of makes
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleMakesGet
+  http:
+    method: GET
+    path: /idws/vehicle/makes
+- name: kbb_idws_vehicle_idws_vehicle_marketingcategories_get
+  description: Gets a list of Marketing Categories
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleMarketingcategoriesGet
+  http:
+    method: GET
+    path: /idws/vehicle/marketingcategories
+- name: kbb_idws_vehicle_idws_vehicle_models_get
+  description: Gets a list of models
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleModelsGet
+  http:
+    method: GET
+    path: /idws/vehicle/models
+- name: kbb_idws_vehicle_idws_vehicle_models_id_by_model_id_get
+  description: Gets a model
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleModelsIdByModelIdGet
+  http:
+    method: GET
+    path: /idws/vehicle/models/id/{modelId}
+- name: kbb_idws_vehicle_idws_vehicle_modelyears_get
+  description: Gets a list of model years
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleModelyearsGet
+  http:
+    method: GET
+    path: /idws/vehicle/modelyears
+- name: kbb_idws_vehicle_idws_vehicle_modelyears_id_by_id_get
+  description: Get the Model Year based on ID
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleModelyearsIdByIdGet
+  http:
+    method: GET
+    path: /idws/vehicle/modelyears/id/{id}
+- name: kbb_idws_vehicle_idws_vehicle_specifications_get
+  description: GET /idws/vehicle/specifications
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleSpecificationsGet
+  http:
+    method: GET
+    path: /idws/vehicle/specifications
+- name: kbb_idws_vehicle_idws_vehicle_trims_id_by_trim_id_get
+  description: Gets a single trim
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleTrimsIdByTrimIdGet
+  http:
+    method: GET
+    path: /idws/vehicle/trims/id/{trimId}
+- name: kbb_idws_vehicle_idws_vehicle_trims_get
+  description: Gets a list of trims
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleTrimsGet
+  http:
+    method: GET
+    path: /idws/vehicle/trims
+- name: kbb_idws_vehicle_idws_vehicle_typicals_get
+  description: Gets Typical Mileage List of a Vehicle
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleTypicalsGet
+  http:
+    method: GET
+    path: /idws/vehicle/typicals
+- name: kbb_idws_vehicle_idws_vehicle_validateconfiguration_post
+  description: Examines a collection of VehicleOptions to determine if they are a valid configuration for the given vehicleId
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleValidateconfigurationPost
+  http:
+    method: POST
+    path: /idws/vehicle/validateconfiguration
+- name: kbb_idws_vehicle_idws_vehicle_values_post
+  description: POST /idws/vehicle/values
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleValuesPost
+  http:
+    method: POST
+    path: /idws/vehicle/values
+- name: kbb_idws_vehicle_idws_vehicle_vehicles_get
+  description: Gets a list of vehicles
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleVehiclesGet
+  http:
+    method: GET
+    path: /idws/vehicle/vehicles
+- name: kbb_idws_vehicle_idws_vehicle_vehicles_id_by_id_get
+  description: Get the vehicle based on ID
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleVehiclesIdByIdGet
+  http:
+    method: GET
+    path: /idws/vehicle/vehicles/id/{id}
+- name: kbb_idws_vehicle_idws_vehicle_vehicleoptions_get
+  description: Gets a list of vehicle options
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleVehicleoptionsGet
+  http:
+    method: GET
+    path: /idws/vehicle/vehicleoptions
+- name: kbb_idws_vehicle_idws_vehicle_vehiclespecs_get
+  description: Gets a list of Vehicle Specifications.
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleVehiclespecsGet
+  http:
+    method: GET
+    path: /idws/vehicle/vehiclespecs
+- name: kbb_idws_vehicle_idws_vehicle_vin_id_by_vin_get
+  description: Returns a list of vehicles matching a given VIN.
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleVinIdByVinGet
+  http:
+    method: GET
+    path: /idws/vehicle/vin/id/{vin}
+- name: kbb_idws_vehicle_idws_vehicle_years_get
+  description: Gets a list of years
+  source_operation: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml#IdwsVehicleYearsGet
+  http:
+    method: GET
+    path: /idws/vehicle/years
+- name: kbb_ico_get_vehicles_vin
+  description: Gets a set of all possible vehicle component selections for a VIN. Using a VIN removes the need to call
+    for Years, Makes, Models, etc.
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/vin/{vin}
+  http:
+    method: GET
+    path: /vehicles/vin/{vin}
+- name: kbb_ico_get_vehicles_years
+  description: Gets a set of years that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/years
+  http:
+    method: GET
+    path: /vehicles/years
+- name: kbb_ico_get_vehicles_makes
+  description: Gets a set of makes that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/makes
+  http:
+    method: GET
+    path: /vehicles/makes
+- name: kbb_ico_get_vehicles_models
+  description: Gets a set of models that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/models
+  http:
+    method: GET
+    path: /vehicles/models
+- name: kbb_ico_get_vehicles_trims
+  description: Gets a set of trims that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/trims
+  http:
+    method: GET
+    path: /vehicles/trims
+- name: kbb_ico_get_vehicles_colors
+  description: Gets a set of colors that are included in the KBB reference data set for a particular trim
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/colors
+  http:
+    method: GET
+    path: /vehicles/colors
+- name: kbb_ico_get_vehicles_transmissions
+  description: Gets a set of transmissions that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/transmissions
+  http:
+    method: GET
+    path: /vehicles/transmissions
+- name: kbb_ico_get_vehicles_engines
+  description: Gets a set of engines that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/engines
+  http:
+    method: GET
+    path: /vehicles/engines
+- name: kbb_ico_get_vehicles_drivetrains
+  description: Gets a set of drivetrains that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/drivetrains
+  http:
+    method: GET
+    path: /vehicles/drivetrains
+- name: kbb_ico_get_vehicles_options
+  description: Gets a set of options that are included in the KBB reference data set
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/options
+  http:
+    method: GET
+    path: /vehicles/options
+- name: kbb_ico_get_vehicles_eligibility
+  description: Gets vehicle eligibility based on trim id
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /vehicles/eligibility
+  http:
+    method: GET
+    path: /vehicles/eligibility
+- name: kbb_ico_get_plate2vin_lookup
+  description: Gets a vehicle VIN based on a license plate number and state
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /plate2vin/lookup
+  http:
+    method: GET
+    path: /plate2vin/lookup
+- name: kbb_ico_get_plate2vin_states
+  description: Gets a list of valid states for plate2vin look up
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /plate2vin/states
+  http:
+    method: GET
+    path: /plate2vin/states
+- name: kbb_ico_create_prospects
+  description: Creates a new vehicle prospect.
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#POST /prospects
+  http:
+    method: POST
+    path: /prospects
+- name: kbb_ico_get_prospects
+  description: Gets the state of the current prospect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /prospects/{prospectId}
+  http:
+    method: GET
+    path: /prospects/{prospectId}
+- name: kbb_ico_get_prospects_history
+  description: Gets the required history specific condition questions for a given vehicle prospect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /prospects/{prospectId}/history
+  http:
+    method: GET
+    path: /prospects/{prospectId}/history
+- name: kbb_ico_update_prospects_history
+  description: Change history information associated with the prospect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#PATCH /prospects/{prospectId}/history
+  http:
+    method: PATCH
+    path: /prospects/{prospectId}/history
+- name: kbb_ico_update_prospects_options
+  description: Change option information associated with the prospect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#PATCH /prospects/{prospectId}/options
+  http:
+    method: PATCH
+    path: /prospects/{prospectId}/options
+- name: kbb_ico_get_prospects_conditions
+  description: Gets the condition questions for a given vehicle prospect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /prospects/{prospectId}/conditions
+  http:
+    method: GET
+    path: /prospects/{prospectId}/conditions
+- name: kbb_ico_update_prospects_conditions
+  description: Modifies the condition of the vehicle propsect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#PATCH /prospects/{prospectId}/conditions
+  http:
+    method: PATCH
+    path: /prospects/{prospectId}/conditions
+- name: kbb_ico_get_prospects_contactinfo
+  description: Gets the prospect's contact information.
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /prospects/{prospectId}/contactInfo
+  http:
+    method: GET
+    path: /prospects/{prospectId}/contactInfo
+- name: kbb_ico_update_prospects_contactinfo
+  description: Modifies the contact information for the prospect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#PATCH /prospects/{prospectId}/contactInfo
+  http:
+    method: PATCH
+    path: /prospects/{prospectId}/contactInfo
+- name: kbb_ico_create_offers
+  description: Creates an offer from the Prospect
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#POST /offers
+  http:
+    method: POST
+    path: /offers
+- name: kbb_ico_get_offers
+  description: Returns an existing offer
+  source_operation: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml#GET /offers/{offerId}
+  http:
+    method: GET
+    path: /offers/{offerId}

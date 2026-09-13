@@ -1,0 +1,2065 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: IDWS Vehicle Service
+schemes:
+- https
+host: idws-sandbox.datasolutions.coxautoinc.com
+paths:
+  /idws/vehicle/applyconfiguration:
+    post:
+      tags:
+      - ApplyConfiguration
+      summary: Takes a collection of ConfigurationChanges and applies them to a specified vehicle configuration
+      operationId: IdwsVehicleApplyconfigurationPost
+      consumes:
+      - application/json-patch+json
+      - application/json
+      - text/json
+      - application/*+json
+      produces:
+      - application/json
+      parameters:
+      - name: value
+        in: body
+        required: false
+        schema:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationRequest'
+      - name: applicationFilter
+        in: query
+        description: Set to "Consumer" to omit option selections available to dealers or fleet purchases only
+        required: false
+        type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/bodystyles:
+    get:
+      tags:
+      - BodyStyles
+      summary: Gets a list of Body Styles
+      operationId: IdwsVehicleBodystylesGet
+      consumes: []
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        '500':
+          description: Server Error
+  /idws/vehicle/costtoown:
+    post:
+      tags:
+      - CostToOwn
+      summary: Provides 5 Year Cost To Own Vehicle Information.
+      operationId: IdwsVehicleCosttoownPost
+      consumes:
+      - application/json-patch+json
+      - application/json
+      - text/json
+      - application/*+json
+      produces:
+      - application/json
+      parameters:
+      - name: ctoRequest
+        in: body
+        description: ''
+        required: false
+        schema:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/cpoprograms:
+    get:
+      tags:
+      - CpoPrograms
+      summary: Get CPO Program Details.
+      operationId: IdwsVehicleCpoprogramsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: makeId
+        in: query
+        description: ''
+        required: false
+        type: integer
+        format: int32
+      - name: limit
+        in: query
+        description: ''
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: ''
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.CpoPrograms.CpoProgramsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/errorcodes:
+    get:
+      tags:
+      - ErrorCodes
+      summary: Gets a list of error codes for IDWS Vehicle referencing from VRS
+      operationId: IdwsVehicleErrorcodesGet
+      consumes: []
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '500':
+          description: Server Error
+  /idws/vehicle/links/id/{vehicleId}:
+    get:
+      tags:
+      - Links
+      summary: Gets a link to a vehicle on kbb.com
+      operationId: IdwsVehicleLinksIdByVehicleIdGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleId
+        in: path
+        description: The vehicleId to link to
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Domain.Common.Models.External.LinksResponseModel'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/makes/id/{makeId}:
+    get:
+      tags:
+      - Makes
+      summary: Gets a single make
+      operationId: IdwsVehicleMakesIdByMakeIdGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: makeId
+        in: path
+        description: The desired make
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse+MakeModel'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/makes:
+    get:
+      tags:
+      - Makes
+      summary: Gets a list of makes
+      operationId: IdwsVehicleMakesGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all years will be returned.
+        required: false
+        type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all years will be returned.
+        required: false
+        type: string
+      - name: yearId
+        in: query
+        description: Limits the output to only those years available for the specified make
+        required: false
+        type: integer
+        format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only makes available for the specified body style
+        required: false
+        type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only makes available for the specificed marketing category
+        required: false
+        type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only makes that are CPO eligible
+        required: false
+        type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of years to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the year that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/marketingcategories:
+    get:
+      tags:
+      - MarketingCategories
+      summary: Gets a list of Marketing Categories
+      operationId: IdwsVehicleMarketingcategoriesGet
+      consumes: []
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        '500':
+          description: Server Error
+  /idws/vehicle/models:
+    get:
+      tags:
+      - Models
+      summary: Gets a list of models
+      operationId: IdwsVehicleModelsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all models will be returned.
+        required: false
+        type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all models will be returned.
+        required: false
+        type: string
+      - name: yearId
+        in: query
+        description: Limits the output to only those models manufactured during the specified year
+        required: false
+        type: integer
+        format: int32
+      - name: makeId
+        in: query
+        description: Limits the output to only those models manufactured by the specifed make
+        required: false
+        type: integer
+        format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those models manufactured by the specifed body style
+        required: false
+        type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those models manufactured by the specifed marketing category
+        required: false
+        type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those models manufactured by CPO eligibility
+        required: false
+        type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of models to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the model that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ModelsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/models/id/{modelId}:
+    get:
+      tags:
+      - Models
+      summary: Gets a model
+      operationId: IdwsVehicleModelsIdByModelIdGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: modelId
+        in: path
+        description: The model to return
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ModelsResponse+ModelContract'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/modelyears:
+    get:
+      tags:
+      - ModelYears
+      summary: Gets a list of model years
+      operationId: IdwsVehicleModelyearsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all modelyears will be returned.
+        required: false
+        type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all modelyears will be returned.
+        required: false
+        type: string
+      - name: yearId
+        in: query
+        description: Limits the output to only those modelyears available for the specified year
+        required: false
+        type: integer
+        format: int32
+      - name: makeId
+        in: query
+        description: Limits the output to only those modelyears available for the specified make
+        required: false
+        type: integer
+        format: int32
+      - name: modelId
+        in: query
+        description: Limits the output to only those modelyears available for the specified model
+        required: false
+        type: integer
+        format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those modelyears available for the specified body style
+        required: false
+        type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those modelyears available for the specified marketing category
+        required: false
+        type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those modelyears available for those that are CPO eligible
+        required: false
+        type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of modelyears to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the modelyear that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/modelyears/id/{id}:
+    get:
+      tags:
+      - ModelYears
+      summary: Get the Model Year based on ID
+      operationId: IdwsVehicleModelyearsIdByIdGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: The id representing the model year
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse+ModelYear'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/specifications:
+    get:
+      tags:
+      - Specifications
+      operationId: IdwsVehicleSpecificationsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: apiKey
+        in: query
+        required: false
+        type: string
+      - name: limit
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/trims/id/{trimId}:
+    get:
+      tags:
+      - Trims
+      summary: Gets a single trim
+      operationId: IdwsVehicleTrimsIdByTrimIdGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: trimId
+        in: path
+        description: The desired trim
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse+TrimModel'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/trims:
+    get:
+      tags:
+      - Trims
+      summary: Gets a list of trims
+      operationId: IdwsVehicleTrimsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all trims will be returned.
+        required: false
+        type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all trims will be returned.
+        required: false
+        type: string
+      - name: yearId
+        in: query
+        description: Limits the output to only those trims available for the specified year
+        required: false
+        type: integer
+        format: int32
+      - name: makeId
+        in: query
+        description: Limits the output to only those trims available for the specified make
+        required: false
+        type: integer
+        format: int32
+      - name: modelId
+        in: query
+        description: Limits the output to only those trims available for the specified model
+        required: false
+        type: integer
+        format: int32
+      - name: modelYearId
+        in: query
+        description: Limits the output to only those trims available for the specified model year
+        required: false
+        type: integer
+        format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those vehicle available for the specified body style
+        required: false
+        type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those vehicle available for the specified marketing category
+        required: false
+        type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those vehicle eligible for CPO
+        required: false
+        type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of trims to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the trim that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/typicals:
+    get:
+      tags:
+      - Typicals
+      summary: Gets Typical Mileage List of a Vehicle
+      operationId: IdwsVehicleTypicalsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleId
+        in: query
+        description: Vehicle ID match will be returned.
+        required: false
+        type: string
+      - name: valuationDate
+        in: query
+        description: ValuationDate Format e.g. 05/08/2019
+        required: false
+        type: string
+      - name: limit
+        in: query
+        description: Maximum number of typical mileage lists to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the typical mileage that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/validateconfiguration:
+    post:
+      tags:
+      - ValidateConfiguration
+      summary: Examines a collection of VehicleOptions to determine if they are a valid configuration for the given vehicleId
+      operationId: IdwsVehicleValidateconfigurationPost
+      consumes:
+      - application/json-patch+json
+      - application/json
+      - text/json
+      - application/*+json
+      produces:
+      - application/json
+      parameters:
+      - name: value
+        in: body
+        required: false
+        schema:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationRequest'
+      - name: applicationFilter
+        in: query
+        description: Set to "Consumer" to exclude options available to dealers or fleet purchases only
+        required: false
+        type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/values:
+    post:
+      tags:
+      - Values
+      summary: ''
+      operationId: IdwsVehicleValuesPost
+      consumes:
+      - application/json-patch+json
+      - application/json
+      - text/json
+      - application/*+json
+      produces:
+      - application/json
+      parameters:
+      - name: value
+        in: body
+        required: false
+        schema:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/vehicles:
+    get:
+      tags:
+      - Vehicle
+      summary: Gets a list of vehicles
+      operationId: IdwsVehicleVehiclesGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all vehicle will be returned.
+        required: false
+        type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all vehicle will be returned.
+        required: false
+        type: string
+      - name: yearId
+        in: query
+        description: Limits the output to only those vehicle available for the specified year
+        required: false
+        type: integer
+        format: int32
+      - name: makeId
+        in: query
+        description: Limits the output to only those vehicle available for the specified make
+        required: false
+        type: integer
+        format: int32
+      - name: modelId
+        in: query
+        description: Limits the output to only those vehicle available for the specified model
+        required: false
+        type: integer
+        format: int32
+      - name: modelYearId
+        in: query
+        description: Limits the output to only those vehicle available for the specified model year
+        required: false
+        type: integer
+        format: int32
+      - name: trimId
+        in: query
+        description: Limits the output to only those vehicle available for the specified trim
+        required: false
+        type: integer
+        format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those vehicle available for the specified body style
+        required: false
+        type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those vehicle available for the specified marketing category
+        required: false
+        type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those vehicle eligible for CPO
+        required: false
+        type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of vehicle to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the vehicle that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/vehicles/id/{id}:
+    get:
+      tags:
+      - Vehicle
+      summary: Get the vehicle based on ID
+      operationId: IdwsVehicleVehiclesIdByIdGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: The id representing the vehicle
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse+Vehicle'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/vehicleoptions:
+    get:
+      tags:
+      - VehicleOptions
+      summary: Gets a list of vehicle options
+      operationId: IdwsVehicleVehicleoptionsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleId
+        in: query
+        description: Vehicle ID match will be returned.
+        required: false
+        type: integer
+        format: int32
+      - name: optionFilter
+        in: query
+        description: Filter used for vehicle options
+        required: false
+        type: string
+        enum:
+        - All
+        - TypicalOnly
+        - EDT
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all vehicle options will be returned.
+        required: false
+        type: string
+      - name: limit
+        in: query
+        description: Maximum number of vehicle options to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the vehicle options that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Domain.Common.Models.VRSRepo.VRSVehicleOptionsResponseModel'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/vehiclespecs:
+    get:
+      tags:
+      - VehicleSpecs
+      summary: Gets a list of Vehicle Specifications.
+      operationId: IdwsVehicleVehiclespecsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleId
+        in: query
+        description: Limits the output based on vehicleId specified.
+        required: false
+        type: integer
+        format: int32
+      - name: vehicleOptionIds
+        in: query
+        description: Limits the output based on vehicleId and vehicleOptionIds specified.
+        required: false
+        type: string
+      - name: vehicleSpecIds
+        in: query
+        description: Limits the output based on vehicleId and vehicleSpecIds specified.
+        required: false
+        type: string
+      - name: vehicleSpecNames
+        in: query
+        description: Limits the output based on vehicleId and vehicleSpecNames specified.
+        required: false
+        type: string
+      - name: limit
+        in: query
+        description: Maximum number of vehicle specifications to return.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the vehicle specs that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/vin/id/{vin}:
+    get:
+      tags:
+      - Vin
+      summary: Returns a list of vehicles matching a given VIN.
+      operationId: IdwsVehicleVinIdByVinGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vin
+        in: path
+        description: The VIN to decode
+        required: true
+        type: string
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all matching vehicles will be returned
+        required: false
+        type: string
+      - name: optionFilter
+        in: query
+        description: Indicates the scope of options returned. If not specified, all options are returned
+        required: false
+        type: string
+        enum:
+        - All
+        - DecodedOnly
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VinResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/years:
+    get:
+      tags:
+      - Years
+      summary: Gets a list of years
+      operationId: IdwsVehicleYearsGet
+      consumes: []
+      produces:
+      - application/json
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all years will be returned.
+        required: false
+        type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all years will be returned.
+        required: false
+        type: string
+      - name: makeId
+        in: query
+        description: Limits the output to only those years available for the specified make
+        required: false
+        type: integer
+        format: int32
+      - name: modelId
+        in: query
+        description: Limits the output to only those years available for the specified model
+        required: false
+        type: integer
+        format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those years available for the specified body style
+        required: false
+        type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those years available for the specified marketing category
+        required: false
+        type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those years eligible for CPO
+        required: false
+        type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of years to return. Default is 25.
+        required: false
+        type: integer
+        format: int32
+      - name: start
+        in: query
+        description: Index of the year that begins the returned set.
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+definitions:
+  IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationRequest:
+    type: object
+    properties:
+      startingConfiguration:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+      configurationChanges:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationChangeModel'
+  IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel:
+    type: object
+    properties:
+      vehicleId:
+        format: int32
+        type: integer
+      vehicleOptionIds:
+        type: array
+        items:
+          format: int32
+          type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationChangeModel:
+    type: object
+    properties:
+      sequence:
+        format: int32
+        type: integer
+      vehicleOptionId:
+        format: int32
+        type: integer
+      action:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationResponse:
+    type: object
+    properties:
+      finalConfiguration:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+      warnings:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.WarningModel'
+  IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.WarningModel:
+    type: object
+    properties:
+      type:
+        type: string
+      code:
+        type: string
+      message:
+        type: string
+      parentId:
+        format: int32
+        type: integer
+      childIds:
+        type: array
+        items:
+          format: int32
+          type: integer
+  IDWS.Platform.ResponseMessage.ReturnResponse:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse+ResponseMessage'
+      warnings:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Platform.ResponseMessage.ReturnResponse+ResponseMessage'
+  IDWS.Platform.ResponseMessage.ReturnResponse+ResponseMessage:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest:
+    type: object
+    properties:
+      configuration:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+      zipCode:
+        type: string
+      annualMileage:
+        format: int32
+        type: integer
+      loanTerm:
+        format: int32
+        type: integer
+      apr:
+        format: double
+        type: number
+      downPaymentAmount:
+        format: double
+        type: number
+  IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoResponse:
+    type: object
+    properties:
+      vehicleId:
+        format: int32
+        type: integer
+      zipCode:
+        type: string
+      valuationDate:
+        type: string
+      valueRating:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ValueRatingAttributes'
+      costPerMile:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CostPerMileAttributes'
+      fuel:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+      insurance:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+      financing:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+      stateFees:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+      maintenanceAndRepairs:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+      depreciation:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+      yearTotal:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+      warnings:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
+  IDWS.Vehicle.Contracts.Contracts.V1.Cto.ValueRatingAttributes:
+    type: object
+    properties:
+      description:
+        type: string
+      label:
+        type: string
+      rating:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.Cto.CostPerMileAttributes:
+    type: object
+    properties:
+      description:
+        type: string
+      label:
+        type: string
+      cost:
+        format: double
+        type: number
+  IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes:
+    type: object
+    properties:
+      description:
+        type: string
+      label:
+        type: string
+      total:
+        format: int32
+        type: integer
+      average:
+        format: int32
+        type: integer
+      year1:
+        format: int32
+        type: integer
+      year2:
+        format: int32
+        type: integer
+      year3:
+        format: int32
+        type: integer
+      year4:
+        format: int32
+        type: integer
+      year5:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.CpoPrograms.CpoProgramsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.CpoPrograms.CpoProgramsResponse+CpoProgramsContract'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.CpoPrograms.CpoProgramsResponse+CpoProgramsContract:
+    type: object
+    properties:
+      programId:
+        format: int32
+        type: integer
+      makeId:
+        format: int32
+        type: integer
+      makeName:
+        type: string
+      programName:
+        type: string
+      inspectionPoints:
+        type: string
+      maxYears:
+        type: string
+      maxMileage:
+        type: string
+      powertrainWarrantyMonths:
+        type: string
+      powertrainWarrantyMiles:
+        type: string
+      powertrainWarrantyText:
+        type: string
+      limitedWarrantyMonths:
+        type: string
+      limitedWarrantyMiles:
+        type: string
+      limitedWarrantyText:
+        type: string
+      roadsideAssistance:
+        type: string
+      vehicleHistoryReport:
+        type: string
+      notes:
+        type: string
+      warrantyDeductible:
+        type: string
+      warrantyTransferable:
+        type: string
+  IDWS.Vehicle.Domain.Common.Models.External.LinksResponseModel:
+    type: object
+    properties:
+      vehicleId:
+        format: int32
+        type: integer
+      ymmURL:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse+MakeModel:
+    type: object
+    properties:
+      makeId:
+        format: int32
+        type: integer
+      makeName:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse+MakeModel'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.ModelsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ModelsResponse+ModelContract'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.ModelsResponse+ModelContract:
+    type: object
+    properties:
+      modelId:
+        format: int32
+        type: integer
+      modelName:
+        type: string
+      modelMarketName:
+        type: string
+      makeId:
+        format: int32
+        type: integer
+      makeName:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse+ModelYear'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse+ModelYear:
+    type: object
+    properties:
+      modelYearId:
+        format: int32
+        type: integer
+      yearId:
+        format: int32
+        type: integer
+      makeId:
+        format: int32
+        type: integer
+      makeName:
+        type: string
+      modelId:
+        format: int32
+        type: integer
+      modelName:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse+SpecificationModel'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse+SpecificationModel:
+    type: object
+    properties:
+      specId:
+        format: int32
+        type: integer
+      specName:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse+TrimModel:
+    type: object
+    properties:
+      trimId:
+        format: int32
+        type: integer
+      trimName:
+        type: string
+      vehicleClass:
+        type: string
+      modelYearId:
+        format: int32
+        type: integer
+      yearId:
+        format: int32
+        type: integer
+      makeId:
+        format: int32
+        type: integer
+      makeName:
+        type: string
+      modelId:
+        format: int32
+        type: integer
+      modelName:
+        type: string
+      modelPlusTrimName:
+        type: string
+      sortOrder:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse+TrimModel'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse+TypiacalResponseModel'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse+TypiacalResponseModel:
+    type: object
+    properties:
+      vehicleId:
+        format: int32
+        type: integer
+      valuationDate:
+        type: string
+      mileage:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationRequest:
+    type: object
+    properties:
+      startingConfiguration:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel'
+  IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel:
+    type: object
+    properties:
+      vehicleId:
+        format: int32
+        type: integer
+      vehicleOptionIds:
+        type: array
+        items:
+          format: int32
+          type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationResponse:
+    type: object
+    properties:
+      isValid:
+        type: boolean
+      finalConfiguration:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel'
+      warnings:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.WarningModel'
+  IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.WarningModel:
+    type: object
+    properties:
+      type:
+        type: string
+      code:
+        type: string
+      message:
+        type: string
+      parentId:
+        format: int32
+        type: integer
+      childIds:
+        type: array
+        items:
+          format: int32
+          type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest:
+    type: object
+    properties:
+      configuration:
+        $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+      mileage:
+        format: int32
+        type: integer
+      zipCode:
+        type: string
+      valuationDate:
+        format: date-time
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesResponse:
+    type: object
+    properties:
+      prices:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Values.Price'
+      warnings:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
+      valuationDate:
+        type: string
+      typicalMileage:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.Values.Price:
+    type: object
+    properties:
+      priceTypeId:
+        format: int32
+        type: integer
+      priceTypeDisplay:
+        type: string
+      condition:
+        type: string
+      mileageAdjustment:
+        format: double
+        type: number
+      optionAdjustment:
+        format: double
+        type: number
+      incentiveAdjustment:
+        format: double
+        type: number
+      freight:
+        format: double
+        type: number
+      configuredValue:
+        format: double
+        type: number
+      rangeLow:
+        format: double
+        type: number
+      rangeHigh:
+        format: double
+        type: number
+      optionPrices:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.Values.Price+OptionPrice'
+  IDWS.Vehicle.Contracts.Contracts.V1.Values.Price+OptionPrice:
+    type: object
+    properties:
+      vehicleOptionId:
+        type: string
+      price:
+        format: double
+        type: number
+      removalAdjustment:
+        type: boolean
+  IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse+Vehicle'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse+Vehicle:
+    type: object
+    properties:
+      vehicleId:
+        format: int32
+        type: integer
+      vehicleClass:
+        type: string
+      vehicleName:
+        type: string
+      secondaryName:
+        type: string
+      yearId:
+        format: int32
+        type: integer
+      makeId:
+        format: int32
+        type: integer
+      makeName:
+        type: string
+      modelId:
+        format: int32
+        type: integer
+      modelName:
+        type: string
+      modelMarketName:
+        type: string
+      modelYearId:
+        format: int32
+        type: integer
+      trimId:
+        format: int32
+        type: integer
+      trimName:
+        type: string
+      modelPlusTrimName:
+        type: string
+      oemCode:
+        type: string
+      doors:
+        format: int32
+        type: integer
+      bedLength:
+        type: string
+      bodyStyle:
+        type: string
+      genericBodyStyle:
+        type: string
+      oemBodyStyle:
+        type: string
+      sortOrder:
+        format: int32
+        type: integer
+      standardEngine:
+        type: string
+      standardDrivetrain:
+        type: string
+      standardTransmission:
+        type: string
+      isConsumer:
+        type: boolean
+      relatedVehicleIds:
+        type: array
+        items:
+          format: int32
+          type: integer
+      msrp:
+        format: double
+        type: number
+      invoice:
+        format: double
+        type: number
+      freight:
+        format: double
+        type: number
+      originalMSRP:
+        format: double
+        type: number
+      generationId:
+        format: int32
+        type: integer
+      generationInstanceId:
+        format: int32
+        type: integer
+      generationSequence:
+        format: int32
+        type: integer
+      generationName:
+        type: string
+      generationStartYear:
+        type: string
+      generationEndYear:
+        type: string
+      size:
+        type: string
+      luxuryType:
+        type: string
+      sportType:
+        type: string
+      cabType:
+        type: string
+      secondaryBodyStyles:
+        type: array
+        items:
+          type: string
+      secondaryGenericBodyStyles:
+        type: array
+        items:
+          type: string
+      marketingCategories:
+        type: array
+        items:
+          type: string
+      kbbCategories:
+        type: array
+        items:
+          type: string
+  IDWS.Vehicle.Domain.Common.Models.VRSRepo.VRSVehicleOptionsResponseModel:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Domain.Common.Models.VRSRepo.VRSVehicleOptionsResponseModel+VehicleOption'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Domain.Common.Models.VRSRepo.VRSVehicleOptionsResponseModel+VehicleOption:
+    type: object
+    properties:
+      vehicleOptionId:
+        format: int32
+        type: integer
+      vehicleId:
+        format: int32
+        type: integer
+      optionType:
+        type: string
+      optionName:
+        type: string
+      secondaryName:
+        type: string
+      detailName:
+        type: string
+      footer:
+        type: string
+      categoryName:
+        type: string
+      categoryGroup:
+        type: string
+      oemCode:
+        type: string
+      availability:
+        type: string
+      sortOrder:
+        format: int32
+        type: integer
+      isConsumer:
+        type: boolean
+      isTypical:
+        type: boolean
+      isConfigurable:
+        type: boolean
+      hasRelationships:
+        type: boolean
+  IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse+VehicleSpecs'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse+VehicleSpecs:
+    type: object
+    properties:
+      specId:
+        format: int32
+        type: integer
+      specName:
+        type: string
+      specValue:
+        type: string
+      vehicleOptionIds:
+        type: array
+        items:
+          type: string
+      units:
+        type: string
+  IDWS.Vehicle.Contracts.Contracts.V1.VinResponse:
+    type: object
+    properties:
+      vinResults:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VinResponse+VinResult'
+      warnings:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
+  IDWS.Vehicle.Contracts.Contracts.V1.VinResponse+VinResult:
+    type: object
+    properties:
+      vehicleId:
+        format: int32
+        type: integer
+      vehicleClass:
+        type: string
+      vehicleName:
+        type: string
+      secondaryName:
+        type: string
+      yearId:
+        format: int32
+        type: integer
+      makeId:
+        format: int32
+        type: integer
+      makeName:
+        type: string
+      modelId:
+        format: int32
+        type: integer
+      modelName:
+        type: string
+      modelMarketName:
+        type: string
+      modelYearId:
+        format: int32
+        type: integer
+      trimId:
+        format: int32
+        type: integer
+      trimName:
+        type: string
+      modelPlusTrimName:
+        type: string
+      oemCode:
+        type: string
+      doors:
+        format: int32
+        type: integer
+      bedLength:
+        type: string
+      bodyStyle:
+        type: string
+      genericBodyStyle:
+        type: string
+      oemBodyStyle:
+        type: string
+      sortOrder:
+        format: int32
+        type: integer
+      isConsumer:
+        type: boolean
+      relatedVehicleIds:
+        type: array
+        items:
+          format: int32
+          type: integer
+      vehicleOptions:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.VinResponse+VinVehicleOption'
+  IDWS.Vehicle.Contracts.Contracts.V1.VinResponse+VinVehicleOption:
+    type: object
+    properties:
+      isVinDecoded:
+        type: boolean
+      vehicleOptionId:
+        format: int32
+        type: integer
+      vehicleId:
+        format: int32
+        type: integer
+      optionType:
+        type: string
+      optionName:
+        type: string
+      secondaryName:
+        type: string
+      detailName:
+        type: string
+      footer:
+        type: string
+      categoryName:
+        type: string
+      categoryGroup:
+        type: string
+      oemCode:
+        type: string
+      availability:
+        type: string
+      sortOrder:
+        format: int32
+        type: integer
+      isConsumer:
+        type: boolean
+      isTypical:
+        type: boolean
+      isConfigurable:
+        type: boolean
+      hasRelationships:
+        type: boolean
+  IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse+YearModel'
+      first:
+        type: string
+      next:
+        type: string
+      previous:
+        type: string
+      limit:
+        format: int32
+        type: integer
+      count:
+        format: int32
+        type: integer
+  IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse+YearModel:
+    type: object
+    properties:
+      yearId:
+        format: int32
+        type: integer
+securityDefinitions:
+  apiKey:
+    name: api_key
+    in: query
+    type: apiKey
+    description: Mashery API Key
+security:
+- apiKey: []

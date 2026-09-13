@@ -1,0 +1,2549 @@
+swagger: '2.0'
+info:
+  version: "2018-07-16"
+  title: Kelley Blue Book(SM) Instant Cash Offer (ICO) API
+  description: |
+
+host : api.kbb.com
+basePath : /ico/v1
+tags:
+  - name: Vehicle
+    description: All methods related to vehicles
+  - name: Prospect
+    description: All methods related to a prospect
+  - name: Offer
+    description: All methods related to an offer
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+################################################################################
+#                                  Security                                    #
+################################################################################
+securityDefinitions:
+  keyQuery:
+    type: apiKey
+    name: api_key
+    in: query
+security:
+  - keyQuery: []
+
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  prospectId:
+    name: prospectId
+    description: Unique identifier to represent all aspects of a prospective vehicle offer including vehicle configuration, condition, and contact info.
+    in: path
+    type: string
+    required: true
+    x-valid: b0afc168-ff1d-4858-955e-4a375189ecdd
+    x-invalid: afc168-ff1d-4858-955e-4a375189ecdd
+  apiKey:
+    name: api_key
+    description: Unique identifier to authorize the request
+    in: query
+    type: string
+    required: true
+    x-valid: b0afc168-ff1d-4858-955e-4a375189ecd0
+    x-invalid: afc168-ff1d-4858-955e-4a375189ecd
+  yearId:
+    name: yearId
+    description: a numeric ID representing the year of a vehicle
+    in: query
+    type: integer
+    minimum: 0
+    required: true
+    x-valid: 2015
+    x-invalid: foo
+  makeId:
+    name: makeId
+    description: a numeric ID representing the make of the vehicle
+    in: query
+    type: integer
+    minimum: 0
+    required: true
+    x-valid: 5
+    x-invalid: foo
+  modelId:
+    name: modelId
+    description: a numeric ID representing the model of the vehicle
+    in: query
+    type: integer
+    minimum: 0
+    required: true
+    x-valid: 951
+    x-invalid: foo
+  trimId:
+    name: trimId
+    description: a numeric ID representing the Trim of the vehicle
+    in: query
+    type: integer
+    minimum: 0
+    required: true
+    x-valid: 410336
+    x-invalid: foo
+  offerId:
+    name: offerId
+    description: Unique identifier to represent an offer
+    in: path
+    type: string
+    required: true
+    x-valid: b0afc168-ff1d-4858-955e-4a375189ec00
+    x-invalid: afc168-ff1d-4858-955e-4a375189ec
+  count:
+    name: count
+    in: query
+    description: The number of items returned in a collection
+    type: integer
+    required: false
+    default: 100
+    x-valid: 100
+    x-invalid: -1
+  include:
+    name: include
+    in: query
+    description: The fields that should be included in the returned object.
+    type: string
+    required: false
+    pattern: '/([a-zA-Z]+),?/g'
+    x-valid: foo
+    x-invalid: 123
+  exclude:
+    name: exclude
+    in: query
+    description: The fields that should be included in the returned object.
+    type: string
+    required: false
+    pattern: '/([a-zA-Z]+),?/g'
+    x-valid: foo
+    x-invalid: 123
+  filter:
+    name: filter
+    in: query
+    description: A list of fields that should be filtered on
+    type: string
+    required: false
+    pattern: '/([a-zA-Z]+\:[a-zA-Z\,]+);?/g'
+    x-valid: foo=bar
+    x-invalid: 123
+responses:
+  InvalidAuth:
+    description: An unauthenticated operation has been attempted
+    schema:
+      $ref: '#/definitions/Response'
+  ServerError:
+    description: An internal server error has occured
+    schema:
+      $ref: '#/definitions/Response'
+paths:
+  /vehicles/vin/{vin}:
+    get:
+      description: Gets a set of all possible vehicle component selections for a VIN. Using a VIN removes the need to call for Years, Makes, Models, etc.
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - name: vin
+          in: path
+          description: The VIN to be decoded into possible vehicle components
+          type: string
+          required: true
+          minLength: 0
+          maxLength: 17
+          x-valid: "2T2BK1BA0AC076349"
+          x-invalid: 123
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: Gets a set of all possible vehicle component selections for a VIN.
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/DecodedVin'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 400021
+                    description : |
+                      400021 - Invalid VIN length, or invalid characters (17 long, I, O, Q), or invalid format
+        403:
+          $ref : '#/responses/InvalidAuth'
+        404:
+          description: No vehicles found matching this VIN
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 404001
+                    description : |
+                      404001 - Vehicles for this VIN not found.
+        500:
+          $ref : '#/responses/ServerError'
+  /vehicles/years:
+    get:
+      description: Gets a set of years that are included in the KBB reference data set
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Years in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Years'
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              enum : [Content-Type]
+            Access-Control-Allow-Methods:
+              type: string
+              enum : [GET]
+            Access-Control-Allow-Origin:
+              type: string
+              enum : ["*"]
+  /vehicles/makes:
+    get:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      description: Gets a set of makes that are included in the KBB reference data set
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/yearId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Makes'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400011 - Unavailable vehicle Year
+                    enum :
+                      - 400011
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/models:
+    get:
+      description: Gets a set of models that are included in the KBB reference data set
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/yearId'
+        - $ref: '#/parameters/makeId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Models'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400011 - Unavailable vehicle Year.
+                      400012 - Unavailable vehicle Make.
+                    enum :
+                      - 400011
+                      - 400012
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/trims:
+    get:
+      description: Gets a set of trims that are included in the KBB reference data set
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/yearId'
+        - $ref: '#/parameters/makeId'
+        - $ref: '#/parameters/modelId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Trims'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400011 - Unavailable vehicle Year.
+                      400012 - Unavailable vehicle Make.
+                      400013 - Unavailable vehicle Model.
+                    enum :
+                      - 400011
+                      - 400012
+                      - 400013
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/colors:
+    get:
+      description: Gets a set of colors that are included in the KBB reference data set for a particular trim
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/trimId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Colors'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400014 - Unavailable vehicle Trim.
+                    enum :
+                      - 400014
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/transmissions:
+    get:
+      description: Gets a set of transmissions that are included in the KBB reference data set
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/trimId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Transmissions'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400014 - Unavailable vehicle Trim.
+                    enum :
+                      - 400014
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/engines:
+    get:
+      description: Gets a set of engines that are included in the KBB reference data set
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/trimId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Engines'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400014 - Unavailable vehicle Trim.
+                    enum :
+                      - 400014
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/drivetrains:
+    get:
+      description: Gets a set of drivetrains that are included in the KBB reference data set
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/trimId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Drivetrains'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400014 - Unavailable vehicle Trim.
+                    enum :
+                      - 400014
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/options:
+    get:
+      description: Gets a set of options that are included in the KBB reference data set
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/trimId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: A list of Options in the KBB dataset
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Options'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400014 - Unavailable vehicle Trim.
+                    enum :
+                      - 400014
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /vehicles/eligibility:
+    get:
+      description: Gets vehicle eligibility based on trim id
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/trimId'
+      responses:
+        200:
+          description: Returns IsEligible bool and list of excluded Engines, excluded Drivetrains, excluded Transmissions
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/VehicleEligibility'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta:
+                type: object
+                properties:
+                  codes:
+                    type: array
+                    items:
+                      type: integer
+                      enum:
+                        - 400014
+                    description: |
+                      400014 - Unavailable vehicle Trim.
+        403:
+          $ref: '#/responses/InvalidAuth'
+        500:
+          $ref: '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default: Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default: GET
+            Access-Control-Allow-Origin:
+              type: string
+              default: "*"
+  /plate2vin/lookup:
+    get:
+      description: Gets a vehicle VIN based on a license plate number and state
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - name: stateCode
+          in: path
+          description: The state abbreviated code that issued the license plate
+          type: string
+          required: true
+          minLength: 2
+          maxLength: 2
+          x-valid: CA
+          x-invalid: foo
+        - name: plateNumber
+          in: path
+          description: The license plate number
+          type: string
+          required: true
+          minLength: 7
+          maxLength: 7
+          x-valid: 9SCA339
+          x-invalid: foo
+        - $ref: '#/parameters/apiKey'  
+      responses:
+        200:
+          description: Gets a set of all possible vehicle component selections for a VIN.
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Plate2VinResponse'
+        404:
+          description: License plate number and state.
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 404000
+                    description : |
+                      404000 - Invalid license plate number and/or state.
+        500:
+          $ref : '#/responses/ServerError'
+  /plate2vin/states:
+    get:
+      description: Gets a list of valid states for plate2vin look up
+      security:
+        - keyQuery: []
+      tags:
+        - Vehicle
+      parameters:
+        - $ref: '#/parameters/apiKey'  
+      responses:
+        200:
+          description: Gets a set of all possible states for plate2vin lookup.
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Plate2VinStateResponse'
+        404:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 404000
+                    description : |
+                      404000 - states not found.
+        500:
+          $ref : '#/responses/ServerError'          
+  /prospects:
+    post:
+      description: Creates a new vehicle prospect.
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - name : Prospect
+          in: body
+          required: true
+          schema:
+            $ref : '#/definitions/ProspectRequest'
+      responses:
+        201:
+          description: Successful response
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  meta :
+                    type : object
+                    properties :
+                      codes :
+                        type : array
+                        items :
+                          type : integer
+                          enum :
+                            - 201000
+                            - 200422
+                          description : |
+                            200100 - Prospect created.
+                            200422 - Mileage exceeds offer eligibility threshold.
+                  data:
+                    $ref: '#/definitions/Prospect'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      400001 - Invalid schema.
+                      400010 - Invalid vehicle configuration.
+                      400011 - Unavailable vehicle Year.
+                      400012 - Unavailable vehicle Make.
+                      400013 - Unavailable vehicle Model.
+                      400014 - Unavailable vehicle Trim.
+                      400015 - Unavailable vehicle Transmission.
+                      400016 - Unavailable vehicle Engine.
+                      400017 - Unavailable vehicle Drivetrain.
+                      400018 - Unavailable vehicle Color.
+                      400020 - Zip code not servicable.
+                      400022 - Prospect vehicle does not match VIN decode vehicle. 
+                      400030 - Unavailable Dealer.
+                    enum :
+                      - 400001
+                      - 400010
+                      - 400011
+                      - 400012
+                      - 400013
+                      - 400014
+                      - 400015
+                      - 400016
+                      - 400017
+                      - 400018
+                      - 400020
+                      - 400022
+                      - 400030
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : POST
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /prospects/{prospectId}:
+    get:
+      description: Gets the state of the current prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      responses:
+        200:
+          description: TBD
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  meta :
+                    type : object
+                    properties :
+                      codes :
+                        type : array
+                        items :
+                          type : integer
+                          enum :
+                            - 200000
+                  data:
+                    $ref: '#/definitions/Prospect'
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 404000
+                    description : |
+                      404000 - Prospect not found.
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/prospectId'
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /prospects/{prospectId}/history:
+    get:
+      description: Gets the required history specific condition questions for a given vehicle prospect
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+      responses:
+        200:
+          description: Returns a set of condition questions
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Questions'
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 404000
+                    description : |
+                      404000 - Prospect not found.
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    patch:
+      description: Change history information associated with the prospect
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+        - name: History
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/QuestionsRequest'
+      responses:
+        200:
+          description: Returns the successfully changed history questions
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  meta :
+                    type : object
+                    required :
+                      - codes
+                    properties :
+                      codes :
+                        type : array
+                        items :
+                          type : integer
+                          enum :
+                            - 200000
+                        description : 200000 - All questions answered.
+                  data:
+                    $ref: '#/definitions/Questions'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 400001
+                        - 400050
+                        - 400051
+                        - 400052
+                        - 400053
+                        - 400054
+                        - 400055
+                        - 400056
+                        - 400057
+                        - 400058
+                    description : |
+                      400001 - Invalid schema
+                      400050 - Invalid Vehicle Ownership answer.
+                      400051 - Invalid Vehicle title answer.
+                      400052 - Invalid Vehicle history report answer.
+                      400053 - Invalid Vehicle insurance claim answer.
+                      400054 - Invalid Vehicle odor answer.
+                      400055 - Invalid Vehicle service records answer.
+                      400056 - Invalid Vehicle key set answer.
+                      400057 - Invalid Vehicle auto auction answer.
+                      400058 - Invalid Vehicle rental answer.
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      404000 - Prospect not found.
+                    enum :
+                      - 404000
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/prospectId'
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET,PATCH
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /prospects/{prospectId}/options:
+    patch:
+      description: Change option information associated with the prospect
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+        - name: Options
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/OptionsRequest'
+      responses:
+        200:
+          description: Returns any changed options
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Options'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 400001
+                        - 400060
+                    description : |
+                      400001 - Invalid schema.
+                      400060 - Invalid Vehicle option setting.
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      404000 - Prospect not found
+                    enum :
+                      - 404000
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      parameters:
+        - $ref: '#/parameters/prospectId'
+      tags:
+        - Prospect
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : PATCH
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /prospects/{prospectId}/conditions:
+    get:
+      description: Gets the condition questions for a given vehicle prospect
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+      responses:
+        200:
+          description: Returns a set of condition questions
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Questions'
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      404000 - Prospect not found.
+                    enum :
+                      - 404000
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    patch:
+      description: Modifies the condition of the vehicle propsect
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+        - $ref: '#/parameters/include'
+        - $ref: '#/parameters/exclude'
+        - $ref: '#/parameters/filter'
+        - $ref: '#/parameters/count'
+        - name: Condition modifications
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/QuestionsRequest'
+      responses:
+        200:
+          description: Returns a set of condition questions
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Questions'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 400001
+                        - 400074
+                        - 400106
+                    description : |
+                      400001 - Invalid schema.
+                      400074 - Condition question not accepting comment.
+                      400106 - Invalid Vehicle condition value.
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      404000 - Prospect not found.
+                    enum :
+                      - 404000
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/prospectId'
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET,PATCH
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /prospects/{prospectId}/contactInfo:
+    get:
+      description: Gets the prospect's contact information.
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      responses:
+        200:
+          description: Contact Information
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/ContactInfo'
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      404000 - Prospect not found.
+                    enum :
+                      - 404000
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    patch:
+      description: Modifies the contact information for the prospect
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/prospectId'
+        - name: Contact
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ContactInfoRequest'
+      responses:
+        200:
+          description: Returns a set of lead
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  meta :
+                    type : object
+                    properties :
+                      codes :
+                        type : array
+                        items :
+                          type : integer
+                          enum :
+                            - 200000
+                        #     - 200080
+                        #     - 200081
+                        #     - 200082
+                        #     - 200083
+                        #     - 200084
+                        #     - 200085
+                        description : 200000 - All questions answered.
+                        #   200080 - Invalid first name answer.
+                        #   200081 - Invalid last name answer.
+                        #   200082 - Invalid email answer.
+                        #   200083 - Invalid confirmation email answer.
+                        #   200084 - Invalid phone number answer.
+                        #   200085 - Invalid legal acceptance answer.
+                  data:
+                    $ref: '#/definitions/ContactInfo'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 400001
+                        - 400080
+                        - 400081
+                        - 400082
+                        - 400083
+                        - 400084
+                        - 400085
+                        - 400086                        
+                    description : |
+                      400001 - Invalid schema
+                      400080 - Invalid first name answer
+                      400081 - Invalid last name answer
+                      400082 - Invalid email answer
+                      400083 - Invalid confirm email answer
+                      400084 - Invalid phone number answer
+                      400085 - Invalid legal acceptance answer
+                      400086 - Email and confirmation do not match                      
+        404:
+          description: Prospect not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      404000 - Prospect not found
+                    enum :
+                      - 404000
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - $ref: '#/parameters/prospectId'
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET,PATCH
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /offers:
+    post:
+      description: Creates an offer from the Prospect
+      security:
+        - keyQuery: []
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - name : prospectId
+          type : string
+          in : query
+          required : true
+      tags:
+        - Prospect
+      responses:
+        201:
+          description: Returns an offer for the given vehicle prospect
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Offer'
+        400:
+          description: Error response
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                      enum :
+                        - 400091
+                        - 400092
+                        - 400093
+                        - 400094
+                        - 400110
+                    description : |
+                      400091 - Vehicle history information questions have not been answered in full.
+                      400092 - Contact information questions have not been answered in full.
+                      400093 - Offer already processed
+                      400094 - Unsupported Usage Detected
+                      400110 - Invalid prospectId
+
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Prospect
+      parameters:
+        - name : prospectId
+          type : string
+          in : query
+          required : true
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : POST
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+  /offers/{offerId}:
+    get:
+      description: Returns an existing offer
+      security:
+        - keyQuery: []
+      parameters:
+        - $ref: '#/parameters/apiKey'
+        - $ref: '#/parameters/offerId'
+      tags:
+        - Offer
+      responses:
+        200:
+          description: Offer
+          schema:
+            allOf:
+              - $ref: '#/definitions/Response'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/definitions/Offer'
+        404:
+          description: Offer not found
+          schema:
+            type: object
+            required:
+              - meta
+            properties:
+              meta :
+                type : object
+                properties :
+                  codes :
+                    type : array
+                    items :
+                      type : integer
+                    description : |
+                      404000 - Offer not found
+                    enum :
+                      - 404000
+        403:
+          $ref : '#/responses/InvalidAuth'
+        500:
+          $ref : '#/responses/ServerError'
+    options:
+      security:
+        - keyQuery: []
+      tags:
+        - Offer
+      parameters:
+        - $ref: '#/parameters/offerId'
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+              default : Content-Type
+            Access-Control-Allow-Methods:
+              type: string
+              default : GET
+            Access-Control-Allow-Origin:
+              type: string
+              default : "*"
+definitions:
+  Response:
+    properties:
+      meta:
+        type: object
+        required:
+          - codes
+        properties:
+          codes :
+            type : array
+            items :
+              type : integer
+              minimum : 0
+          links :
+            type: array
+            items:
+                type : object
+                properties:
+                  rel :
+                    type : string
+                    enum : [ required, optional, self, doc, deprecated, next, error ]
+                  href :
+                    type : string
+                    format: uri
+                  method :
+                    type : string
+                    enum : [ GET, POST, PATCH ]
+                  properties :
+                    type : object
+                  templated :
+                    type : boolean
+  DecodedVin:
+    type: object
+    properties:
+      possibilities:
+        type: array
+        description : This array of possible vehicle components based on the VIN.
+        items :
+          $ref: '#/definitions/VinPossibility'
+  VinPossibility:
+    type: object
+    properties:
+      year:
+        $ref: '#/definitions/Year'
+      make:
+        $ref: '#/definitions/Make'
+      model:
+        $ref: '#/definitions/Model'
+      trim:
+        $ref: '#/definitions/Trim'
+      drivetrains:
+        type: array
+        description: The possible drivetrains for this Trim based on the VIN. It is possible that only one item will be present, in which case it is the only item applicable for the trim.
+        items :
+          $ref: '#/definitions/Drivetrain'
+      engines:
+        type: array
+        description: The possible engines for this Trim based on the VIN. It is possible that only one item will be present, in which case it is the only item applicable for this Trim.
+        items :
+          $ref: '#/definitions/Engine'
+      transmissions:
+        type: array
+        description: The possible transmissions for this Trim based on the VIN. It is possible that only one item will be present, in which case it is the only item applicable for the trim.
+        items :
+          $ref: '#/definitions/Transmission'
+      options:
+        type: array
+        description: All of the options applicable for this Trim based on the VIN. Whether the Option is selected by default is determined by the VIN.
+        items :
+          $ref: '#/definitions/Option'
+  VehicleIdentity:
+    type: object
+    required: [ yearId, makeId, modelId, trimId, transmissionId, engineId, drivetrainId, colorId ]
+    properties:
+      yearId:
+        type: integer
+        minimum: 0
+      makeId:
+        type: integer
+        minimum: 0
+      modelId:
+        type: integer
+        minimum: 0
+      trimId:
+        type: integer
+        minimum: 0
+      transmissionId:
+        type: integer
+        minimum: 0
+      engineId:
+        type: integer
+        minimum: 0
+      drivetrainId:
+        type: integer
+        minimum: 0
+      colorId:
+        type: integer
+        minimum: 0
+      vin:
+        type: string
+        minLength: 0
+        maxLength: 17
+  VehicleEligibility:
+    type: object
+    properties:
+      isEligible:
+        type: boolean
+      excludedEngines:
+        type: array
+        items:
+          type: integer
+      excludedDrivetrains:
+        type: array
+        items:
+          type: integer
+      excludedTransmissions:
+        type: array
+        items:
+          type: integer        
+  ProspectRequest:
+    type: object
+    required : [ vehicle, mileage, dealerId ]
+    properties:
+      vehicle:
+        $ref : '#/definitions/VehicleIdentity'
+      mileage:
+        type: integer
+        minimum: 0
+        maximum : 1000000
+      dealerId:
+        type: integer
+        minimum: 0
+      incomingUrl:
+        type: string
+  Prospect:
+    type: object
+    allOf:
+      - $ref : '#/definitions/ProspectRequest'
+      - type: object
+        required: [ prospectId, status ]
+        properties :
+          prospectId:
+            type : string
+            format: uuid
+          status :
+            type : string
+            enum : [ inProgress, submitted, canSubmit ]
+          history:
+            $ref: '#/definitions/Questions'
+          options:
+            $ref: '#/definitions/Options'
+          conditions:
+            $ref: '#/definitions/Questions'
+          contactInfo:
+            $ref: '#/definitions/ContactInfo'
+  Year:
+    type: object
+    required:
+      - yearId
+      - displayName
+    properties:
+      yearId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Years:
+    description: An array of vehicle years.
+    type: array
+    items:
+      $ref: '#/definitions/Year'
+  Make:
+    type: object
+    required:
+      - makeId
+    properties:
+      makeId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Makes:
+    description: An array of vehicle makes.
+    type: array
+    items:
+      $ref: '#/definitions/Make'
+  Model:
+    type: object
+    required:
+      - modelId
+    properties:
+      modelId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Models:
+    description: An array of vehicle models.
+    type: array
+    items:
+      $ref: '#/definitions/Model'
+  Trim:
+    type: object
+    required:
+      - trimId
+    properties:
+      trimId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Trims:
+    description: An array of vehicle trims.
+    type: array
+    items:
+      $ref: '#/definitions/Trim'
+  Color:
+    type: object
+    required:
+      - colorId
+    properties:
+      colorId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Colors:
+    description: An array of vehicle colors.
+    type: array
+    items:
+      $ref: '#/definitions/Color'
+  Transmission:
+    type: object
+    required:
+      - transmissionId
+    properties:
+      transmissionId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Transmissions:
+    description: An array of vehicle transmissions.
+    type: array
+    items:
+      $ref: '#/definitions/Transmission'
+  Engine:
+    type: object
+    required:
+      - engineId
+    properties:
+      engineId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Engines:
+    description: An array of vehicle engines.
+    type: array
+    items:
+      $ref: '#/definitions/Engine'
+  Drivetrain:
+    type: object
+    required:
+      - drivetrainId
+    properties:
+      drivetrainId:
+        type: integer
+        minimum: 0
+      displayName:
+        type: string
+  Drivetrains:
+    description: An array of vehicle drivetrains.
+    type: array
+    items:
+      $ref: '#/definitions/Drivetrain'
+  OptionRequest:
+    type: object
+    required:
+      - optionId
+      - isSelected
+    properties:
+      optionId:
+        type: integer
+        minimum: 0
+      isSelected:
+        type: boolean
+  OptionsRequest:
+    description: An Option with its selected value.
+    type: array
+    items:
+      $ref: '#/definitions/OptionRequest'
+  Option:
+    allOf:
+      - $ref : '#/definitions/OptionRequest'
+      - type: object
+        properties:
+          displayName:
+            type: string
+          groupName:
+            type: string
+  Options:
+    description: An array of vehicle makes.
+    type: array
+    items:
+      $ref: '#/definitions/Option'
+  QuestionRequest:
+    allOf:
+      - type: object
+        required:
+          - questionId
+        properties:
+          questionId:
+            type: string
+            pattern: '^[a-zA-Z0-9\/]+$'
+      - type: object
+        required:
+          - value
+        properties:
+          value:
+            type: boolean
+      - type: object
+        required:
+          - value
+        properties:
+          value:
+            type: string
+      - type: object
+        required:
+          - value
+        properties:
+          value:
+            type: number
+  Question:
+    allOf:
+      - $ref : '#/definitions/QuestionRequest'
+      - type: object
+        discriminator: questionType
+        required:
+          - questionId
+          - questionType
+        properties:
+          questionId:
+            type: string
+            pattern: '^[a-zA-Z0-9\/]+$'
+          tags:
+            type: array
+            items:
+              type: string
+              enum:
+                - abs
+                - aftermarket
+                - air-bags
+                - air-conditioning
+                - alignment
+                - alternator
+                - anti-lock
+                - battery
+                - body
+                - brakes
+                - bumper
+                - burns
+                - cargo-bed
+                - carpets
+                - catalytic-converters
+                - check-engine
+                - clutch
+                - cold-air-intake
+                - comment
+                - computer-chip
+                - convertible
+                - cracked
+                - damage
+                - dashboard
+                - dealer
+                - deck-lid
+                - dent
+                - deployed
+                - ding
+                - dock
+                - door
+                - drums
+                - electrical
+                - engine
+                - exhaust
+                - exterior
+                - factory
+                - factory-style
+                - faded
+                - fender
+                - fifty
+                - frame
+                - front
+                - functional
+                - gate
+                - glass
+                - grille
+                - hard-top
+                - headers
+                - headliner
+                - heater
+                - hood
+                - hubcaps
+                - included
+                - inner
+                - installed
+                - interior
+                - ipod
+                - leaks
+                - left
+                - less
+                - lift
+                - lights
+                - low-coolant
+                - lowered
+                - maintenance
+                - major
+                - makes-noise
+                - manifolds
+                - mechanical
+                - minor
+                - mirror
+                - missing
+                - modified
+                - modified-install
+                - module
+                - molding
+                - moon-roof
+                - more
+                - muffler
+                - must
+                - non-factory
+                - non-functional
+                - non-modified-install
+                - non-original
+                - not-included
+                - odometer
+                - oil-pressure
+                - one-inch
+                - original
+                - other
+                - overheats
+                - pads
+                - paint
+                - panel
+                - percent
+                - performance
+                - power
+                - quarter
+                - racing-style
+                - rack
+                - radiator
+                - radio
+                - rail
+                - raised
+                - rear
+                - remote-start
+                - removable
+                - repair
+                - repairable
+                - replace
+                - replaced
+                - right
+                - roadside-kit
+                - roadster
+                - rocker
+                - roof
+                - rotors
+                - rust
+                - satellite
+                - seats
+                - service-engine
+                - shock
+                - should
+                - side
+                - simulated
+                - spoiler
+                - stains
+                - stars
+                - steering
+                - sun-roof
+                - support
+                - suspension
+                - t-tops
+                - tail
+                - tears
+                - thirty
+                - tint
+                - tires
+                - top
+                - tower
+                - transmission
+                - trim
+                - tune-up
+                - turbo-supercharger
+                - two-inch
+                - usb
+                - vinyl
+                - warning-light
+                - wear
+                - wear-tear
+                - wheels
+                - wheels-rims
+                - window
+
+          questionType:
+            type: string
+            enum :
+              - YesNo
+              - Text
+              - Number
+              - Enum
+          label:
+            type: string
+  YesNo:
+    description: A question that accepts a _true_ or _false_ boolean value.
+    allOf:
+      - $ref: '#/definitions/Question'
+      - type: object
+        required :
+          - value
+        properties:
+          questionType:
+            type: string
+            default: 'YesNo'
+          value:
+            type: boolean
+  Text:
+    description: A question that accepts a string value.
+    allOf:
+      - $ref: '#/definitions/Question'
+      - type: object
+        required :
+          - value
+        properties:
+          questionType:
+            type: string
+            default: 'Text'
+          default:
+            type: string
+          value:
+            type: string
+  Number:
+    description: A question that accepts an integer value.
+    allOf:
+      - $ref: '#/definitions/Question'
+      - type: object
+        required :
+          - value
+        properties:
+          questionType:
+            type: string
+            default: 'Number'
+          default:
+            type: integer
+            default: 0
+          value:
+            type: integer
+          constraints:
+            type: object
+            properties:
+              maxValue:
+                type: integer
+              minValue:
+                type: integer
+  Enum:
+    description: A question that accepts an Enum value.
+    allOf:
+      - $ref: '#/definitions/Question'
+      - type: object
+        required :
+          - value
+        properties:
+          questionType:
+            type: string
+            default: 'Enum'
+          default:
+            type: string
+          value:
+            type: string
+          choices:
+            type: array
+            items:
+              type: string
+  Questions:
+    description: An array of questions.
+    type: array
+    items:
+      $ref: '#/definitions/Question'
+  QuestionsRequest:
+    description: An array of questions with their values.
+    type: array
+    items:
+      $ref: '#/definitions/QuestionRequest'
+  ContactInfoRequest:
+    type: object
+    properties:
+      firstName:
+        type: string
+        minLength: 1
+        maxLength: 50
+      lastName:
+        type: string
+        minLength: 1
+        maxLength: 50
+      email:
+        type: string
+        format: email
+      confirmEmail:
+        type: string
+        format: email
+      phone:
+        type: string
+        format : phone
+      zip:
+        type: string
+        minLength: 1
+        maxLength: 5
+      legalAcceptance:
+        type: boolean
+  ContactInfo:
+    allOf:
+      - $ref : '#/definitions/ContactInfoRequest'
+      - type: object
+        properties:
+          required :
+            type : array
+            description : This array of property names indicates which fields are required
+            items :
+              type : string
+              enum : [ firstName, lastName, email, confirmEmail, phone, legalAcceptance, zip ]
+  Offer:
+    type: object
+    allOf :
+      - $ref : '#/definitions/Prospect'
+      - type : object
+        required:
+          - offerId
+        properties:
+          offerId:
+            $ref : '#/definitions/uuid'
+          priceAdvisor:
+            $ref : '#/definitions/url'
+          amount :
+            type: integer
+          expirationDate :
+            type : string
+            format : date
+          status :
+            type : string
+            enum :
+              - ACTIVE
+              - AUCTION
+              - CHECK
+              - CLEARED
+              - CONFIRMED
+              - EXPIRED
+              - FR
+              - GROUNDED
+              - INELIGIBLE
+              - INSPECTION
+              - MODIFIED
+              - PURCHASED
+              - RECEIVED
+              - SOLD
+  Plate2VinResponse:
+    type: object
+    properties:
+      possibilities:
+        type: array
+        description : This array of possible VINs based on the Plate.
+        items :
+          $ref: '#/definitions/Plate2Vin'
+  Plate2Vin:
+    type: object
+    properties:
+        vin:
+          type: string
+          minLength: 0
+          maxLength: 17
+  Plate2VinStateResponse:
+    type: object
+    properties:
+      states:
+        type: array
+        description : This array of possible states for Plate2Vin Request.
+        items :
+          $ref: '#/definitions/Plate2VinState'
+  Plate2VinState:
+    type: object
+    properties:
+        name:
+          type: string
+        abbreviation:
+          type: string  
+  uuid:
+    type: string
+    pattern: '^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$'
+  url:
+    type : string
+    pattern : '^(https?:\/\/)?[\w-]+\.[\w-]+(:\d+)?(\/)?\S*$'

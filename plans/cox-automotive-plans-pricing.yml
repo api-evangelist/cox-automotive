@@ -1,0 +1,22 @@
+generated: '2026-09-13'
+method: searched
+source: https://developer.manheim.com/pages/accessAndEnvironments.html
+plan_count: 0
+pricing_published: false
+note: >-
+  Cox Automotive publishes no API plans, tiers or prices on any of its three developer properties. Every
+  surface is enterprise-gated: access to the Manheim APIs is requested from a Cox Automotive / Manheim
+  account representative or DataSyndication@coxautoinc.com, Kelley Blue Book API keys are requested
+  through b2b.kbb.com/contact and the Cox Auto API Portal registration form, and the Integration
+  Platform storefront requires an Okta or Entra ID sign-in before any product, entitlement or commercial
+  term is visible. There is no self-serve signup, no free tier, no published overage and no rate card.
+plans: []
+access_paths:
+- url: https://developer.manheim.com/support/accessRequest.html
+  label: Manheim API access request
+- url: https://developer.kbb.com/access
+  label: Kelley Blue Book API access
+- url: https://b2b.kbb.com/contact/
+  label: Kelley Blue Book B2B contact form
+- url: https://developer.coxautoinc.com/signup
+  label: Cox Automotive API Storefront registration

@@ -64,4 +64,38 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cox Automotive is a company surfaced via the API Evangelist harvest backlog (source: absent-parent) and added to the network as a stub for full-pipeline profiling.
+Cox Automotive is one of the world's largest providers of products and services spanning the automotive
+ecosystem, operating a portfolio that includes **Manheim** (wholesale vehicle auctions and remarketing),
+**Kelley Blue Book** (vehicle valuations and editorial data), **Autotrader**, **Dealertrack**, **vAuto**,
+**VinSolutions**, **Xtime**, **Dealer.com** and **HomeNet**.
+
+## What this profile covers
+
+Cox Automotive's public API surface is split across three developer properties, with three different
+authentication models and three different error envelopes:
+
+| Property | What it publishes | Machine-readable contract |
+|---|---|---|
+| [developer.kbb.com](https://developer.kbb.com/) | IDWS 4.0 Vehicle and Editorial, Advertising Data, Instant Cash Offer, Batch VIN | **Yes** — five Swagger 2.0 specs, 78 paths |
+| [developer.manheim.com](https://developer.manheim.com/) | Hypermedia REST suite over the auction lifecycle, plus a publish/subscribe event service | No |
+| [developer.coxautoinc.com](https://developer.coxautoinc.com/) | The company-wide API Storefront; 72 runtime components are named on the public status page | No — behind Okta / Entra ID sign-in |
+
+All five Kelley Blue Book contracts are harvested verbatim into `openapi/_original/`. Everything else in
+this repository is derived from those contracts or read from a public reference page, with the source URL
+recorded on each artifact.
+
+## Notable findings
+
+- **No OpenAPI 3.x anywhere.** Every published contract is Swagger 2.0.
+- **No idempotency contract**, across a write surface that includes unit creation, auction offering
+  creation, lane assignment and instant-cash-offer creation.
+- **A real event service with no AsyncAPI.** Manheim Events supports resource/type/VIN/expression
+  filtering, replay and response expansion, and is documented only in prose. It is also mid-migration to
+  *Eventer* on the API Storefront, which is closed to unauthenticated readers.
+- **OAuth scopes are enforced but undocumented** — the token endpoint accepts a `scope` parameter and no
+  scope vocabulary is published.
+- **No first-party SDK, CLI, MCP server or A2A agent card.**
+- **Two RFC 9116 `security.txt` documents** are served, both pointing at one responsible-disclosure
+  policy. No bug bounty is offered.
+- Access is never self-serve. Every environment on every property requires a human review before a key
+  is issued.

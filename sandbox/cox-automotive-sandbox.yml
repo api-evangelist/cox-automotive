@@ -1,0 +1,73 @@
+generated: '2026-09-13'
+method: searched
+source: https://developer.manheim.com/pages/accessAndEnvironments.html
+docs:
+- https://developer.manheim.com/pages/accessAndEnvironments.html
+- https://developer.kbb.com/idws/1-Default
+- https://developer.kbb.com/ico/2-Provisioning
+note: >-
+  Every Cox Automotive API surface ships a non-production environment, and every one of them requires a
+  separately-requested credential — there is no anonymous sandbox, no test key published in the docs,
+  and no magic test identifiers. What IS published is the environment topology and one unusual and
+  genuinely useful caveat about the fidelity of sandbox data.
+separation:
+  model: separate-host-and-key
+  detail: >-
+    Test and live are separated by hostname, not by a key prefix or a mode flag. A separate key request
+    is required for each environment; Kelley Blue Book issues distinct entitlements ("KBB ICO Sandbox
+    APIs: Standard access" vs "KBB ICO Production APIs: Standard access") and Manheim grants access to
+    each environment independently.
+environments:
+- name: Manheim QA
+  host: https://integration1.api.manheim.com
+  purpose: Development and integration testing.
+- name: Manheim pre-production (UAT)
+  host: https://uat.api.manheim.com
+  token_endpoint: https://uat.api.manheim.com/oauth2/token.oauth2
+  purpose: Pre-production validation.
+- name: Manheim production
+  host: https://api.manheim.com
+- name: Kelley Blue Book sandbox
+  host: https://sandbox.api.kbb.com
+  purpose: Advertising Data (/ads), Instant Cash Offer (/ico/v1) and Batch VIN (/idbv) testing.
+- name: Kelley Blue Book IDWS sandbox
+  host: https://idws-sandbox.datasolutions.coxautoinc.com
+  purpose: IDWS 4.0 Vehicle and Editorial testing; this is the host declared in both harvested contracts.
+- name: Kelley Blue Book production
+  host: https://api.kbb.com
+- name: IDWS production
+  host: https://idws.datasolutions.coxautoinc.com
+data_fidelity:
+  warning: >-
+    "Valuations for the Sandbox environment are not current values. For Sandbox we provide older
+    valuations (6 months) for testing purposes only."
+  implication: >-
+    A sandbox integration cannot be used to validate pricing logic against live market values. This is
+    published plainly and is exactly the kind of caveat most providers leave implicit.
+  source: https://developer.kbb.com/idws/1-Default
+test_values:
+  published: false
+  note: >-
+    No test VINs, test dealer IDs, test licence plates, test cards or magic identifiers are published.
+    The reference pages do use real-looking sample VINs in worked examples (for instance
+    5NPDH4AEXFH617834 in the Manheim valuations example and WA1BNAFY4J2197302 in the transactions
+    example); these are documentation illustrations, not sanctioned fixtures, and are recorded here as
+    such rather than as test data.
+time_simulation:
+  supported: false
+fixtures_or_triggers:
+  supported: false
+  note: >-
+    No event-trigger tooling is published for the Events/Eventer surface, though POST /events does allow
+    an authorised consumer to create an event that its own subscriptions will then receive — which is
+    the closest thing to a trigger the public documentation describes.
+  docs: https://developer.manheim.com/apis/events/events.html
+provisioning:
+  self_serve: false
+  steps_kbb_ico:
+  - Navigate to the Cox Auto API Portal.
+  - Set Affiliate to "Partner".
+  - Set Cox Automotive Business Unit to "Kelley Blue Book".
+  - Register the application by name (one API key is issued per application).
+  - 'Select the "KBB ICO Sandbox APIs: Standard access" or "KBB ICO Production APIs: Standard access" entitlement.'
+  source: https://developer.kbb.com/ico/2-Provisioning

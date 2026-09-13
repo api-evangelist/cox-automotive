@@ -1,0 +1,108 @@
+generated: '2026-09-13'
+method: derived
+source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml, openapi/cox-automotive-kbb-idws-editorial-openapi.yml,
+  openapi/cox-automotive-kbb-advertising-data-openapi.yml, openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml,
+  openapi/cox-automotive-kbb-batch-vin-openapi.yml
+docs:
+- https://developer.manheim.com/pages/errors.html
+- https://developer.kbb.com/data/3-Errors
+- https://developer.kbb.com/batchvin/3-Errors
+format: vendor
+rfc9457: false
+note: >-
+  No Cox Automotive surface returns application/problem+json from a documented endpoint, so there are no
+  RFC 9457 problem types to catalogue. Three different error envelopes are in use. (1) Manheim returns an
+  `errors[]` array of {property, message, developerMessage} alongside an X-Manheim-Media-Type header.
+  (2) Kelley Blue Book Instant Cash Offer wraps every response in a meta/data envelope whose
+  `meta.codes[]` carries six-digit Cox Automotive result codes — see errors/cox-automotive-error-codes.yml.
+  (3) IDWS 4.0 returns an IDWS.Platform.ResponseMessage.ReturnResponse object. One Cox Automotive host
+  DOES emit RFC 9457: control.api.coxautoinc.com answered a probe of /products with
+  `application/problem+json` and an rfc9110 `type` URI, but that is the developer-portal control plane
+  rather than a documented product API, so it is recorded in conformance/ and not here.
+envelopes:
+- name: Manheim errors array
+  applies_to: Manheim hypermedia APIs
+  media_type: application/json
+  headers:
+  - X-Manheim-Media-Type
+  shape:
+    errors:
+    - property: Field in the submitted object that caused the error; empty for whole-request errors.
+      message: Consumer-facing message.
+      developerMessage: Developer-facing detail.
+  source: https://developer.manheim.com/pages/errors.html
+- name: Kelley Blue Book ICO meta/data envelope
+  applies_to: Kelley Blue Book Instant Cash Offer API
+  media_type: application/json
+  shape:
+    meta:
+      codes: Array of six-digit result codes; 200xxx on success, 4xxxxx/5xxxxx on failure.
+      links: Array of {rel, href, method} hypermedia links.
+    data: Payload, or omitted on error.
+  source: https://developer.kbb.com/ico/4-Envelopes
+- name: IDWS ReturnResponse
+  applies_to: Kelley Blue Book IDWS 4.0 Vehicle and Editorial services
+  media_type: application/json
+  schema: IDWS.Platform.ResponseMessage.ReturnResponse
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+problems:
+- status: 400
+  title: Bad Request
+  detail: Required parameter missing, wrong data type, or a field that cannot be updated was submitted.
+  occurrences: 45
+  source_operations:
+  - openapi/cox-automotive-kbb-idws-vehicle-openapi.yml (23 operations)
+  - openapi/cox-automotive-kbb-idws-editorial-openapi.yml (6 operations)
+  - openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml (16 operations)
+- status: 401
+  title: Unauthorized
+  detail: Missing, invalid or revoked api_key, malformed token, or the caller lacks access.
+  occurrences: 28
+  source_operations:
+  - openapi/cox-automotive-kbb-idws-vehicle-openapi.yml (22 operations)
+  - openapi/cox-automotive-kbb-idws-editorial-openapi.yml (6 operations)
+- status: 403
+  title: Forbidden
+  detail: Invalid authorization for the requested Instant Cash Offer resource (result code 403000).
+  occurrences: 22
+  source_operations:
+  - openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml (22 operations)
+- status: 404
+  title: Not Found
+  detail: Prospect, offer, vehicle, licence plate or Manheim resource not found.
+  occurrences: 12
+  source_operations:
+  - openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml (12 operations)
+- status: 406
+  title: Not Acceptable
+  detail: Requested representation is not available.
+  source_operations:
+  - https://developer.manheim.com/pages/errors.html
+- status: 415
+  title: Unsupported Media Type
+  detail: Request must be JSON; confirm Content-Type is application/json.
+  source_operations:
+  - https://developer.manheim.com/apis/events/subscriptions.html
+- status: 500
+  title: Internal Server Error
+  detail: Server-side failure; retry, then contact support.
+  occurrences: 56
+  source_operations:
+  - openapi/cox-automotive-kbb-idws-vehicle-openapi.yml (25 operations)
+  - openapi/cox-automotive-kbb-idws-editorial-openapi.yml (6 operations)
+  - openapi/cox-automotive-kbb-advertising-data-openapi.yml (1 operation)
+  - openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml (24 operations)
+- status: 503
+  title: Service Unavailable
+  detail: Application server rejected the connection, or a SQL exception occurred. Resubmit; if it persists, contact support.
+  source_operations:
+  - https://developer.manheim.com/apis/events/subscriptions.html
+- status: 596
+  title: Service Not Found (Mashery)
+  detail: >-
+    Emitted by the Mashery gateway itself when the request does not resolve to a registered service —
+    observed on an unauthenticated probe of https://api.manheim.com/ (HTTP 596, text/xml). Also
+    documented by Manheim as a possible response to POST /events when the HTTP method or URL is wrong.
+  source_operations:
+  - https://developer.manheim.com/apis/events/events.html
+  - probe https://api.manheim.com/ (596, 2026-09-13)

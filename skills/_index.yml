@@ -1,0 +1,51 @@
+generated: '2026-09-13'
+method: generated
+source: openapi/ + developer.kbb.com + developer.manheim.com
+note: >-
+  Four packaged Agent Skills, one per marquee Cox Automotive flow. Every step in the three Kelley Blue
+  Book skills is grounded in an operation that exists verbatim in a harvested Swagger 2.0 contract; the
+  Manheim skill is grounded in method+path pairs read from the published reference, because Manheim
+  publishes no machine-readable contract. Cox Automotive publishes no AGENTS.md or first-party skill
+  files — searched 2026-09-13.
+skills:
+- file: cox-automotive-kbb-value-a-vin.md
+  name: Value a vehicle with Kelley Blue Book IDWS 4.0
+  api: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  operations:
+  - IdwsVehicleVinIdByVinGet
+  - IdwsVehicleValidateconfigurationPost
+  - IdwsVehicleApplyconfigurationPost
+  - IdwsVehicleVehicleoptionsGet
+  - IdwsVehicleValuesPost
+  - IdwsVehicleCosttoownPost
+  - IdwsVehicleErrorcodesGet
+- file: cox-automotive-kbb-instant-cash-offer.md
+  name: Produce a Kelley Blue Book Instant Cash Offer
+  api: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  operations:
+  - GET /vehicles/vin/{vin}
+  - GET /vehicles/eligibility
+  - POST /prospects
+  - PATCH /prospects/{prospectId}/history
+  - PATCH /prospects/{prospectId}/conditions
+  - PATCH /prospects/{prospectId}/contactInfo
+  - POST /offers
+  - GET /offers/{offerId}
+- file: cox-automotive-kbb-batch-vin-job.md
+  name: Run a Kelley Blue Book Batch VIN job
+  api: openapi/cox-automotive-kbb-batch-vin-openapi.yml
+  operations:
+  - Token_PostCredentials
+  - BatchJobs_PostBatchJob
+  - BatchJobs_GetBatchJob
+  - BatchJobs_GetBatchJobOutputFile
+  - BatchJobs_CancelBatchJob
+- file: cox-automotive-manheim-event-subscription.md
+  name: Subscribe to Manheim auction event notifications
+  api: asyncapi/cox-automotive-manheim-events-webhooks.yml
+  operations:
+  - POST /subscribers
+  - POST /subscriptions
+  - POST /expand
+  - GET /events/subscription/{ID}
+  - DELETE /subscriptions/id/{ID}

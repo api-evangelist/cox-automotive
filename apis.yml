@@ -1,20 +1,333 @@
 aid: cox-automotive
 name: Cox Automotive
-description: 'Cox Automotive is a company surfaced via the API Evangelist harvest backlog (source: absent-parent)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Cox Automotive is one of the world's largest providers of products and services spanning the automotive
+  ecosystem, operating a portfolio of brands that includes Manheim (wholesale vehicle auctions and
+  remarketing), Kelley Blue Book (vehicle valuations and editorial data), Autotrader, Dealertrack (DMS,
+  registration and titling, credit applications), vAuto, VinSolutions, Xtime, Dealer.com, HomeNet and
+  Esntial. Its public API surface is split across several developer properties: the Kelley Blue Book
+  Developer Portal (developer.kbb.com) publishes Swagger 2.0 contracts for the IDWS 4.0 vehicle and
+  editorial services, the Advertising Data API, the Instant Cash Offer API and the Batch VIN API; the
+  Manheim Developer Portal (developer.manheim.com) documents a hypermedia REST suite covering auctions,
+  inventory, marketplace offerings, valuations, condition reports, images, users and a publish/subscribe
+  event notification service; and the Cox Automotive Integration Platform / API Storefront
+  (developer.coxautoinc.com) fronts the partner-gated catalogue of more than seventy runtime services
+  visible on the public Cox Automotive API status page. Access to every environment is granted after a
+  review by a Cox Automotive account representative, with keys issued through the Boomi/Mashery gateway.
+image: https://www.coxautoinc.com/wp-content/uploads/2025/09/CAI-1200x628-1.png
 url: https://raw.githubusercontent.com/api-evangelist/cox-automotive/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:absent-parent
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-09-13'
 modified: '2026-09-13'
 tags:
-- Company
-apis: []
+- Automotive
+- Vehicle Data
+- Vehicle Valuations
+- Auctions
+- Dealer Software
+- Automotive Retail
+- VIN Decoding
+- Inventory Management
+- Remarketing
+- Events
+- Webhooks
+tags_raw:
+- automotive
+- vehicle-data
+- vehicle-valuations
+- auctions
+- dealer-software
+- automotive-retail
+- vin-decoding
+- inventory-management
+- remarketing
+- events
+- webhooks
+apis:
+- aid: cox-automotive:kbb-idws-vehicle
+  name: Kelley Blue Book IDWS 4.0 Vehicle Service
+  description: >-
+    InfoDriver Web Service (IDWS) 4.0 Vehicle Service — a RESTful Kelley Blue Book API returning vehicle
+    configuration, makes, models, model years, trims, body styles, options, specifications, typicals,
+    CPO programs, cost-to-own and Blue Book values, plus VIN lookup. API-key authenticated through the
+    Cox Automotive Mashery gateway.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  position: Producing
+  tags:
+  - Vehicle Data
+  - Vehicle Valuations
+  - VIN Decoding
+  - Automotive
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: Overlay
+    url: overlays/cox-automotive-kbb-idws-vehicle-overlay.yaml
+- aid: cox-automotive:kbb-idws-editorial
+  name: Kelley Blue Book IDWS 4.0 Editorial Service
+  description: >-
+    InfoDriver Web Service (IDWS) 4.0 Editorial Service — Kelley Blue Book consumer ratings, consumer
+    reviews, expert ratings, expert reviews and Top Ten lists for a vehicle, returned as JSON and
+    authenticated with a Mashery api_key query parameter.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  position: Producing
+  tags:
+  - Vehicle Data
+  - Automotive
+  - Reviews
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Overlay
+    url: overlays/cox-automotive-kbb-idws-editorial-overlay.yaml
+- aid: cox-automotive:kbb-advertising-data
+  name: Kelley Blue Book Advertising Data API
+  description: >-
+    Vehicle data for building dynamic automotive advertising — pricing, cost-to-own, expert and consumer
+    ratings and reviews, vehicle links, fuel cost, specifications, MPG and awards. Supports CORS, gzip,
+    and both URL and Accept-header versioning.
+  humanURL: https://developer.kbb.com/data/1-Default
+  baseURL: https://sandbox.api.kbb.com/ads
+  position: Producing
+  tags:
+  - Vehicle Data
+  - Advertising
+  - Automotive
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-kbb-advertising-data-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Overlay
+    url: overlays/cox-automotive-kbb-advertising-data-overlay.yaml
+- aid: cox-automotive:kbb-instant-cash-offer
+  name: Kelley Blue Book Instant Cash Offer (ICO) API
+  description: >-
+    Produces a Kelley Blue Book Instant Cash Offer for a vehicle. Vehicle configuration lookups (year,
+    make, model, trim, transmission, engine, drivetrain, colour, options), licence-plate-to-VIN lookup,
+    prospect creation with history, condition and contact information, and offer creation and retrieval.
+    Responses use a meta/data envelope with numeric Cox Automotive result codes.
+  humanURL: https://developer.kbb.com/ico/1-Default
+  baseURL: https://api.kbb.com/ico/v1
+  position: Producing
+  tags:
+  - Vehicle Valuations
+  - Automotive Retail
+  - Trade-In
+  - Automotive
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Overlay
+    url: overlays/cox-automotive-kbb-instant-cash-offer-overlay.yaml
+- aid: cox-automotive:kbb-batch-vin
+  name: Kelley Blue Book Batch VIN API
+  description: >-
+    Asynchronous batch VIN decoding and valuation. Submit a batch job, poll its status, and retrieve the
+    input and output files, or cancel a running job. Requires both a Mashery api_key and an OAuth-style
+    bearer token obtained from the API's own /Token endpoint.
+  humanURL: https://developer.kbb.com/batchvin/1-Default
+  baseURL: https://sandbox.api.kbb.com/idbv
+  position: Producing
+  tags:
+  - VIN Decoding
+  - Vehicle Data
+  - Batch Processing
+  - Automotive
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-kbb-batch-vin-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+  - type: Overlay
+    url: overlays/cox-automotive-kbb-batch-vin-overlay.yaml
+- aid: cox-automotive:manheim
+  name: Manheim Hypermedia API Suite
+  description: >-
+    Manheim's third-party integration surface — a suite of hypermedia (href-linked) JSON REST APIs over
+    the wholesale vehicle remarketing lifecycle: auction locations, inventory units and consignments,
+    marketplace offerings, searches, purchases, transactions and titles, Manheim Market Report
+    valuations and forecasts, vehicle condition reports, images, and user profiles, contexts and
+    preferences. OAuth 2.0 client-credentials and resource-owner-password grants through the Mashery
+    gateway. Documented publicly; access granted per environment after review.
+  humanURL: https://developer.manheim.com/
+  baseURL: https://api.manheim.com
+  position: Producing
+  tags:
+  - Auctions
+  - Remarketing
+  - Vehicle Valuations
+  - Inventory Management
+  - Automotive
+  properties:
+  - type: DeveloperPortal
+    url: https://developer.manheim.com/
+  - type: Documentation
+    url: https://developer.manheim.com/pages/hypermedia.html
+  - type: APIReference
+    url: https://developer.manheim.com/apis/marketplace/valuations.html
+  - type: Authentication
+    url: https://developer.manheim.com/pages/authentication.html
+  - type: GettingStarted
+    url: https://developer.manheim.com/pages/accessAndEnvironments.html
+  - type: RateLimits
+    url: https://developer.manheim.com/pages/apiUsage.html
+  - type: Support
+    url: https://developer.manheim.com/support/help.html
+- aid: cox-automotive:manheim-events
+  name: Manheim Event Notifications
+  description: >-
+    Publish/subscribe business-event notification service for the Manheim auction lifecycle. Consumers
+    register a subscriber, create subscriptions with resource, type, text (VIN) or richFilter criteria,
+    and receive NOUN.VERB events (for example UNIT.CREATED, CONSIGNMENT.CREATED) delivered to their own
+    callback, optionally expanded with the referenced API response. Superseded for new onboarding by
+    Eventer on the Cox Automotive API Storefront.
+  humanURL: https://developer.manheim.com/apis/events/index.html
+  baseURL: https://api.manheim.com
+  position: Producing
+  tags:
+  - Events
+  - Webhooks
+  - Auctions
+  - Automotive
+  properties:
+  - type: Webhooks
+    url: asyncapi/cox-automotive-manheim-events-webhooks.yml
+  - type: Documentation
+    url: https://developer.manheim.com/apis/events/index.html
+  - type: APIReference
+    url: https://developer.manheim.com/apis/events/subscriptions.html
+- aid: cox-automotive:integration-platform
+  name: Cox Automotive Integration Platform (API Storefront)
+  description: >-
+    The company-wide API storefront and integration platform fronting Cox Automotive's partner APIs —
+    Dealertrack credit application, registration and titling, DealXG and Deal Push, Eventer publishing,
+    MMR and MMR batch, listings search, recon inventory, quotes, orders, purchases, condition reports,
+    taxonomy, expander, service scheduling and digital retailing among more than seventy runtime
+    services listed on the public status page. Product catalogue and reference are behind an Okta /
+    Entra ID sign-in; access is requested through the storefront.
+  humanURL: https://developer.coxautoinc.com/
+  baseURL: https://api.coxautoinc.com
+  position: Producing
+  tags:
+  - Dealer Software
+  - Automotive Retail
+  - Automotive
+  properties:
+  - type: DeveloperPortal
+    url: https://developer.coxautoinc.com/
+  - type: SignUp
+    url: https://developer.coxautoinc.com/signup
+  - type: Login
+    url: https://developer.coxautoinc.com/login
+  - type: StatusPage
+    url: https://coxautoapi.statuspage.io/
+common:
+- type: Website
+  url: https://www.coxautoinc.com/
+- type: DeveloperPortal
+  url: https://developer.coxautoinc.com/
+- type: Documentation
+  url: https://developer.manheim.com/
+- type: APIReference
+  url: https://developer.kbb.com/
+- type: GettingStarted
+  url: https://developer.manheim.com/pages/accessAndEnvironments.html
+- type: Support
+  url: https://developer.manheim.com/support/help.html
+- type: Blog
+  url: https://www.coxautoinc.com/insights/
+- type: GitHubOrganization
+  url: https://github.com/Cox-Automotive
+- type: SignUp
+  url: https://developer.coxautoinc.com/signup
+- type: Login
+  url: https://developer.coxautoinc.com/login
+- type: TermsOfService
+  url: https://www.coxautoinc.com/terms/
+- type: PrivacyPolicy
+  url: https://www.coxautoinc.com/privacy-statement/
+- type: StatusPage
+  url: https://coxautoapi.statuspage.io/
+- type: Postman
+  url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+- type: Security
+  url: https://www.coxautoinc.com/responsible-disclosure
+- type: SecurityTxt
+  url: well-known/cox-automotive-security.txt
+- type: WellKnown
+  url: well-known/cox-automotive-well-known.yml
+- type: VulnerabilityDisclosure
+  url: security/cox-automotive-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/cox-automotive-domain-security.yml
+- type: Authentication
+  url: authentication/cox-automotive-authentication.yml
+- type: OAuthScopes
+  url: scopes/cox-automotive-scopes.yml
+- type: Conventions
+  url: conventions/cox-automotive-conventions.yml
+- type: Conformance
+  url: conformance/cox-automotive-conformance.yml
+- type: ErrorCatalog
+  url: errors/cox-automotive-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/cox-automotive-lifecycle.yml
+- type: DataModel
+  url: data-model/cox-automotive-data-model.yml
+- type: RateLimits
+  url: rate-limits/cox-automotive-rate-limits.yml
+- type: Plans
+  url: plans/cox-automotive-plans-pricing.yml
+- type: Packages
+  url: packages/cox-automotive-packages.yml
+- type: LLMsTxt
+  url: llms/cox-automotive-llms.txt
+- type: Webhooks
+  url: asyncapi/cox-automotive-manheim-events-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: X-MCPServerCandidate
+  url: mcp/cox-automotive-mcp.yml
+- type: AgenticAccess
+  url: agentic-access/cox-automotive-agentic-access.yml
+- type: Sandbox
+  url: sandbox/cox-automotive-sandbox.yml
+- type: ErrorCodes
+  url: errors/cox-automotive-error-codes.yml
+- type: Overlay
+  url: overlays/cox-automotive-kbb-idws-vehicle-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-09-13'
+  status: enriched
+  artifacts_added: 41
+  pass: local-v3

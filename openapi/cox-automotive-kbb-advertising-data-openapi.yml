@@ -1,0 +1,1644 @@
+swagger: '2.0'
+info:
+  version: '2016-06-30'
+  title: Advertising Data API
+  description: ''
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+host: sandbox.api.kbb.com
+basePath: /ads
+tags:
+- name: Vehicle
+  description: All methods related to vehicles
+securityDefinitions:
+  keyQuery:
+    type: apiKey
+    name: api_key
+    in: query
+security:
+- keyQuery: []
+parameters:
+  vehicleIds:
+    name: vehicleIds
+    in: query
+    description: Comma seperated list of Vehicle id's
+    type: string
+    required: true
+  zipcode:
+    name: zipcode
+    in: query
+    description: Desired zipcode to use for regionality
+    type: string
+    required: true
+  dataVersionId:
+    name: dataVersionId
+    in: query
+    description: The version to override
+    type: integer
+    required: false
+  campaign-key:
+    name: campaign-key
+    in: query
+    description: The campaign identifier
+    type: string
+    required: false
+  version:
+    name: version
+    in: path
+    type: string
+    description: API Version
+    required: true
+    enum:
+    - v1
+paths:
+  /{version}/cto/default:
+    get:
+      description: The cost of ownership resources will provide the developer the dataset and segments for 5 year cost to
+        own
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/vehicleIds'
+      - $ref: '#/parameters/zipcode'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: annualMileage
+        in: query
+        type: integer
+        required: false
+        description: Annual Mileage
+      - name: loanTerm
+        in: query
+        type: integer
+        required: false
+        description: Loan Term
+        enum:
+        - 0
+        - 12
+        - 24
+        - 36
+        - 48
+        - 60
+      - name: downPayment
+        in: query
+        type: number
+        required: false
+        description: Down Payment
+      - name: apr
+        in: query
+        type: number
+        required: false
+        description: APR
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/CTO'
+        500:
+          description: Server Exception
+  /{version}/pricing/default/{class}:
+    get:
+      description: The pricing resource provide Kelley Blue book pricing information using the vehicles default configuration.
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - name: class
+        description: 'new - New Car
+
+          used - Used Car
+
+          '
+        type: string
+        in: path
+        required: true
+        enum:
+        - new
+        - used
+      - $ref: '#/parameters/vehicleIds'
+      - $ref: '#/parameters/zipcode'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/Pricing'
+  /{version}/ratings/expert:
+    get:
+      description: "The expert ratings resource provides vehicle ratings content by Kelley Blue Book.  The following ratings\
+        \ content secrtions are available in the response object. ``` - 2000003070 | Overall Overal Rating - 2000003071 |\
+        \ Driving Dynamicst - 2000003072 | Comfort & Convenience - 2000003073 | Design: Interios & Exterior - 2000003074 |\
+        \ Safety - 2000003075 | Value ```\n- Notes:\n    - If you pass in vehicleIds, then you should not pass in yearId,\
+        \ makeId, modelId and vice versa.\n    - Base vehicleId is going to be returned in the output when querying by yearId,\
+        \ makeId, modelId.\n"
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - name: vehicleIds
+        in: query
+        description: Comma seperated list of Vehicle id's
+        type: string
+        required: false
+      - name: yearId
+        in: query
+        type: integer
+        required: false
+        description: Year ID
+      - name: makeId
+        in: query
+        type: integer
+        required: false
+        description: Make ID
+      - name: modelId
+        in: query
+        type: integer
+        required: false
+        description: Model ID
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - expertRatings
+              properties:
+                expertRatings:
+                  $ref: '#/definitions/ExpertRatings'
+  /{version}/ratings/consumer:
+    get:
+      description: "The consumer ratings resource provides vehicle ratings content producted by users.  The following ratings\
+        \ content sections are available in the response object.\n- Overal Rating - Comfort - Performance - Quality - Reliability\
+        \ - Styling - Value\n- Notes:\n    - If you pass in vehicleIds, then you should not pass in yearId, makeId, modelId\
+        \ and vice versa.\n    - Base vehicleId is going to be returned in the output when querying by yearId, makeId, modelId.\n"
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - name: vehicleIds
+        in: query
+        description: Comma seperated list of Vehicle id's
+        type: string
+        required: false
+      - name: yearId
+        in: query
+        type: integer
+        required: false
+        description: Year ID
+      - name: makeId
+        in: query
+        type: integer
+        required: false
+        description: Make ID
+      - name: modelId
+        in: query
+        type: integer
+        required: false
+        description: Model ID
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - consumerRatings
+              properties:
+                consumerRatings:
+                  $ref: '#/definitions/ConsumerRatings'
+  /{version}/reviews/expert:
+    get:
+      description: "The expert review resource proviudes editoral content produced by Kelley Blue Book.  The following content\
+        \ sections are available in the response object. ``` - 34         | KBB Editor's Overview - 35/36      | What's New\
+        \ for [Vehicle Model Year] - 37         | You'll Like This Car If... - 38         | You May Not Like This Car If...\
+        \ - 39         | Exterior - 40         | Interior - 41         | Notable Standard Equipment - 42         | Notable\
+        \ Optional Equipment - 43         | Pricing Notes - 44         | Driving Impressions - 45         | Favorite Features\
+        \ - 46         | Under the Hood - 2000003080 | Overview - 2000003081 | Teaser ```\n- Notes:\n    - If you pass in\
+        \ vehicleId, then you should not pass in yearId, makeId, modelId and vice versa.\n    - Base vehicleId is going to\
+        \ be returned in the output when querying by yearId, makeId, modelId.\n"
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - name: vehicleId
+        in: query
+        type: integer
+        description: The KBB vehicle identifier
+        required: false
+      - name: yearId
+        in: query
+        type: integer
+        required: false
+        description: Year ID
+      - name: makeId
+        in: query
+        type: integer
+        required: false
+        description: Make ID
+      - name: modelId
+        in: query
+        type: integer
+        required: false
+        description: Model ID
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - expertReview
+              properties:
+                expertReview:
+                  $ref: '#/definitions/ExpertReveiws'
+  /{version}/reviews/consumer:
+    get:
+      description: "The consumer review resource provides input provided by consumers.\n- Notes:\n    - If you pass in vehicleId,\
+        \ then you should not pass in yearId, makeId, modelId and vice versa.\n    - If you pass in reviewIds, then you should\
+        \ not pass in vehicleId, yearId, makeId, modelId and vice versa.\n    - Base vehicleId is going to be returned in\
+        \ the output when querying by yearId, makeId, modelId.\n"
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - name: vehicleId
+        in: query
+        type: integer
+        description: The KBB vehicle identifier
+        required: false
+      - name: numberOfReviewsPerPage
+        in: query
+        type: integer
+        description: Number of reviews per page
+        required: false
+      - name: sort
+        in: query
+        type: integer
+        required: false
+        description: Sort type
+        enum:
+        - MostHelpful
+        - Newest
+        - Oldest
+        - HighestRating
+        - LowestRating
+      - name: currentPage
+        in: query
+        type: integer
+        description: Desired Page
+        required: false
+      - name: reviewIds
+        in: query
+        type: string
+        required: false
+        description: Comma separated review ids
+      - name: yearId
+        in: query
+        type: integer
+        required: false
+        description: Year ID
+      - name: makeId
+        in: query
+        type: integer
+        required: false
+        description: Make ID
+      - name: modelId
+        in: query
+        type: integer
+        required: false
+        description: Model ID
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - consumerReviews
+              properties:
+                consumerReviews:
+                  $ref: '#/definitions/ConsumerReviews'
+  /{version}/vehiclelinks:
+    get:
+      description: "The vehicle links resource provides links from KBB.COM for a vehicle or a year, make, model.\n- Notes:\n\
+        \    - If you pass in vehicleId, then you should not pass in yearId, makeId or modelId and vice versa.\n"
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - name: vehicleId
+        in: query
+        type: integer
+        description: The KBB vehicle identifier
+        required: false
+      - name: yearId
+        in: query
+        type: integer
+        required: false
+        description: Year ID
+      - name: makeId
+        in: query
+        type: integer
+        required: false
+        description: Make ID
+      - name: modelId
+        in: query
+        type: integer
+        required: false
+        description: Model ID
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - vehicleLinks
+              properties:
+                vehicleLinks:
+                  $ref: '#/definitions/VehicleLinks'
+  /{version}/vehicle:
+    get:
+      description: The vehicle endpoint is used to retrieve the following information of a vehicle
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/vehicleIds'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/Vehicle'
+  /{version}/fuelcost/configured:
+    post:
+      description: The fuel cost calculator s used to illustrate an annual fuel cost savings of a vehicle
+      parameters:
+      - name: version
+        in: path
+        type: string
+        description: API Version
+        required: true
+        enum:
+        - v1
+        - v2
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+              engineOptionId:
+                type: integer
+              drivetrainOptionId:
+                type: integer
+              transmissionOptionId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/FuelCost'
+  /{version}/fuelcost/default:
+    post:
+      description: The fuel cost calculator s used to illustrate an annual fuel cost savings of a vehicle
+      parameters:
+      - name: version
+        in: path
+        type: string
+        description: API Version
+        required: true
+        enum:
+        - v1
+        - v2
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        description: 'VehicleId is required. Note: The request body is an array of requests so you will need the begin and
+          end square brackets even requesting only 1 vehicle.
+
+          '
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/FuelCost'
+  /{version}/specs:
+    post:
+      description: This endpoint returns the MPGs and specs for all engines, drivetrains, transmissions and a subset of vehicle
+        specs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/Specs'
+  /{version}/specs/default:
+    post:
+      description: This endpoint returns the MPG and specs for the default engine, drivetrain, transmission and a subset of
+        vehicle specs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/Specs'
+  /{version}/specs/configured:
+    post:
+      description: This endpoint returns the MPG and specs for a specific engine, drivetrain, and transmission and a subset
+        of vehicle specs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+              engineOptionId:
+                type: integer
+              drivetrainOptionId:
+                type: integer
+              transmissionOptionId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/Specs'
+  /{version}/specs/edts:
+    post:
+      description: This endpoint returns all the specs for the engines, drivetrains, and transmission for the VehicleId that
+        is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/SpecsEdts'
+  /{version}/specs/edts/default:
+    post:
+      description: This endpoint returns the default engine, drivetrain, and transmission for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/SpecsEdts'
+  /{version}/specs/edts/configured:
+    post:
+      description: This endpoint returns the specs for a specific engine, drivetrain, and transmission for the VehicleId that
+        is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+              engineOptionId:
+                type: integer
+              drivetrainOptionId:
+                type: integer
+              transmissionOptionId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/SpecsEdts'
+  /{version}/specs/mpgs:
+    post:
+      description: This endpoint returns all the MPGs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/SpecsMpgs'
+  /{version}/specs/mpgs/default:
+    post:
+      description: This endpoint returns the MPG for the default engine, drivetrain and transmission for the VehicleId that
+        is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/SpecsMpgs'
+  /{version}/specs/mpgs/configured:
+    post:
+      description: This endpoint returns the MPG for a specific engine, drivetrain and transmission combination for the VehicleId
+        that is specified.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: query
+        in: body
+        required: true
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleId:
+                type: integer
+              engineOptionId:
+                type: integer
+              drivetrainOptionId:
+                type: integer
+              transmissionOptionId:
+                type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/SpecsMpgs'
+  /{version}/awards:
+    get:
+      description: Returns Brand Image Awards, Best Resale Value Awards and CTO Awards for a Vehicle, or a Year, Make, Model
+        combination.
+      parameters:
+      - $ref: '#/parameters/version'
+      - $ref: '#/parameters/campaign-key'
+      - $ref: '#/parameters/dataVersionId'
+      - name: vehicleId
+        in: query
+        type: integer
+        required: false
+        description: Vehicle ID
+      - name: yearId
+        in: query
+        type: integer
+        required: false
+        description: Year ID
+      - name: makeId
+        in: query
+        type: integer
+        required: false
+        description: Make ID
+      - name: modelId
+        in: query
+        type: integer
+        required: false
+        description: Model ID
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          schema:
+            allOf:
+            - $ref: '#/definitions/Response'
+            - type: object
+              required:
+              - results
+              properties:
+                results:
+                  $ref: '#/definitions/Awards'
+definitions:
+  Response:
+    type: object
+    properties:
+      dataVersion:
+        $ref: '#/definitions/DataVersion'
+  DataVersion:
+    type: object
+    required:
+    - dataVersionId
+    - startDate
+    - endDate
+    properties:
+      dataVersionId:
+        type: string
+      startDate:
+        type: string
+        format: date
+      endDate:
+        format: date
+        type: string
+  CTO:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      zipCode:
+        type: string
+      regionId:
+        type: integer
+      isNationalPricing:
+        type: boolean
+      costPerMile:
+        type: number
+        format: float
+      fiveYearTotalCostSum:
+        type: integer
+      fiveYearTotalCostAvg:
+        type: integer
+      fuel:
+        $ref: '#/definitions/CTOAttribute'
+      insurance:
+        $ref: '#/definitions/CTOAttribute'
+      finance:
+        $ref: '#/definitions/CTOAttribute'
+      stateFees:
+        $ref: '#/definitions/CTOAttribute'
+      maintenance:
+        $ref: '#/definitions/CTOAttribute'
+      repairs:
+        $ref: '#/definitions/CTOAttribute'
+      depreciation:
+        $ref: '#/definitions/CTOAttribute'
+      yearSummary:
+        $ref: '#/definitions/CTOYearSummary'
+  CTOAttribute:
+    type: object
+    properties:
+      description:
+        type: string
+      label:
+        type: string
+      totalSum:
+        type: integer
+      totalAvg:
+        type: integer
+      years:
+        type: object
+        properties:
+          1:
+            type: integer
+          2:
+            type: integer
+          3:
+            type: integer
+          4:
+            type: integer
+          5:
+            type: integer
+  CTOYearSummary:
+    type: object
+    properties:
+      yearId:
+        type: integer
+      totalSum:
+        type: integer
+  Pricing:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      zipCode:
+        type: integer
+      regionId:
+        type: integer
+      isNationalPricing:
+        type: boolean
+      prices:
+        type: array
+        items:
+          type: object
+          description: '``` - 108 | Certified Pre-OwnedUsed - 130 | Used Car Fair Purchase PriceUsed - 4   | Trade-In Value:
+            GoodUsed - 3   | Trade-In Value: FairUsed - 5   | Trade-In Value: ExcellentUsed - 109 | Trade-In Value: Very GoodUsed
+            - 12  | New Car Fair Purchase PriceNew - 10  | MSRPNew - 112 | Resale at 12 MonthsNew - 26  | Resale at 24 MonthsNew
+            - 27  | Resale at 36 MonthsNew - 28  | Resale at 48 MonthsNew - 29  | Resale at 60 MonthsNew ```
+
+            '
+          properties:
+            name:
+              type: string
+            id:
+              type: integer
+            price:
+              type: number
+              format: float
+            percent:
+              type: number
+              format: float
+  ExpertRatings:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      contentId:
+        type: integer
+      year:
+        type: integer
+      ratings:
+        type: array
+        items:
+          type: object
+          properties:
+            contentSectionId:
+              type: integer
+            name:
+              type: string
+            value:
+              type: number
+              format: float
+  ConsumerRatings:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      numberOfRatings:
+        type: integer
+      generationBeginYear:
+        type: integer
+      generationEndYear:
+        type: integer
+      ratings:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            value:
+              type: integer
+  ExpertReveiws:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      year:
+        type: integer
+      contentId:
+        type: integer
+      reviewSections:
+        type: array
+        items:
+          type: object
+          properties:
+            contentSectionId:
+              type: integer
+            sectionName:
+              type: integer
+            textVersion:
+              type: string
+            htmlVersion:
+              type: string
+  Vehicle:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      year:
+        type: integer
+      make:
+        type: string
+      model:
+        type: string
+      trim:
+        type: string
+  FuelCost:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      isDefault:
+        type: boolean
+      engineOptionId:
+        type: integer
+      drivetrainOptionId:
+        type: integer
+      transmissionOptionId:
+        type: integer
+      fuel:
+        $ref: '#/definitions/FuelCostDetail'
+      electric:
+        $ref: '#/definitions/FuelCostDetail'
+  FuelCostDetail:
+    type: object
+    properties:
+      annualFuelCost:
+        type: number
+        format: float
+      cityMiles:
+        type: integer
+      combinedMiles:
+        type: integer
+      fuelCost:
+        type: number
+        format: float
+      highwayMiles:
+        type: integer
+      recommendedFuel:
+        type: string
+  Specs:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      driveTrains:
+        type: array
+        items:
+          type: object
+          properties:
+            vehicleOptionId:
+              type: integer
+            isDefault:
+              type: boolean
+            driveTrainType:
+              type: string
+      engines:
+        type: array
+        items:
+          type: object
+          properties:
+            vehicleOptionId:
+              type: integer
+            isDefault:
+              type: boolean
+            bore:
+              type: number
+              format: float
+            compressionRatio:
+              type: number
+              format: float
+            cylinders:
+              type: integer
+            displacement:
+              type: number
+              format: float
+            emissionsRatings:
+              type: string
+            engineConfiguration:
+              type: string
+            engineType:
+              type: string
+            fuelInduction:
+              type: string
+            horsepower:
+              type: integer
+            horsepowerRPM:
+              type: integer
+            maxRPM:
+              type: integer
+            recommendedFuel:
+              type: string
+            stroke:
+              type: number
+              format: float
+            torque:
+              type: integer
+            torqueRPM:
+              type: integer
+            valves:
+              type: integer
+            valveTrain:
+              type: string
+      mpgs:
+        type: array
+        items:
+          type: object
+          properties:
+            mpgCity:
+              type: integer
+            mpgCombined:
+              type: integer
+            mpgHwy:
+              type: integer
+            mpgECity:
+              type: integer
+            mpgEHwy:
+              type: integer
+            mpgeCombined:
+              type: integer
+      transmissions:
+        type: array
+        items:
+          type: object
+          properties:
+            vehicleOptionId:
+              type: integer
+            isDefault:
+              type: boolean
+            tranmissionType:
+              type: string
+            transmissionSubType:
+              type: string
+            numberOfSpeeds:
+              type: integer
+            manualMode:
+              type: string
+      vehicleSpecs:
+        type: array
+        items:
+          type: object
+          properties:
+            epaPassenger:
+              type: number
+              format: float
+            epaTotalInterior:
+              type: number
+              format: float
+            headRoomFront:
+              type: number
+              format: float
+            headRoomRear:
+              type: number
+              format: float
+            height:
+              type: number
+              format: float
+            legRoomFront:
+              type: number
+              format: float
+            legRoomRear:
+              type: number
+              format: float
+            maximumGroundClearance:
+              type: number
+              format: float
+            minimumGroundClearance:
+              type: number
+              format: float
+            overallLength:
+              type: number
+              format: float
+            shoulderRoomFront:
+              type: number
+              format: float
+            shoulderRoomRear:
+              type: number
+              format: float
+            truckBedVolume:
+              type: number
+              format: float
+            trunkOrCargoCapacity:
+              type: number
+              format: float
+            turningDiameter:
+              type: number
+              format: float
+            wheelBase:
+              type: number
+              format: float
+            widthWithMirrors:
+              type: number
+              format: float
+            widthWithoutMirrors:
+              type: number
+              format: float
+  SpecsEdts:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      driveTrains:
+        type: array
+        items:
+          type: object
+          properties:
+            vehicleOptionId:
+              type: integer
+            isDefault:
+              type: boolean
+            driveTrainType:
+              type: string
+      engines:
+        type: array
+        items:
+          type: object
+          properties:
+            vehicleOptionId:
+              type: integer
+            isDefault:
+              type: boolean
+            bore:
+              type: number
+              format: float
+            compressionRatio:
+              type: number
+              format: float
+            cylinders:
+              type: integer
+            displacement:
+              type: number
+              format: float
+            emissionsRatings:
+              type: string
+            engineConfiguration:
+              type: string
+            engineType:
+              type: string
+            fuelInduction:
+              type: string
+            horsepower:
+              type: integer
+            horsepowerRPM:
+              type: integer
+            maxRPM:
+              type: integer
+            recommendedFuel:
+              type: string
+            stroke:
+              type: number
+              format: float
+            torque:
+              type: integer
+            torqueRPM:
+              type: integer
+            valves:
+              type: integer
+            valveTrain:
+              type: string
+      transmissions:
+        type: array
+        items:
+          type: object
+          properties:
+            vehicleOptionId:
+              type: integer
+            isDefault:
+              type: boolean
+            tranmissionType:
+              type: string
+            transmissionSubType:
+              type: string
+            numberOfSpeeds:
+              type: integer
+            manualMode:
+              type: string
+  SpecsMpgs:
+    type: object
+    properties:
+      vehicleId:
+        type: integer
+      mpgs:
+        type: array
+        items:
+          type: object
+          properties:
+            mpgCity:
+              type: integer
+            mpgCombined:
+              type: integer
+            mpgHwy:
+              type: integer
+            mpgECity:
+              type: integer
+            mpgEHwy:
+              type: integer
+            mpgeCombined:
+              type: integer
+  ConsumerReviews:
+    type: object
+    properties:
+      VehicleId:
+        type: integer
+      TotalReviewCount:
+        type: integer
+      StartYear:
+        type: integer
+      EndYear:
+        type: integer
+      NumberOfPages:
+        type: integer
+      NumberOfReviewsPerPage:
+        type: integer
+      CurrentPage:
+        type: integer
+      Reviews:
+        type: array
+        items:
+          type: object
+          properties:
+            ProductId:
+              type: string
+            ReviewId:
+              type: string
+            SubmissionDate:
+              type: string
+            NickName:
+              type: string
+            Year:
+              type: string
+            Title:
+              type: string
+            Pros:
+              type: string
+            Cons:
+              type: string
+            CharacterCount:
+              type: string
+            Text:
+              type: string
+            OwnershipStatus:
+              type: string
+            OwnerMileage:
+              type: string
+            SoldReason:
+              type: string
+            SoldMileage:
+              type: string
+            NumberOfFeedbacks:
+              type: string
+            NumberOfPositiveFeedbacks:
+              type: string
+            Photo1Caption:
+              type: string
+            Photo1Thumbnail:
+              type: string
+            Photo1Normal:
+              type: string
+            VideoCaption:
+              type: string
+            VideoHost:
+              type: string
+            VideoURL:
+              type: string
+            OverallRating:
+              type: string
+            Value:
+              type: string
+            Reliability:
+              type: string
+            Comfort:
+              type: string
+            Quality:
+              type: string
+            Performance:
+              type: string
+            Styling:
+              type: string
+            Recommendation:
+              type: string
+  VehicleLinks:
+    type: object
+    properties:
+      makeUrl:
+        type: string
+      modelUrl:
+        type: string
+      ymmUrl:
+        type: string
+      styleUrl:
+        type: string
+      optionsUrl:
+        type: string
+      ymmtUrl:
+        type: string
+      ymmtPhotosUrl:
+        type: string
+      ymmtSpecificationsUrl:
+        type: string
+      ymmtExpertReviewsUrl:
+        type: string
+      ymmtConsumerReviewsUrl:
+        type: string
+      ymmtRatingsUrl:
+        type: string
+      ymmtCompareUrl:
+        type: string
+      styleTradeInUrl:
+        type: string
+      optionsTradeInUrl:
+        type: string
+      ymmtTradeInUrl:
+        type: string
+      ymmtHouseImageUrl:
+        type: string
+      ymmt5yrCostToOwnUrl:
+        type: string
+      ymmtIncentivesUrl:
+        type: string
+      ymmtEvoxImageUrl:
+        type: string
+      ymmHouseImageUrl:
+        type: string
+      ymmEvoxImageUrl:
+        type: string
+  Awards:
+    type: object
+    properties:
+      brandImageAwards:
+        type: array
+        items:
+          $ref: '#/definitions/AwardBrand'
+      brvaAwards:
+        type: array
+        items:
+          $ref: '#/definitions/AwardBrva'
+      ctoAwards:
+        type: array
+        items:
+          $ref: '#/definitions/AwardCto'
+  AwardBrand:
+    type: object
+    properties:
+      awardName:
+        type: string
+      vehicleId:
+        type: integer
+      yearId:
+        type: integer
+      makeId:
+        type: integer
+      makeName:
+        type: string
+      modelId:
+        type: integer
+      modelName:
+        type: string
+      awardDisplayName:
+        type: string
+      description:
+        type: string
+      ymmURL:
+        type: string
+      ymmtBuyUsedUrl:
+        type: string
+      ymmtTradeInUrl:
+        type: string
+      ymmtNewCarUrl:
+        type: string
+      awardsURL:
+        type: string
+      awardType:
+        type: string
+      classification:
+        type: string
+  AwardCto:
+    type: object
+    properties:
+      awardName:
+        type: string
+      vehicleId:
+        type: integer
+      yearId:
+        type: integer
+      makeId:
+        type: integer
+      makeName:
+        type: string
+      modelId:
+        type: integer
+      modelName:
+        type: string
+      awardDisplayName:
+        type: string
+      description:
+        type: string
+      ymmURL:
+        type: string
+      ymmtBuyUsedUrl:
+        type: string
+      ymmtTradeInUrl:
+        type: string
+      ymmtNewCarUrl:
+        type: string
+      awardsURL:
+        type: string
+      awardType:
+        type: string
+      classification:
+        type: string
+      modelRanking:
+        type: integer
+      cto5YearTotal:
+        type: number
+        format: float
+  AwardBrva:
+    type: object
+    properties:
+      awardName:
+        type: string
+      vehicleId:
+        type: integer
+      yearId:
+        type: integer
+      makeId:
+        type: integer
+      makeName:
+        type: string
+      modelId:
+        type: integer
+      modelName:
+        type: string
+      awardDisplayName:
+        type: string
+      description:
+        type: string
+      ymmURL:
+        type: string
+      ymmtBuyUsedUrl:
+        type: string
+      ymmtTradeInUrl:
+        type: string
+      ymmtNewCarUrl:
+        type: string
+      awardsURL:
+        type: string
+      awardType:
+        type: string
+      classification:
+        type: string
+      modelRanking:
+        type: integer
+      12MonthResidualPercentage:
+        type: number
+        format: float
+      24MonthResidualPercentage:
+        type: number
+        format: float
+      36MonthResidualPercentage:
+        type: number
+        format: float
+      48MonthResidualPercentage:
+        type: number
+        format: float
+      60MonthResidualPercentage:
+        type: number
+        format: float

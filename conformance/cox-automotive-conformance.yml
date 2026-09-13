@@ -1,0 +1,114 @@
+generated: '2026-09-13'
+method: searched
+source: openapi/_original/, https://developer.manheim.com/pages/authentication.html
+docs:
+- https://developer.manheim.com/pages/authentication.html
+- https://developer.manheim.com/pages/hypermedia.html
+- https://developer.kbb.com/ico/4-Envelopes
+note: 'Cox Automotive''s market — wholesale vehicle remarketing, dealership systems and vehicle valuation — has real
+  domain standards (ADF/Auto-lead Data Format, STAR/Standards for Technology in Automotive Retail, NADA/JATO vehicle
+  taxonomies), and none of them is declared inside any contract or reference page Cox Automotive publishes. That is recorded
+  below as a measured absence, not as a failure: the domain_standard_conformance check is reward-only, and nothing is
+  asserted here that the surface does not say about itself.'
+standards:
+- id: oauth2
+  conforms: true
+  evidence: Manheim documents RFC 6749 client_credentials and resource-owner-password grants with published token endpoints
+    at https://api.manheim.com/oauth2/token.oauth2 and https://uat.api.manheim.com/oauth2/token.oauth2, and Basic-encoded
+    client credentials.
+  source: https://developer.manheim.com/pages/authentication.html
+- id: rfc6749-oauth2-scopes
+  conforms: partial
+  evidence: The token request accepts a `scope` parameter and the authorization server correctly attaches no scopes unless
+    the client asks, but no scope vocabulary is published.
+  source: https://developer.manheim.com/pages/authentication.html
+- id: api-key
+  conforms: true
+  evidence: All five harvested Kelley Blue Book Swagger 2.0 contracts declare an apiKey securityDefinition (api_key,
+    in query).
+  source: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration document is served by any Cox Automotive host probed (2026-09-13). The
+    developer portals answer 200 with the SPA shell for that path, which is not a discovery document. Sign-in to the
+    storefront is brokered by Okta (rapi-storefront-prod.okta.com) and Microsoft Entra ID, but neither issuer is advertised
+    on a coxautoinc.com well-known path.
+- id: rfc9457-problem-details
+  conforms: partial
+  evidence: The developer-portal control plane at https://control.api.coxautoinc.com returned `application/problem+json`
+    with a title/status/type body on an unauthenticated probe of /products (HTTP 403, 2026-09-13). No documented product
+    API returns problem+json — the product surfaces use three vendor envelopes instead.
+  source: probe https://control.api.coxautoinc.com/products
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: A valid RFC 9116 security.txt with Contact, Encryption, Policy and Expires fields is served at https://www.coxautoinc.com/.well-known/security.txt
+    and https://www.manheim.com/.well-known/security.txt (both HTTP 200, 2026-09-13).
+  source: well-known/cox-automotive-security.txt
+- id: rest-hypermedia
+  conforms: true
+  evidence: Manheim's suite is explicitly designed as hypermedia — every resource carries its own canonical `href`, collections
+    carry a collection href plus per-item hrefs, and related resources are represented by nested href-only objects.
+  source: https://developer.manheim.com/pages/hypermedia.html
+- id: hal
+  conforms: false
+  evidence: Hypermedia is expressed with a bare `href` property and an `items[]` array, not with HAL's `_links` / `_embedded`
+    reserved properties; no HAL media type is advertised.
+- id: json-api
+  conforms: false
+- id: openapi3
+  conforms: false
+  evidence: All five published contracts are Swagger 2.0; no OpenAPI 3.x document is published anywhere.
+- id: asyncapi
+  conforms: false
+  evidence: A real publish/subscribe event surface exists (Manheim Events / Eventer) but no AsyncAPI document is published
+    for it.
+- id: webhooks
+  conforms: true
+  evidence: Subscribers register a callback URL and receive NOUN.VERB business events filtered by resource, type or VIN,
+    with optional response expansion.
+  source: https://developer.manheim.com/apis/events/index.html
+- id: pagination
+  conforms: false
+  evidence: No programme-wide pagination contract is documented and no harvested contract declares pagination parameters.
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key, header or parameter appears in any published contract or reference page, across a write
+    surface that includes unit creation, offering creation, lane assignment and offer creation.
+- id: cors
+  conforms: partial
+  evidence: The Advertising Data API and the Instant Cash Offer API support CORS (ICO declares OPTIONS on nearly every
+    path); IDWS 4.0 explicitly does not and is documented as server-side only.
+  source: https://developer.kbb.com/data/1-Default
+- id: gzip
+  conforms: true
+  evidence: 'Kelley Blue Book APIs honour Accept-Encoding: gzip.'
+  source: https://developer.kbb.com/data/1-Default
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header support is documented, despite an in-flight deprecation of the Events and
+    Subscriptions APIs.
+- id: adf-auto-lead-data-format
+  conforms: unknown
+  evidence: ADF is the automotive retail lead-exchange standard and Cox Automotive brands (VinSolutions, Dealer.com,
+    Autotrader) are among its largest consumers, but no public Cox Automotive contract or reference page declares an
+    ADF payload. Not asserted.
+- id: star-automotive-retail
+  conforms: unknown
+  evidence: STAR (Standards for Technology in Automotive Retail) BODs govern DMS integration, which is the business of
+    the Dealertrack DMS Plus Service and Partner APIs listed on the status page, but those products publish no public
+    reference and no STAR declaration is visible. Not asserted.
+- id: graphql
+  conforms: unknown
+  evidence: The Cox Automotive Developer Network portal on Boomi/Mashery (coxautoinc.mashery.com/io-docs) renders a GraphQL
+    panel with a 'Download GraphQL Specification' control for the VinSolutions Call Details API, exporting from /graphql/export/{apiId}.
+    The API selector and the export are behind sign-in — an anonymous call to /graphql/getspecification/ returned HTTP
+    400 'The requested GraphQL specification was not found' (probed 2026-09-13) — so the SDL could not be read and is
+    NOT recorded. A GraphQL surface therefore exists somewhere in the Cox Automotive estate; its schema is gated.
+  source: https://coxautoinc.mashery.com/io-docs
+domain_standard:
+  declared: false
+  candidates_probed:
+  - ADF / Auto-lead Data Format
+  - STAR (Standards for Technology in Automotive Retail)
+  finding: No domain standard is declared by any published Cox Automotive contract. The two candidates that matter in
+    this market were checked against the five harvested specs and every public reference page and neither appears.

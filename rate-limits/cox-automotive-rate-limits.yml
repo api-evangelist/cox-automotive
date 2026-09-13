@@ -1,0 +1,48 @@
+generated: '2026-09-13'
+method: searched
+source: https://developer.manheim.com/pages/apiUsage.html
+docs: https://developer.manheim.com/pages/apiUsage.html
+limit_count: 2
+note: >-
+  Published limits cover the Manheim hypermedia suite, applied per Mashery package key. The Kelley Blue
+  Book portals (developer.kbb.com) publish no numeric limits; the Cox Automotive Integration Platform
+  storefront publishes its per-product limits behind sign-in.
+rate_limits:
+- name: Queries per second
+  scope: per-key
+  window: 1s
+  limit: 1000
+  units: requests
+  applies_to: Manheim hypermedia APIs (api.manheim.com)
+  source: https://developer.manheim.com/pages/apiUsage.html
+- name: Daily quota
+  scope: per-key
+  window: 1d
+  limit: 2000000
+  units: requests
+  applies_to: Manheim hypermedia APIs (api.manheim.com)
+  source: https://developer.manheim.com/pages/apiUsage.html
+response_headers:
+- header: X-Packagekey-Qps-Allotted
+  meaning: Maximum QPS capacity set on the API key.
+- header: X-Packagekey-Qps-Current
+  meaning: Calls currently counted against the per-second limit.
+- header: X-Packagekey-Quota-Allotted
+  meaning: Maximum calls permitted per day.
+- header: X-Packagekey-Quota-Current
+  meaning: Calls made so far in the current day.
+- header: X-Plan-Quota-Reset
+  meaning: Timestamp at which the quota counter resets to zero.
+header_note: >-
+  The documentation names the headers with an X-Packagekey-/X-Plan-Quota-Reset prefix in its table, and
+  its worked example shows the same values emitted as X-Plan-QPS-Allotted, X-Plan-QPS-Current,
+  X-Plan-Quota-Allotted, X-Plan-Quota-Current and X-Plan-Quota-Reset. Both spellings are reproduced here
+  verbatim from the provider; the discrepancy is theirs and was not resolved by an unauthenticated
+  probe, because every Manheim endpoint requires a token.
+exhaustion:
+  status: 403
+  standard_headers: false
+  retry_after: not documented
+  note: >-
+    Mashery returns 403 with a developer message on quota/QPS exhaustion. Cox Automotive does not
+    document RFC 9239 RateLimit-* headers or a Retry-After value.
