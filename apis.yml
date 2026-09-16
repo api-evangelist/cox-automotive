@@ -31,8 +31,8 @@ tags:
 - VIN Decoding
 - Inventory Management
 - Remarketing
-- Events
-- Webhooks
+- Event
+- Webhook
 tags_raw:
 - automotive
 - vehicle-data
@@ -46,134 +46,15 @@ tags_raw:
 - events
 - webhooks
 apis:
-- aid: cox-automotive:kbb-idws-vehicle
-  name: Kelley Blue Book IDWS 4.0 Vehicle Service
-  description: >-
-    InfoDriver Web Service (IDWS) 4.0 Vehicle Service — a RESTful Kelley Blue Book API returning vehicle
-    configuration, makes, models, model years, trims, body styles, options, specifications, typicals,
-    CPO programs, cost-to-own and Blue Book values, plus VIN lookup. API-key authenticated through the
-    Cox Automotive Mashery gateway.
-  humanURL: https://developer.kbb.com/idws/1-Default
-  baseURL: https://idws.datasolutions.coxautoinc.com
-  position: Producing
-  tags:
-  - Vehicle Data
-  - Vehicle Valuations
-  - VIN Decoding
-  - Automotive
-  properties:
-  - type: OpenAPI
-    url: openapi/cox-automotive-kbb-idws-vehicle-openapi.yml
-  - type: Documentation
-    url: https://developer.kbb.com/idws/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/idws/99-Swagger
-  - type: Postman
-    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
-  - type: Overlay
-    url: overlays/cox-automotive-kbb-idws-vehicle-overlay.yaml
-- aid: cox-automotive:kbb-idws-editorial
-  name: Kelley Blue Book IDWS 4.0 Editorial Service
-  description: >-
-    InfoDriver Web Service (IDWS) 4.0 Editorial Service — Kelley Blue Book consumer ratings, consumer
-    reviews, expert ratings, expert reviews and Top Ten lists for a vehicle, returned as JSON and
-    authenticated with a Mashery api_key query parameter.
-  humanURL: https://developer.kbb.com/idws/1-Default
-  baseURL: https://idws.datasolutions.coxautoinc.com
-  position: Producing
-  tags:
-  - Vehicle Data
-  - Automotive
-  - Reviews
-  properties:
-  - type: OpenAPI
-    url: openapi/cox-automotive-kbb-idws-editorial-openapi.yml
-  - type: Documentation
-    url: https://developer.kbb.com/idws/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/idws/98-Swagger-EDT
-  - type: Overlay
-    url: overlays/cox-automotive-kbb-idws-editorial-overlay.yaml
-- aid: cox-automotive:kbb-advertising-data
-  name: Kelley Blue Book Advertising Data API
-  description: >-
-    Vehicle data for building dynamic automotive advertising — pricing, cost-to-own, expert and consumer
-    ratings and reviews, vehicle links, fuel cost, specifications, MPG and awards. Supports CORS, gzip,
-    and both URL and Accept-header versioning.
-  humanURL: https://developer.kbb.com/data/1-Default
-  baseURL: https://sandbox.api.kbb.com/ads
-  position: Producing
-  tags:
-  - Vehicle Data
-  - Advertising
-  - Automotive
-  properties:
-  - type: OpenAPI
-    url: openapi/cox-automotive-kbb-advertising-data-openapi.yml
-  - type: Documentation
-    url: https://developer.kbb.com/data/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/data/99-Swagger
-  - type: Overlay
-    url: overlays/cox-automotive-kbb-advertising-data-overlay.yaml
-- aid: cox-automotive:kbb-instant-cash-offer
-  name: Kelley Blue Book Instant Cash Offer (ICO) API
-  description: >-
-    Produces a Kelley Blue Book Instant Cash Offer for a vehicle. Vehicle configuration lookups (year,
-    make, model, trim, transmission, engine, drivetrain, colour, options), licence-plate-to-VIN lookup,
-    prospect creation with history, condition and contact information, and offer creation and retrieval.
-    Responses use a meta/data envelope with numeric Cox Automotive result codes.
-  humanURL: https://developer.kbb.com/ico/1-Default
-  baseURL: https://api.kbb.com/ico/v1
-  position: Producing
-  tags:
-  - Vehicle Valuations
-  - Automotive Retail
-  - Trade-In
-  - Automotive
-  properties:
-  - type: OpenAPI
-    url: openapi/cox-automotive-kbb-instant-cash-offer-openapi.yml
-  - type: Documentation
-    url: https://developer.kbb.com/ico/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/ico/99-Swagger
-  - type: ErrorCatalog
-    url: errors/cox-automotive-error-codes.yml
-  - type: Overlay
-    url: overlays/cox-automotive-kbb-instant-cash-offer-overlay.yaml
-- aid: cox-automotive:kbb-batch-vin
-  name: Kelley Blue Book Batch VIN API
-  description: >-
-    Asynchronous batch VIN decoding and valuation. Submit a batch job, poll its status, and retrieve the
-    input and output files, or cancel a running job. Requires both a Mashery api_key and an OAuth-style
-    bearer token obtained from the API's own /Token endpoint.
-  humanURL: https://developer.kbb.com/batchvin/1-Default
-  baseURL: https://sandbox.api.kbb.com/idbv
-  position: Producing
-  tags:
-  - VIN Decoding
-  - Vehicle Data
-  - Batch Processing
-  - Automotive
-  properties:
-  - type: OpenAPI
-    url: openapi/cox-automotive-kbb-batch-vin-openapi.yml
-  - type: Documentation
-    url: https://developer.kbb.com/batchvin/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/batchvin/99-Swagger
-  - type: Overlay
-    url: overlays/cox-automotive-kbb-batch-vin-overlay.yaml
 - aid: cox-automotive:manheim
   name: Manheim Hypermedia API Suite
   description: >-
     Manheim's third-party integration surface — a suite of hypermedia (href-linked) JSON REST APIs over
     the wholesale vehicle remarketing lifecycle: auction locations, inventory units and consignments,
-    marketplace offerings, searches, purchases, transactions and titles, Manheim Market Report
-    valuations and forecasts, vehicle condition reports, images, and user profiles, contexts and
-    preferences. OAuth 2.0 client-credentials and resource-owner-password grants through the Mashery
-    gateway. Documented publicly; access granted per environment after review.
+    marketplace offerings, searches, purchases, transactions and titles, Manheim Market Report valuations
+    and forecasts, vehicle condition reports, images, and user profiles, contexts and preferences. OAuth
+    2.0 client-credentials and resource-owner-password grants through the Mashery gateway. Documented
+    publicly; access granted per environment after review.
   humanURL: https://developer.manheim.com/
   baseURL: https://api.manheim.com
   position: Producing
@@ -204,12 +85,17 @@ apis:
     Publish/subscribe business-event notification service for the Manheim auction lifecycle. Consumers
     register a subscriber, create subscriptions with resource, type, text (VIN) or richFilter criteria,
     and receive NOUN.VERB events (for example UNIT.CREATED, CONSIGNMENT.CREATED) delivered to their own
-    callback, optionally expanded with the referenced API response. Superseded for new onboarding by
-    Eventer on the Cox Automotive API Storefront.
+    callback, optionally expanded with the referenced API response. Superseded for new onboarding by Eventer
+    on the Cox Automotive API Storefront.
   humanURL: https://developer.manheim.com/apis/events/index.html
   baseURL: https://api.manheim.com
   position: Producing
   tags:
+  - Event
+  - Webhook
+  - Auctions
+  - Automotive
+  tags_raw:
   - Events
   - Webhooks
   - Auctions
@@ -227,9 +113,9 @@ apis:
     The company-wide API storefront and integration platform fronting Cox Automotive's partner APIs —
     Dealertrack credit application, registration and titling, DealXG and Deal Push, Eventer publishing,
     MMR and MMR batch, listings search, recon inventory, quotes, orders, purchases, condition reports,
-    taxonomy, expander, service scheduling and digital retailing among more than seventy runtime
-    services listed on the public status page. Product catalogue and reference are behind an Okta /
-    Entra ID sign-in; access is requested through the storefront.
+    taxonomy, expander, service scheduling and digital retailing among more than seventy runtime services
+    listed on the public status page. Product catalogue and reference are behind an Okta / Entra ID sign-in;
+    access is requested through the storefront.
   humanURL: https://developer.coxautoinc.com/
   baseURL: https://api.coxautoinc.com
   position: Producing
@@ -246,7 +132,945 @@ apis:
     url: https://developer.coxautoinc.com/login
   - type: StatusPage
     url: https://coxautoapi.statuspage.io/
+- aid: cox-automotive:cox-automotive-applyconfiguration-api
+  name: Cox Automotive Apply Configuration API
+  description: The ApplyConfiguration API from Cox Automotive — 1 operation(s) for applyconfiguration.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ApplyConfiguration
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-applyconfiguration-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-batchjobs-api
+  name: Cox Automotive Batch Jobs API
+  description: The BatchJobs API from Cox Automotive — 5 operation(s) for batchjobs.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - BatchJobs
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-batchjobs-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-bodystyles-api
+  name: Cox Automotive Body Styles API
+  description: The BodyStyles API from Cox Automotive — 1 operation(s) for bodystyles.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - BodyStyles
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-bodystyles-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-consumerratings-api
+  name: Cox Automotive Consumer Ratings API
+  description: The ConsumerRatings API from Cox Automotive — 1 operation(s) for consumerratings.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ConsumerRatings
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-consumerratings-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-consumerreviews-api
+  name: Cox Automotive Consumer Reviews API
+  description: The ConsumerReviews API from Cox Automotive — 1 operation(s) for consumerreviews.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ConsumerReviews
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-consumerreviews-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-costtoown-api
+  name: Cox Automotive Cost To Own API
+  description: The CostToOwn API from Cox Automotive — 1 operation(s) for costtoown.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - CostToOwn
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-costtoown-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-cpoprograms-api
+  name: Cox Automotive Cpo Programs API
+  description: The CpoPrograms API from Cox Automotive — 1 operation(s) for cpoprograms.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - CpoPrograms
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-cpoprograms-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-errorcodes-api
+  name: Cox Automotive Error Codes API
+  description: The ErrorCodes API from Cox Automotive — 2 operation(s) for errorcodes.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ErrorCodes
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-errorcodes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-expertratings-api
+  name: Cox Automotive Expert Ratings API
+  description: The ExpertRatings API from Cox Automotive — 1 operation(s) for expertratings.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ExpertRatings
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-expertratings-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-expertreviews-api
+  name: Cox Automotive Expert Reviews API
+  description: The ExpertReviews API from Cox Automotive — 1 operation(s) for expertreviews.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ExpertReviews
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-expertreviews-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-links-api
+  name: Cox Automotive Links API
+  description: The Links API from Cox Automotive — 1 operation(s) for links.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Links
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-links-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-makes-api
+  name: Cox Automotive Makes API
+  description: The Makes API from Cox Automotive — 2 operation(s) for makes.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Makes
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-makes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-marketingcategories-api
+  name: Cox Automotive Marketing Categories API
+  description: >-
+    The MarketingCategories API from Cox Automotive — 1 operation(s) for marketingcategories.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - MarketingCategories
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-marketingcategories-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-models-api
+  name: Cox Automotive Models API
+  description: The Models API from Cox Automotive — 2 operation(s) for models.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Models
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-models-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-modelyears-api
+  name: Cox Automotive Model Years API
+  description: The ModelYears API from Cox Automotive — 2 operation(s) for modelyears.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ModelYears
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-modelyears-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-offer-api
+  name: Cox Automotive Offer API
+  description: All methods related to an offer
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Offer
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-offer-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-prospect-api
+  name: Cox Automotive Prospect API
+  description: All methods related to a prospect
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Prospect
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-prospect-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-specifications-api
+  name: Cox Automotive Specifications API
+  description: The Specifications API from Cox Automotive — 1 operation(s) for specifications.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Specifications
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-specifications-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-token-api
+  name: Cox Automotive Token API
+  description: The Token API from Cox Automotive — 1 operation(s) for token.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Token
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-token-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-toptenlists-api
+  name: Cox Automotive Top Ten Lists API
+  description: The TopTenLists API from Cox Automotive — 1 operation(s) for toptenlists.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - TopTenLists
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-toptenlists-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-trims-api
+  name: Cox Automotive Trims API
+  description: The Trims API from Cox Automotive — 2 operation(s) for trims.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Trims
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-trims-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-typicals-api
+  name: Cox Automotive Typicals API
+  description: The Typicals API from Cox Automotive — 1 operation(s) for typicals.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Typicals
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-typicals-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-validateconfiguration-api
+  name: Cox Automotive Validate Configuration API
+  description: >-
+    The ValidateConfiguration API from Cox Automotive — 1 operation(s) for validateconfiguration.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - ValidateConfiguration
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-validateconfiguration-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-values-api
+  name: Cox Automotive Values API
+  description: The Values API from Cox Automotive — 1 operation(s) for values.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Values
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-values-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-vehicle-api
+  name: Cox Automotive Vehicle API
+  description: All methods related to vehicles
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Vehicle
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-vehicle-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-vehicleoptions-api
+  name: Cox Automotive Vehicle Options API
+  description: The VehicleOptions API from Cox Automotive — 1 operation(s) for vehicleoptions.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - VehicleOptions
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-vehicleoptions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-vehiclespecs-api
+  name: Cox Automotive Vehicle Specs API
+  description: The VehicleSpecs API from Cox Automotive — 1 operation(s) for vehiclespecs.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - VehicleSpecs
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-vehiclespecs-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-vin-api
+  name: Cox Automotive Vin API
+  description: The Vin API from Cox Automotive — 1 operation(s) for vin.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Vin
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-vin-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-years-api
+  name: Cox Automotive Years API
+  description: The Years API from Cox Automotive — 1 operation(s) for years.
+  humanURL: https://developer.kbb.com/idws/1-Default
+  baseURL: https://idws.datasolutions.coxautoinc.com
+  tags:
+  - Years
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-years-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
 common:
+- type: Overlay
+  url: overlays/cox-automotive-kbb-idws-editorial-overlay.yaml
+- type: Overlay
+  url: overlays/cox-automotive-kbb-advertising-data-overlay.yaml
+- type: Overlay
+  url: overlays/cox-automotive-kbb-instant-cash-offer-overlay.yaml
+- type: Overlay
+  url: overlays/cox-automotive-kbb-batch-vin-overlay.yaml
 - type: Website
   url: https://www.coxautoinc.com/
 - type: DeveloperPortal
