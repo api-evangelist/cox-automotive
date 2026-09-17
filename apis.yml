@@ -164,38 +164,6 @@ apis:
     url: https://developer.kbb.com/batchvin/1-Default
   - type: APIReference
     url: https://developer.kbb.com/batchvin/99-Swagger
-- aid: cox-automotive:cox-automotive-batchjobs-api
-  name: Cox Automotive Batch Jobs API
-  description: The BatchJobs API from Cox Automotive — 5 operation(s) for batchjobs.
-  humanURL: https://developer.kbb.com/idws/1-Default
-  baseURL: https://idws.datasolutions.coxautoinc.com
-  tags:
-  - BatchJobs
-  properties:
-  - type: OpenAPI
-    url: openapi/cox-automotive-batchjobs-api-openapi.yml
-  - type: Documentation
-    url: https://developer.kbb.com/idws/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/idws/99-Swagger
-  - type: Postman
-    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
-  - type: APIReference
-    url: https://developer.kbb.com/idws/98-Swagger-EDT
-  - type: Documentation
-    url: https://developer.kbb.com/data/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/data/99-Swagger
-  - type: Documentation
-    url: https://developer.kbb.com/ico/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/ico/99-Swagger
-  - type: ErrorCatalog
-    url: errors/cox-automotive-error-codes.yml
-  - type: Documentation
-    url: https://developer.kbb.com/batchvin/1-Default
-  - type: APIReference
-    url: https://developer.kbb.com/batchvin/99-Swagger
 - aid: cox-automotive:cox-automotive-bodystyles-api
   name: Cox Automotive Body Styles API
   description: The BodyStyles API from Cox Automotive — 1 operation(s) for bodystyles.
@@ -1040,6 +1008,38 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cox-automotive-years-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kbb.com/idws/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/idws/99-Swagger
+  - type: Postman
+    url: https://god.gw.postman.com/run-collection/1195870-3ff750f7-69e7-49e2-bbaa-e42fecb49939
+  - type: APIReference
+    url: https://developer.kbb.com/idws/98-Swagger-EDT
+  - type: Documentation
+    url: https://developer.kbb.com/data/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/data/99-Swagger
+  - type: Documentation
+    url: https://developer.kbb.com/ico/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/ico/99-Swagger
+  - type: ErrorCatalog
+    url: errors/cox-automotive-error-codes.yml
+  - type: Documentation
+    url: https://developer.kbb.com/batchvin/1-Default
+  - type: APIReference
+    url: https://developer.kbb.com/batchvin/99-Swagger
+- aid: cox-automotive:cox-automotive-batch-jobs-api
+  name: Cox Automotive Batch Jobs API
+  description: The Batch Jobs API from Cox Automotive — 5 operation(s) for batch jobs.
+  humanURL: https://developer.manheim.com/
+  baseURL: https://api.manheim.com
+  tags:
+  - Batch Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/cox-automotive-batch-jobs-api-openapi.yml
   - type: Documentation
     url: https://developer.kbb.com/idws/1-Default
   - type: APIReference
