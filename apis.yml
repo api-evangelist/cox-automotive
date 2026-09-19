@@ -33,8 +33,8 @@ tags:
 - Remarketing
 - Event
 - Webhook
-- Cox Automotive
 tags_raw:
+- Cox Automotive
 - automotive
 - vehicle-data
 - vehicle-valuations
@@ -235,6 +235,8 @@ apis:
   humanURL: https://developer.kbb.com/idws/1-Default
   baseURL: https://idws.datasolutions.coxautoinc.com
   tags:
+  - Consumer Reviews
+  tags_raw:
   - ConsumerReviews
   properties:
   - type: OpenAPI
@@ -652,6 +654,8 @@ apis:
   humanURL: https://developer.kbb.com/idws/1-Default
   baseURL: https://idws.datasolutions.coxautoinc.com
   tags:
+  - Specification
+  tags_raw:
   - Specifications
   properties:
   - type: OpenAPI
@@ -684,6 +688,8 @@ apis:
   humanURL: https://developer.kbb.com/idws/1-Default
   baseURL: https://idws.datasolutions.coxautoinc.com
   tags:
+  - Tokens
+  tags_raw:
   - Token
   properties:
   - type: OpenAPI
@@ -877,6 +883,8 @@ apis:
   humanURL: https://developer.kbb.com/idws/1-Default
   baseURL: https://idws.datasolutions.coxautoinc.com
   tags:
+  - Vehicles
+  tags_raw:
   - Vehicle
   properties:
   - type: OpenAPI
@@ -973,6 +981,8 @@ apis:
   humanURL: https://developer.kbb.com/idws/1-Default
   baseURL: https://idws.datasolutions.coxautoinc.com
   tags:
+  - VIN
+  tags_raw:
   - Vin
   properties:
   - type: OpenAPI
