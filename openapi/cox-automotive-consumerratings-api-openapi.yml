@@ -1,0 +1,99 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Editorial Service Consumer Ratings API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: ConsumerRatings
+paths:
+  /idws/editorial/consumerratings/id/{vehicleId}:
+    get:
+      tags:
+      - ConsumerRatings
+      summary: Gets a list of Consumer Ratings for a given vehicle
+      operationId: IdwsEditorialConsumerratingsIdByVehicleIdGet
+      parameters:
+      - name: vehicleId
+        in: path
+        description: The vehicle for which to fetch Consumer Ratings
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.ConsumerRatingResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    IDWS.Editorial.Contracts.Contracts.V1.ConsumerRatingResponse:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        generationName:
+          type: string
+        generationStartYear:
+          type: string
+        generationEndYear:
+          type: string
+        numberOfReviews:
+          format: int32
+          type: integer
+        ratingScale:
+          format: int32
+          type: integer
+        ratings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.Rating'
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Editorial.Contracts.Contracts.V1.Rating:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

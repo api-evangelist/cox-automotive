@@ -1,0 +1,144 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Vehicle Service Years API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: Years
+paths:
+  /idws/vehicle/years:
+    get:
+      tags:
+      - Years
+      summary: Gets a list of years
+      operationId: IdwsVehicleYearsGet
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all years will be returned.
+        required: false
+        schema:
+          type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all years will be returned.
+        required: false
+        schema:
+          type: string
+      - name: makeId
+        in: query
+        description: Limits the output to only those years available for the specified make
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: modelId
+        in: query
+        description: Limits the output to only those years available for the specified model
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those years available for the specified body style
+        required: false
+        schema:
+          type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those years available for the specified marketing category
+        required: false
+        schema:
+          type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those years eligible for CPO
+        required: false
+        schema:
+          type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of years to return. Default is 25.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: Index of the year that begins the returned set.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse_YearModel:
+      type: object
+      properties:
+        yearId:
+          format: int32
+          type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse_YearModel'
+        first:
+          type: string
+        next:
+          type: string
+        previous:
+          type: string
+        limit:
+          format: int32
+          type: integer
+        count:
+          format: int32
+          type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

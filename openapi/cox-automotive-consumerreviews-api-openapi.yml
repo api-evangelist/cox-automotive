@@ -1,0 +1,161 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Editorial Service Consumer Reviews API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: ConsumerReviews
+paths:
+  /idws/editorial/ConsumerReviews:
+    get:
+      tags:
+      - ConsumerReviews
+      summary: Gets a list of Consumer Reviews for a given vehicle
+      operationId: IdwsEditorialConsumerReviewsGet
+      parameters:
+      - name: vehicleId
+        in: query
+        description: The vehicle for which to fetch Consumer Reviews
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'One of: mosthelpful, newestdate, oldestdate, highestrating, lowestrating'
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Maximum number of reviews to return. The maximum limit is 100 reviews.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: Index of the review that begins the return set
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.ConsumerReview'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    IDWS.Editorial.Contracts.Contracts.V1.ConsumerReview:
+      type: object
+      properties:
+        productId:
+          format: int32
+          type: integer
+        reviewId:
+          format: int32
+          type: integer
+        generationName:
+          type: string
+        generationStartYear:
+          type: string
+        generationEndYear:
+          type: string
+        submissionDate:
+          type: string
+        nickName:
+          type: string
+        year:
+          format: int32
+          type: integer
+        title:
+          type: string
+        pros:
+          type: string
+        cons:
+          type: string
+        characterCount:
+          format: int32
+          type: integer
+        text:
+          type: string
+        ownershipStatus:
+          type: string
+        mileage:
+          format: int32
+          type: integer
+        numberOfFeedbacks:
+          format: int32
+          type: integer
+        numberOfPositiveFeedbacks:
+          format: int32
+          type: integer
+        overallRating:
+          format: int32
+          type: integer
+        value:
+          format: int32
+          type: integer
+        reliability:
+          format: int32
+          type: integer
+        comfort:
+          format: int32
+          type: integer
+        quality:
+          format: int32
+          type: integer
+        performance:
+          format: int32
+          type: integer
+        styling:
+          format: int32
+          type: integer
+        recommendation:
+          format: int32
+          type: integer
+        ratingScale:
+          format: int32
+          type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

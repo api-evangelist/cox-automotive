@@ -1,0 +1,62 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: Batch VIN Token API
+  description: '#### Setting up Authorization on this "Try Me!" page
+
+    1.'
+servers:
+- url: https://sandbox.api.kbb.com/idbv
+tags:
+- name: Token
+paths:
+  /Token:
+    post:
+      security:
+      - apiKey: []
+      tags:
+      - Token
+      operationId: Token_PostCredentials
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequestModel'
+        required: true
+      summary: Token post credentials
+      x-summary-source: derived
+components:
+  schemas:
+    TokenRequestModel:
+      type: object
+      properties:
+        client_id:
+          type: string
+          required: true
+        client_secret:
+          type: string
+          required: true
+    Object:
+      type: object
+      properties: {}
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Authorization value: "Bearer {access_token}" where access_token is received by a successful post to api/token
+
+        '
+      in: header
+      name: Authorization
+    apiKey:
+      type: apiKey
+      description: API Key
+      in: query
+      name: api_key

@@ -1,0 +1,35 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Vehicle Service Marketing Categories API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: MarketingCategories
+paths:
+  /idws/vehicle/marketingcategories:
+    get:
+      tags:
+      - MarketingCategories
+      summary: Gets a list of Marketing Categories
+      operationId: IdwsVehicleMarketingcategoriesGet
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Server Error
+components:
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

@@ -1,0 +1,578 @@
+openapi: 3.2.0
+info:
+  version: '2018-07-16'
+  title: Kelley Blue Book(SM) Instant Cash (ICO) Offer API
+  description: All methods related to an offer
+servers:
+- url: https://api.kbb.com/ico/v1
+security:
+- keyQuery: []
+tags:
+- name: Offer
+  description: All methods related to an offer
+paths:
+  /offers/{offerId}:
+    get:
+      description: Returns an existing offer
+      security:
+      - keyQuery: []
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/offerId'
+      tags:
+      - Offer
+      responses:
+        200:
+          description: Offer
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Offer'
+        404:
+          description: Offer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '404000 - Offer not found
+
+                          '
+                        enum:
+                        - 404000
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get offers by offer id
+      x-summary-source: derived
+      operationId: getOffersByOfferId
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Offer
+      parameters:
+      - $ref: '#/components/parameters/offerId'
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe offers by offer id
+      x-summary-source: derived
+      operationId: optionsOffersByOfferId
+      x-operation-id-source: derived
+components:
+  schemas:
+    ContactInfoRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        email:
+          type: string
+          format: email
+        confirmEmail:
+          type: string
+          format: email
+        phone:
+          type: string
+          format: phone
+        zip:
+          type: string
+          minLength: 1
+          maxLength: 5
+        legalAcceptance:
+          type: boolean
+    Response:
+      properties:
+        meta:
+          type: object
+          required:
+          - codes
+          properties:
+            codes:
+              type: array
+              items:
+                type: integer
+                minimum: 0
+            links:
+              type: array
+              items:
+                type: object
+                properties:
+                  rel:
+                    type: string
+                    enum:
+                    - required
+                    - optional
+                    - self
+                    - doc
+                    - deprecated
+                    - next
+                    - error
+                  href:
+                    type: string
+                    format: uri
+                  method:
+                    type: string
+                    enum:
+                    - GET
+                    - POST
+                    - PATCH
+                  properties:
+                    type: object
+                  templated:
+                    type: boolean
+    OptionRequest:
+      type: object
+      required:
+      - optionId
+      - isSelected
+      properties:
+        optionId:
+          type: integer
+          minimum: 0
+        isSelected:
+          type: boolean
+    url:
+      type: string
+      pattern: ^(https?:\/\/)?[\w-]+\.[\w-]+(:\d+)?(\/)?\S*$
+    uuid:
+      type: string
+      pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    ContactInfo:
+      allOf:
+      - $ref: '#/components/schemas/ContactInfoRequest'
+      - type: object
+        properties:
+          required:
+            type: array
+            description: This array of property names indicates which fields are required
+            items:
+              type: string
+              enum:
+              - firstName
+              - lastName
+              - email
+              - confirmEmail
+              - phone
+              - legalAcceptance
+              - zip
+    Questions:
+      description: An array of questions.
+      type: array
+      items:
+        $ref: '#/components/schemas/Question'
+    VehicleIdentity:
+      type: object
+      required:
+      - yearId
+      - makeId
+      - modelId
+      - trimId
+      - transmissionId
+      - engineId
+      - drivetrainId
+      - colorId
+      properties:
+        yearId:
+          type: integer
+          minimum: 0
+        makeId:
+          type: integer
+          minimum: 0
+        modelId:
+          type: integer
+          minimum: 0
+        trimId:
+          type: integer
+          minimum: 0
+        transmissionId:
+          type: integer
+          minimum: 0
+        engineId:
+          type: integer
+          minimum: 0
+        drivetrainId:
+          type: integer
+          minimum: 0
+        colorId:
+          type: integer
+          minimum: 0
+        vin:
+          type: string
+          minLength: 0
+          maxLength: 17
+    Offer:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Prospect'
+      - type: object
+        required:
+        - offerId
+        properties:
+          offerId:
+            $ref: '#/components/schemas/uuid'
+          priceAdvisor:
+            $ref: '#/components/schemas/url'
+          amount:
+            type: integer
+          expirationDate:
+            type: string
+            format: date
+          status:
+            type: string
+            enum:
+            - ACTIVE
+            - AUCTION
+            - CHECK
+            - CLEARED
+            - CONFIRMED
+            - EXPIRED
+            - FR
+            - GROUNDED
+            - INELIGIBLE
+            - INSPECTION
+            - MODIFIED
+            - PURCHASED
+            - RECEIVED
+            - SOLD
+    Option:
+      allOf:
+      - $ref: '#/components/schemas/OptionRequest'
+      - type: object
+        properties:
+          displayName:
+            type: string
+          groupName:
+            type: string
+    Options:
+      description: An array of vehicle makes.
+      type: array
+      items:
+        $ref: '#/components/schemas/Option'
+    Prospect:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ProspectRequest'
+      - type: object
+        required:
+        - prospectId
+        - status
+        properties:
+          prospectId:
+            type: string
+            format: uuid
+          status:
+            type: string
+            enum:
+            - inProgress
+            - submitted
+            - canSubmit
+          history:
+            $ref: '#/components/schemas/Questions'
+          options:
+            $ref: '#/components/schemas/Options'
+          conditions:
+            $ref: '#/components/schemas/Questions'
+          contactInfo:
+            $ref: '#/components/schemas/ContactInfo'
+    QuestionRequest:
+      allOf:
+      - type: object
+        required:
+        - questionId
+        properties:
+          questionId:
+            type: string
+            pattern: ^[a-zA-Z0-9\/]+$
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: boolean
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: string
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: number
+    ProspectRequest:
+      type: object
+      required:
+      - vehicle
+      - mileage
+      - dealerId
+      properties:
+        vehicle:
+          $ref: '#/components/schemas/VehicleIdentity'
+        mileage:
+          type: integer
+          minimum: 0
+          maximum: 1000000
+        dealerId:
+          type: integer
+          minimum: 0
+        incomingUrl:
+          type: string
+    Question:
+      allOf:
+      - $ref: '#/components/schemas/QuestionRequest'
+      - type: object
+        discriminator:
+          propertyName: questionType
+        required:
+        - questionId
+        - questionType
+        properties:
+          questionId:
+            type: string
+            pattern: ^[a-zA-Z0-9\/]+$
+          tags:
+            type: array
+            items:
+              type: string
+              enum:
+              - abs
+              - aftermarket
+              - air-bags
+              - air-conditioning
+              - alignment
+              - alternator
+              - anti-lock
+              - battery
+              - body
+              - brakes
+              - bumper
+              - burns
+              - cargo-bed
+              - carpets
+              - catalytic-converters
+              - check-engine
+              - clutch
+              - cold-air-intake
+              - comment
+              - computer-chip
+              - convertible
+              - cracked
+              - damage
+              - dashboard
+              - dealer
+              - deck-lid
+              - dent
+              - deployed
+              - ding
+              - dock
+              - door
+              - drums
+              - electrical
+              - engine
+              - exhaust
+              - exterior
+              - factory
+              - factory-style
+              - faded
+              - fender
+              - fifty
+              - frame
+              - front
+              - functional
+              - gate
+              - glass
+              - grille
+              - hard-top
+              - headers
+              - headliner
+              - heater
+              - hood
+              - hubcaps
+              - included
+              - inner
+              - installed
+              - interior
+              - ipod
+              - leaks
+              - left
+              - less
+              - lift
+              - lights
+              - low-coolant
+              - lowered
+              - maintenance
+              - major
+              - makes-noise
+              - manifolds
+              - mechanical
+              - minor
+              - mirror
+              - missing
+              - modified
+              - modified-install
+              - module
+              - molding
+              - moon-roof
+              - more
+              - muffler
+              - must
+              - non-factory
+              - non-functional
+              - non-modified-install
+              - non-original
+              - not-included
+              - odometer
+              - oil-pressure
+              - one-inch
+              - original
+              - other
+              - overheats
+              - pads
+              - paint
+              - panel
+              - percent
+              - performance
+              - power
+              - quarter
+              - racing-style
+              - rack
+              - radiator
+              - radio
+              - rail
+              - raised
+              - rear
+              - remote-start
+              - removable
+              - repair
+              - repairable
+              - replace
+              - replaced
+              - right
+              - roadside-kit
+              - roadster
+              - rocker
+              - roof
+              - rotors
+              - rust
+              - satellite
+              - seats
+              - service-engine
+              - shock
+              - should
+              - side
+              - simulated
+              - spoiler
+              - stains
+              - stars
+              - steering
+              - sun-roof
+              - support
+              - suspension
+              - t-tops
+              - tail
+              - tears
+              - thirty
+              - tint
+              - tires
+              - top
+              - tower
+              - transmission
+              - trim
+              - tune-up
+              - turbo-supercharger
+              - two-inch
+              - usb
+              - vinyl
+              - warning-light
+              - wear
+              - wear-tear
+              - wheels
+              - wheels-rims
+              - window
+          questionType:
+            type: string
+            enum:
+            - YesNo
+            - Text
+            - Number
+            - Enum
+          label:
+            type: string
+  responses:
+    ServerError:
+      description: An internal server error has occured
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    InvalidAuth:
+      description: An unauthenticated operation has been attempted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+  parameters:
+    apiKey:
+      name: api_key
+      description: Unique identifier to authorize the request
+      in: query
+      required: true
+      x-valid: b0afc168-ff1d-4858-955e-4a375189ecd0
+      x-invalid: afc168-ff1d-4858-955e-4a375189ecd
+      schema:
+        type: string
+    offerId:
+      name: offerId
+      description: Unique identifier to represent an offer
+      in: path
+      required: true
+      x-valid: b0afc168-ff1d-4858-955e-4a375189ec00
+      x-invalid: afc168-ff1d-4858-955e-4a375189ec
+      schema:
+        type: string
+  securitySchemes:
+    keyQuery:
+      type: apiKey
+      name: api_key
+      in: query

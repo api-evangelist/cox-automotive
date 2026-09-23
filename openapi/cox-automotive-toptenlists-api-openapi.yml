@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Editorial Service Top Ten Lists API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: TopTenLists
+paths:
+  /idws/editorial/toptenlists:
+    get:
+      tags:
+      - TopTenLists
+      summary: Returns a list of the Top Ten Lists available on kbb.com.
+      operationId: IdwsEditorialToptenlistsGet
+      parameters:
+      - name: vehicleId
+        in: query
+        description: Only returns lists that contain the requested vehicleId. If vehicleId is supplied, then yearId, makeId, and modelId are ignored
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: yearId
+        in: query
+        description: Only returns lists that contain vehicles having the requested yearId
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: makeId
+        in: query
+        description: Only returns lists that contain vehicles having the requested makeId
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: modelId
+        in: query
+        description: Only returns lists that contain vehicles having the requested modelId
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: Number of lists to return. Default is 5.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: Index of the list that begins the returned set.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList:
+      type: object
+      properties:
+        topTenListTitle:
+          type: string
+        overviewUrl:
+          type: string
+        vehicles:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle'
+    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse:
+      type: object
+      properties:
+        topTenLists:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList'
+    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle:
+      type: object
+      properties:
+        articleTitle:
+          type: string
+        articleUrl:
+          type: string
+        rank:
+          format: int32
+          type: integer
+        yearId:
+          format: int32
+          type: integer
+        makeId:
+          format: int32
+          type: integer
+        modelId:
+          format: int32
+          type: integer
+        vehicleId:
+          format: int32
+          type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

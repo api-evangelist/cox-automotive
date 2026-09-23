@@ -1,0 +1,204 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Vehicle Service Vin API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: Vin
+paths:
+  /idws/vehicle/vin/id/{vin}:
+    get:
+      tags:
+      - Vin
+      summary: Returns a list of vehicles matching a given VIN
+      operationId: IdwsVehicleVinIdByVinGet
+      parameters:
+      - name: vin
+        in: path
+        description: The VIN to decode
+        required: true
+        schema:
+          type: string
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all matching vehicles will be returned
+        required: false
+        schema:
+          type: string
+      - name: optionFilter
+        in: query
+        description: Indicates the scope of options returned. If not specified, all options are returned
+        required: false
+        schema:
+          type: string
+          enum:
+          - All
+          - DecodedOnly
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VinResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.VinResponse_VinResult:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        vehicleClass:
+          type: string
+        vehicleName:
+          type: string
+        secondaryName:
+          type: string
+        yearId:
+          format: int32
+          type: integer
+        makeId:
+          format: int32
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          format: int32
+          type: integer
+        modelName:
+          type: string
+        modelMarketName:
+          type: string
+        modelYearId:
+          format: int32
+          type: integer
+        trimId:
+          format: int32
+          type: integer
+        trimName:
+          type: string
+        modelPlusTrimName:
+          type: string
+        oemCode:
+          type: string
+        doors:
+          format: int32
+          type: integer
+        bedLength:
+          type: string
+        bodyStyle:
+          type: string
+        genericBodyStyle:
+          type: string
+        oemBodyStyle:
+          type: string
+        sortOrder:
+          format: int32
+          type: integer
+        isConsumer:
+          type: boolean
+        relatedVehicleIds:
+          type: array
+          items:
+            format: int32
+            type: integer
+        vehicleOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VinResponse_VinVehicleOption'
+    IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.VinResponse_VinVehicleOption:
+      type: object
+      properties:
+        isVinDecoded:
+          type: boolean
+        vehicleOptionId:
+          format: int32
+          type: integer
+        vehicleId:
+          format: int32
+          type: integer
+        optionType:
+          type: string
+        optionName:
+          type: string
+        secondaryName:
+          type: string
+        detailName:
+          type: string
+        footer:
+          type: string
+        categoryName:
+          type: string
+        categoryGroup:
+          type: string
+        oemCode:
+          type: string
+        availability:
+          type: string
+        sortOrder:
+          format: int32
+          type: integer
+        isConsumer:
+          type: boolean
+        isTypical:
+          type: boolean
+        isConfigurable:
+          type: boolean
+        hasRelationships:
+          type: boolean
+    IDWS.Vehicle.Contracts.Contracts.V1.VinResponse:
+      type: object
+      properties:
+        vinResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VinResponse_VinResult'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

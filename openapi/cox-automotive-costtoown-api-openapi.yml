@@ -1,0 +1,190 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Vehicle Service Cost To Own API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: CostToOwn
+paths:
+  /idws/vehicle/costtoown:
+    post:
+      tags:
+      - CostToOwn
+      summary: Provides 5 Year Cost To Own Vehicle Information
+      operationId: IdwsVehicleCosttoownPost
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest'
+components:
+  schemas:
+    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        vehicleOptionIds:
+          type: array
+          items:
+            format: int32
+            type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.CostPerMileAttributes:
+      type: object
+      properties:
+        description:
+          type: string
+        label:
+          type: string
+        cost:
+          format: double
+          type: number
+    IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.ValueRatingAttributes:
+      type: object
+      properties:
+        description:
+          type: string
+        label:
+          type: string
+        rating:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes:
+      type: object
+      properties:
+        description:
+          type: string
+        label:
+          type: string
+        total:
+          format: int32
+          type: integer
+        average:
+          format: int32
+          type: integer
+        year1:
+          format: int32
+          type: integer
+        year2:
+          format: int32
+          type: integer
+        year3:
+          format: int32
+          type: integer
+        year4:
+          format: int32
+          type: integer
+        year5:
+          format: int32
+          type: integer
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoResponse:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        zipCode:
+          type: string
+        valuationDate:
+          type: string
+        valueRating:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ValueRatingAttributes'
+        costPerMile:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CostPerMileAttributes'
+        fuel:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+        insurance:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+        financing:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+        stateFees:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+        maintenanceAndRepairs:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+        depreciation:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+        yearTotal:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.ResponseAttributes'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest:
+      type: object
+      properties:
+        configuration:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+        zipCode:
+          type: string
+        annualMileage:
+          format: int32
+          type: integer
+        loanTerm:
+          format: int32
+          type: integer
+        apr:
+          format: double
+          type: number
+        downPaymentAmount:
+          format: double
+          type: number
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

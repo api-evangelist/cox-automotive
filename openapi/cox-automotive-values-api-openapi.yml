@@ -1,0 +1,167 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Vehicle Service Values API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: Values
+paths:
+  /idws/vehicle/values:
+    post:
+      tags:
+      - Values
+      summary: Idws vehicle values post
+      operationId: IdwsVehicleValuesPost
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest'
+      x-summary-source: derived
+components:
+  schemas:
+    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        vehicleOptionIds:
+          type: array
+          items:
+            format: int32
+            type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.Values.Price_OptionPrice:
+      type: object
+      properties:
+        vehicleOptionId:
+          type: string
+        price:
+          format: double
+          type: number
+        removalAdjustment:
+          type: boolean
+    IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesResponse:
+      type: object
+      properties:
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Values.Price'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
+        valuationDate:
+          type: string
+        typicalMileage:
+          format: int32
+          type: integer
+    IDWS.Vehicle.Contracts.Contracts.V1.Values.Price:
+      type: object
+      properties:
+        priceTypeId:
+          format: int32
+          type: integer
+        priceTypeDisplay:
+          type: string
+        condition:
+          type: string
+        mileageAdjustment:
+          format: double
+          type: number
+        optionAdjustment:
+          format: double
+          type: number
+        incentiveAdjustment:
+          format: double
+          type: number
+        freight:
+          format: double
+          type: number
+        configuredValue:
+          format: double
+          type: number
+        rangeLow:
+          format: double
+          type: number
+        rangeHigh:
+          format: double
+          type: number
+        optionPrices:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Values.Price_OptionPrice'
+    IDWS.Vehicle.Contracts.Contracts.V1.Values.ValuesRequest:
+      type: object
+      properties:
+        configuration:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+        mileage:
+          format: int32
+          type: integer
+        zipCode:
+          type: string
+        valuationDate:
+          format: date-time
+          type: string
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

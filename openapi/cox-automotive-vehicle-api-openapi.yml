@@ -1,0 +1,3571 @@
+openapi: 3.2.0
+info:
+  title: Cox Automotive Vehicle API
+  version: '1.0'
+  description: 'Operations tagged Vehicle across 3 of this provider''s published API definitions: cox-automotive-kbb-advertising-data-openapi.yaml, cox-automotive-kbb-idws-vehicle-openapi.json, cox-automotive-kbb-instant-cash-offer-openapi.yaml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://sandbox.api.kbb.com/ads
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+- url: https://api.kbb.com/ico/v1
+tags:
+- name: Vehicle
+  description: All methods related to vehicles
+paths:
+  /{version}/cto/default:
+    get:
+      description: The cost of ownership resources will provide the developer the dataset and segments for 5 year cost to own
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/vehicleIds'
+      - $ref: '#/components/parameters/zipcode'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      - name: annualMileage
+        in: query
+        required: false
+        description: Annual Mileage
+        schema:
+          type: integer
+      - name: loanTerm
+        in: query
+        required: false
+        description: Loan Term
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 12
+          - 24
+          - 36
+          - 48
+          - 60
+      - name: downPayment
+        in: query
+        required: false
+        description: Down Payment
+        schema:
+          type: number
+      - name: apr
+        in: query
+        required: false
+        description: APR
+        schema:
+          type: number
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/CTO'
+        500:
+          description: Server Exception
+      summary: Get by version cto default
+      x-summary-source: derived
+      operationId: getByVersionCtoDefault
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/pricing/default/{class}:
+    get:
+      description: The pricing resource provide Kelley Blue book pricing information using the vehicles default configuration.
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - name: class
+        description: 'new - New Car
+
+          used - Used Car
+
+          '
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - new
+          - used
+      - $ref: '#/components/parameters/vehicleIds'
+      - $ref: '#/components/parameters/zipcode'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/Pricing'
+      summary: Get by version pricing default by class
+      x-summary-source: derived
+      operationId: getByVersionPricingDefaultByClass
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/ratings/expert:
+    get:
+      description: 'The expert ratings resource provides vehicle ratings content by Kelley Blue Book. The following ratings content secrtions are available in the response object. ``` - 2000003070 | Overall Overal Rating - 2000003071 | Driving Dynamicst - 2000003072 | Comfort & Convenience - 2000003073 | Design: Interios & Exterior - 2000003074 | Safety - 2000003075 | Value ```
+
+        - Notes:
+
+        - If you pass in vehicleIds, then you should not pass in yearId, makeId, modelId and vice versa.
+
+        - Base vehicleId is going to be returned in the output when querying by yearId, makeId, modelId.'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - name: vehicleIds
+        in: query
+        description: Comma seperated list of Vehicle id's
+        required: false
+        schema:
+          type: string
+      - name: yearId
+        in: query
+        required: false
+        description: Year ID
+        schema:
+          type: integer
+      - name: makeId
+        in: query
+        required: false
+        description: Make ID
+        schema:
+          type: integer
+      - name: modelId
+        in: query
+        required: false
+        description: Model ID
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - expertRatings
+                  properties:
+                    expertRatings:
+                      $ref: '#/components/schemas/ExpertRatings'
+      summary: Get by version ratings expert
+      x-summary-source: derived
+      operationId: getByVersionRatingsExpert
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/ratings/consumer:
+    get:
+      description: 'The consumer ratings resource provides vehicle ratings content producted by users. The following ratings content sections are available in the response object.
+
+        - Overal Rating - Comfort - Performance - Quality - Reliability - Styling - Value
+
+        - Notes:
+
+        - If you pass in vehicleIds, then you should not pass in yearId, makeId, modelId and vice versa.
+
+        - Base vehicleId is going to be returned in the output when querying by yearId, makeId, modelId.'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - name: vehicleIds
+        in: query
+        description: Comma seperated list of Vehicle id's
+        required: false
+        schema:
+          type: string
+      - name: yearId
+        in: query
+        required: false
+        description: Year ID
+        schema:
+          type: integer
+      - name: makeId
+        in: query
+        required: false
+        description: Make ID
+        schema:
+          type: integer
+      - name: modelId
+        in: query
+        required: false
+        description: Model ID
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - consumerRatings
+                  properties:
+                    consumerRatings:
+                      $ref: '#/components/schemas/ConsumerRatings'
+      summary: Get by version ratings consumer
+      x-summary-source: derived
+      operationId: getByVersionRatingsConsumer
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/reviews/expert:
+    get:
+      description: 'The expert review resource proviudes editoral content produced by Kelley Blue Book. The following content sections are available in the response object. ``` - 34 | KBB Editor''s Overview - 35/36 | What''s New for [Vehicle Model Year] - 37 | You''ll Like This Car If... - 38 | You May Not Like This Car If... - 39 | Exterior - 40 | Interior - 41 | Notable Standard Equipment - 42 | Notable Optional Equipment - 43 | Pricing Notes - 44 | Driving Impressions - 45 | Favorite Features - 46 | Under the Hood - 2000003080 | Overview - 2000003081 | Teaser ```
+
+        - Notes:
+
+        - If you pass in vehicleId, then you should not pass in yearId, makeId, modelId and vice versa.
+
+        - Base vehicleId is going to be returned in the output when querying by yearId, makeId, modelId.'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - name: vehicleId
+        in: query
+        description: The KBB vehicle identifier
+        required: false
+        schema:
+          type: integer
+      - name: yearId
+        in: query
+        required: false
+        description: Year ID
+        schema:
+          type: integer
+      - name: makeId
+        in: query
+        required: false
+        description: Make ID
+        schema:
+          type: integer
+      - name: modelId
+        in: query
+        required: false
+        description: Model ID
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - expertReview
+                  properties:
+                    expertReview:
+                      $ref: '#/components/schemas/ExpertReveiws'
+      summary: Get by version reviews expert
+      x-summary-source: derived
+      operationId: getByVersionReviewsExpert
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/reviews/consumer:
+    get:
+      description: 'The consumer review resource provides input provided by consumers.
+
+        - Notes:
+
+        - If you pass in vehicleId, then you should not pass in yearId, makeId, modelId and vice versa.
+
+        - If you pass in reviewIds, then you should not pass in vehicleId, yearId, makeId, modelId and vice versa.
+
+        - Base vehicleId is going to be returned in the output when querying by yearId, makeId, modelId.'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - name: vehicleId
+        in: query
+        description: The KBB vehicle identifier
+        required: false
+        schema:
+          type: integer
+      - name: numberOfReviewsPerPage
+        in: query
+        description: Number of reviews per page
+        required: false
+        schema:
+          type: integer
+      - name: sort
+        in: query
+        required: false
+        description: Sort type
+        schema:
+          type: integer
+          enum:
+          - MostHelpful
+          - Newest
+          - Oldest
+          - HighestRating
+          - LowestRating
+      - name: currentPage
+        in: query
+        description: Desired Page
+        required: false
+        schema:
+          type: integer
+      - name: reviewIds
+        in: query
+        required: false
+        description: Comma separated review ids
+        schema:
+          type: string
+      - name: yearId
+        in: query
+        required: false
+        description: Year ID
+        schema:
+          type: integer
+      - name: makeId
+        in: query
+        required: false
+        description: Make ID
+        schema:
+          type: integer
+      - name: modelId
+        in: query
+        required: false
+        description: Model ID
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - consumerReviews
+                  properties:
+                    consumerReviews:
+                      $ref: '#/components/schemas/ConsumerReviews'
+      summary: Get by version reviews consumer
+      x-summary-source: derived
+      operationId: getByVersionReviewsConsumer
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/vehiclelinks:
+    get:
+      description: 'The vehicle links resource provides links from KBB.COM for a vehicle or a year, make, model.
+
+        - Notes:
+
+        - If you pass in vehicleId, then you should not pass in yearId, makeId or modelId and vice versa.'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - name: vehicleId
+        in: query
+        description: The KBB vehicle identifier
+        required: false
+        schema:
+          type: integer
+      - name: yearId
+        in: query
+        required: false
+        description: Year ID
+        schema:
+          type: integer
+      - name: makeId
+        in: query
+        required: false
+        description: Make ID
+        schema:
+          type: integer
+      - name: modelId
+        in: query
+        required: false
+        description: Model ID
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - vehicleLinks
+                  properties:
+                    vehicleLinks:
+                      $ref: '#/components/schemas/VehicleLinks'
+      summary: Get by version vehiclelinks
+      x-summary-source: derived
+      operationId: getByVersionVehiclelinks
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/vehicle:
+    get:
+      description: The vehicle endpoint is used to retrieve the following information of a vehicle
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/vehicleIds'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/Vehicle'
+      summary: Get by version vehicle
+      x-summary-source: derived
+      operationId: getByVersionVehicle
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/fuelcost/configured:
+    post:
+      description: The fuel cost calculator s used to illustrate an annual fuel cost savings of a vehicle
+      parameters:
+      - name: version
+        in: path
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - v1
+          - v2
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/FuelCost'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+                  engineOptionId:
+                    type: integer
+                  drivetrainOptionId:
+                    type: integer
+                  transmissionOptionId:
+                    type: integer
+        required: true
+      summary: Create by version fuelcost configured
+      x-summary-source: derived
+      operationId: postByVersionFuelcostConfigured
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/fuelcost/default:
+    post:
+      description: The fuel cost calculator s used to illustrate an annual fuel cost savings of a vehicle
+      parameters:
+      - name: version
+        in: path
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - v1
+          - v2
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/FuelCost'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+        description: 'VehicleId is required. Note: The request body is an array of requests so you will need the begin and end square brackets even requesting only 1 vehicle.
+
+          '
+        required: true
+      summary: Create by version fuelcost default
+      x-summary-source: derived
+      operationId: postByVersionFuelcostDefault
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs:
+    post:
+      description: This endpoint returns the MPGs and specs for all engines, drivetrains, transmissions and a subset of vehicle specs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/Specs'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+        required: true
+      summary: Create by version specs
+      x-summary-source: derived
+      operationId: postByVersionSpecs
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/default:
+    post:
+      description: This endpoint returns the MPG and specs for the default engine, drivetrain, transmission and a subset of vehicle specs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/Specs'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+        required: true
+      summary: Create by version specs default
+      x-summary-source: derived
+      operationId: postByVersionSpecsDefault
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/configured:
+    post:
+      description: This endpoint returns the MPG and specs for a specific engine, drivetrain, and transmission and a subset of vehicle specs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/Specs'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+                  engineOptionId:
+                    type: integer
+                  drivetrainOptionId:
+                    type: integer
+                  transmissionOptionId:
+                    type: integer
+        required: true
+      summary: Create by version specs configured
+      x-summary-source: derived
+      operationId: postByVersionSpecsConfigured
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/edts:
+    post:
+      description: This endpoint returns all the specs for the engines, drivetrains, and transmission for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/SpecsEdts'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+        required: true
+      summary: Create by version specs edts
+      x-summary-source: derived
+      operationId: postByVersionSpecsEdts
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/edts/default:
+    post:
+      description: This endpoint returns the default engine, drivetrain, and transmission for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/SpecsEdts'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+        required: true
+      summary: Create by version specs edts default
+      x-summary-source: derived
+      operationId: postByVersionSpecsEdtsDefault
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/edts/configured:
+    post:
+      description: This endpoint returns the specs for a specific engine, drivetrain, and transmission for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/SpecsEdts'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+                  engineOptionId:
+                    type: integer
+                  drivetrainOptionId:
+                    type: integer
+                  transmissionOptionId:
+                    type: integer
+        required: true
+      summary: Create by version specs edts configured
+      x-summary-source: derived
+      operationId: postByVersionSpecsEdtsConfigured
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/mpgs:
+    post:
+      description: This endpoint returns all the MPGs for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/SpecsMpgs'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+        required: true
+      summary: Create by version specs mpgs
+      x-summary-source: derived
+      operationId: postByVersionSpecsMpgs
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/mpgs/default:
+    post:
+      description: This endpoint returns the MPG for the default engine, drivetrain and transmission for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/SpecsMpgs'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+        required: true
+      summary: Create by version specs mpgs default
+      x-summary-source: derived
+      operationId: postByVersionSpecsMpgsDefault
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/specs/mpgs/configured:
+    post:
+      description: This endpoint returns the MPG for a specific engine, drivetrain and transmission combination for the VehicleId that is specified.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/SpecsMpgs'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  vehicleId:
+                    type: integer
+                  engineOptionId:
+                    type: integer
+                  drivetrainOptionId:
+                    type: integer
+                  transmissionOptionId:
+                    type: integer
+        required: true
+      summary: Create by version specs mpgs configured
+      x-summary-source: derived
+      operationId: postByVersionSpecsMpgsConfigured
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /{version}/awards:
+    get:
+      description: Returns Brand Image Awards, Best Resale Value Awards and CTO Awards for a Vehicle, or a Year, Make, Model combination.
+      parameters:
+      - $ref: '#/components/parameters/version'
+      - $ref: '#/components/parameters/campaign-key'
+      - $ref: '#/components/parameters/dataVersionId'
+      - name: vehicleId
+        in: query
+        required: false
+        description: Vehicle ID
+        schema:
+          type: integer
+      - name: yearId
+        in: query
+        required: false
+        description: Year ID
+        schema:
+          type: integer
+      - name: makeId
+        in: query
+        required: false
+        description: Make ID
+        schema:
+          type: integer
+      - name: modelId
+        in: query
+        required: false
+        description: Model ID
+        schema:
+          type: integer
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response'
+                - type: object
+                  required:
+                  - results
+                  properties:
+                    results:
+                      $ref: '#/components/schemas/Awards'
+      summary: Get by version awards
+      x-summary-source: derived
+      operationId: getByVersionAwards
+      x-operation-id-source: derived
+    servers:
+    - url: https://sandbox.api.kbb.com/ads
+  /idws/vehicle/vehicles:
+    get:
+      tags:
+      - Vehicle
+      summary: Gets a list of vehicles
+      operationId: IdwsVehicleVehiclesGet
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all vehicle will be returned.
+        required: false
+        schema:
+          type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all vehicle will be returned.
+        required: false
+        schema:
+          type: string
+      - name: yearId
+        in: query
+        description: Limits the output to only those vehicle available for the specified year
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: makeId
+        in: query
+        description: Limits the output to only those vehicle available for the specified make
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: modelId
+        in: query
+        description: Limits the output to only those vehicle available for the specified model
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: modelYearId
+        in: query
+        description: Limits the output to only those vehicle available for the specified model year
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: trimId
+        in: query
+        description: Limits the output to only those vehicle available for the specified trim
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those vehicle available for the specified body style
+        required: false
+        schema:
+          type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those vehicle available for the specified marketing category
+        required: false
+        schema:
+          type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those vehicle eligible for CPO
+        required: false
+        schema:
+          type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of vehicle to return. Default is 25.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: Index of the vehicle that begins the returned set.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+      security:
+      - apiKey: []
+    servers:
+    - url: https://idws-sandbox.datasolutions.coxautoinc.com
+  /idws/vehicle/vehicles/id/{id}:
+    get:
+      tags:
+      - Vehicle
+      summary: Get the vehicle based on ID
+      operationId: IdwsVehicleVehiclesIdByIdGet
+      parameters:
+      - name: id
+        in: path
+        description: The id representing the vehicle
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse_Vehicle'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+      security:
+      - apiKey: []
+    servers:
+    - url: https://idws-sandbox.datasolutions.coxautoinc.com
+  /vehicles/vin/{vin}:
+    get:
+      description: Gets a set of all possible vehicle component selections for a VIN. Using a VIN removes the need to call for Years, Makes, Models, etc.
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - name: vin
+        in: path
+        description: The VIN to be decoded into possible vehicle components
+        required: true
+        x-valid: 2T2BK1BA0AC076349
+        x-invalid: 123
+        schema:
+          type: string
+          maxLength: 17
+          minLength: 0
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: Gets a set of all possible vehicle component selections for a VIN.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/DecodedVin'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                          enum:
+                          - 400021
+                        description: '400021 - Invalid VIN length, or invalid characters (17 long, I, O, Q), or invalid format
+
+                          '
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        404:
+          description: No vehicles found matching this VIN
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                          enum:
+                          - 404001
+                        description: '404001 - Vehicles for this VIN not found.
+
+                          '
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles vin by vin
+      x-summary-source: derived
+      operationId: getVehiclesVinByVin
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/years:
+    get:
+      description: Gets a set of years that are included in the KBB reference data set
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Years in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Years'
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles years
+      x-summary-source: derived
+      operationId: getVehiclesYears
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                enum:
+                - Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                enum:
+                - GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                enum:
+                - '*'
+      summary: Describe vehicles years
+      x-summary-source: derived
+      operationId: optionsVehiclesYears
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/makes:
+    get:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      description: Gets a set of makes that are included in the KBB reference data set
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/yearId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Makes'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400011 - Unavailable vehicle Year
+
+                          '
+                        enum:
+                        - 400011
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles makes
+      x-summary-source: derived
+      operationId: getVehiclesMakes
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles makes
+      x-summary-source: derived
+      operationId: optionsVehiclesMakes
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/models:
+    get:
+      description: Gets a set of models that are included in the KBB reference data set
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/yearId'
+      - $ref: '#/components/parameters/makeId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Models'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400011 - Unavailable vehicle Year.
+
+                          400012 - Unavailable vehicle Make.
+
+                          '
+                        enum:
+                        - 400011
+                        - 400012
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles models
+      x-summary-source: derived
+      operationId: getVehiclesModels
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles models
+      x-summary-source: derived
+      operationId: optionsVehiclesModels
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/trims:
+    get:
+      description: Gets a set of trims that are included in the KBB reference data set
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/yearId'
+      - $ref: '#/components/parameters/makeId'
+      - $ref: '#/components/parameters/modelId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Trims'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400011 - Unavailable vehicle Year.
+
+                          400012 - Unavailable vehicle Make.
+
+                          400013 - Unavailable vehicle Model.
+
+                          '
+                        enum:
+                        - 400011
+                        - 400012
+                        - 400013
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles trims
+      x-summary-source: derived
+      operationId: getVehiclesTrims
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles trims
+      x-summary-source: derived
+      operationId: optionsVehiclesTrims
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/colors:
+    get:
+      description: Gets a set of colors that are included in the KBB reference data set for a particular trim
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/trimId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Colors'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400014 - Unavailable vehicle Trim.
+
+                          '
+                        enum:
+                        - 400014
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles colors
+      x-summary-source: derived
+      operationId: getVehiclesColors
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles colors
+      x-summary-source: derived
+      operationId: optionsVehiclesColors
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/transmissions:
+    get:
+      description: Gets a set of transmissions that are included in the KBB reference data set
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/trimId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Transmissions'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400014 - Unavailable vehicle Trim.
+
+                          '
+                        enum:
+                        - 400014
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles transmissions
+      x-summary-source: derived
+      operationId: getVehiclesTransmissions
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles transmissions
+      x-summary-source: derived
+      operationId: optionsVehiclesTransmissions
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/engines:
+    get:
+      description: Gets a set of engines that are included in the KBB reference data set
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/trimId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Engines'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400014 - Unavailable vehicle Trim.
+
+                          '
+                        enum:
+                        - 400014
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles engines
+      x-summary-source: derived
+      operationId: getVehiclesEngines
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles engines
+      x-summary-source: derived
+      operationId: optionsVehiclesEngines
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/drivetrains:
+    get:
+      description: Gets a set of drivetrains that are included in the KBB reference data set
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/trimId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Makes in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Drivetrains'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400014 - Unavailable vehicle Trim.
+
+                          '
+                        enum:
+                        - 400014
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles drivetrains
+      x-summary-source: derived
+      operationId: getVehiclesDrivetrains
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles drivetrains
+      x-summary-source: derived
+      operationId: optionsVehiclesDrivetrains
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/options:
+    get:
+      description: Gets a set of options that are included in the KBB reference data set
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/trimId'
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/exclude'
+      - $ref: '#/components/parameters/filter'
+      - $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: A list of Options in the KBB dataset
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Options'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                        description: '400014 - Unavailable vehicle Trim.
+
+                          '
+                        enum:
+                        - 400014
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles options
+      x-summary-source: derived
+      operationId: getVehiclesOptions
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles options
+      x-summary-source: derived
+      operationId: optionsVehiclesOptions
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /vehicles/eligibility:
+    get:
+      description: Gets vehicle eligibility based on trim id
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      - $ref: '#/components/parameters/trimId'
+      responses:
+        200:
+          description: Returns IsEligible bool and list of excluded Engines, excluded Drivetrains, excluded Transmissions
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/VehicleEligibility'
+        400:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                          enum:
+                          - 400014
+                        description: '400014 - Unavailable vehicle Trim.
+
+                          '
+        403:
+          $ref: '#/components/responses/InvalidAuth'
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get vehicles eligibility
+      x-summary-source: derived
+      operationId: getVehiclesEligibility
+      x-operation-id-source: derived
+    options:
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      responses:
+        default:
+          description: Allowed origins, methods, and headers
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                default: Content-Type
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                default: GET
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
+      summary: Describe vehicles eligibility
+      x-summary-source: derived
+      operationId: optionsVehiclesEligibility
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /plate2vin/lookup:
+    get:
+      description: Gets a vehicle VIN based on a license plate number and state
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - name: stateCode
+        in: path
+        description: The state abbreviated code that issued the license plate
+        required: true
+        x-valid: CA
+        x-invalid: foo
+        schema:
+          type: string
+          maxLength: 2
+          minLength: 2
+      - name: plateNumber
+        in: path
+        description: The license plate number
+        required: true
+        x-valid: 9SCA339
+        x-invalid: foo
+        schema:
+          type: string
+          maxLength: 7
+          minLength: 7
+      - $ref: '#/components/parameters/apiKey'
+      responses:
+        200:
+          description: Gets a set of all possible vehicle component selections for a VIN.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Plate2VinResponse'
+        404:
+          description: License plate number and state.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                          enum:
+                          - 404000
+                        description: '404000 - Invalid license plate number and/or state.
+
+                          '
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get plate2vin lookup
+      x-summary-source: derived
+      operationId: getPlate2vinLookup
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+  /plate2vin/states:
+    get:
+      description: Gets a list of valid states for plate2vin look up
+      security:
+      - keyQuery: []
+      tags:
+      - Vehicle
+      parameters:
+      - $ref: '#/components/parameters/apiKey'
+      responses:
+        200:
+          description: Gets a set of all possible states for plate2vin lookup.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Response_2'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Plate2VinStateResponse'
+        404:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      codes:
+                        type: array
+                        items:
+                          type: integer
+                          enum:
+                          - 404000
+                        description: '404000 - states not found.
+
+                          '
+        500:
+          $ref: '#/components/responses/ServerError'
+      summary: Get plate2vin states
+      x-summary-source: derived
+      operationId: getPlate2vinStates
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.kbb.com/ico/v1
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        dataVersion:
+          $ref: '#/components/schemas/DataVersion'
+    CTOAttribute:
+      type: object
+      properties:
+        description:
+          type: string
+        label:
+          type: string
+        totalSum:
+          type: integer
+        totalAvg:
+          type: integer
+        years:
+          type: object
+          properties:
+            1:
+              type: integer
+            2:
+              type: integer
+            3:
+              type: integer
+            4:
+              type: integer
+            5:
+              type: integer
+    Pricing:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        zipCode:
+          type: integer
+        regionId:
+          type: integer
+        isNationalPricing:
+          type: boolean
+        prices:
+          type: array
+          items:
+            type: object
+            description: '``` - 108 | Certified Pre-OwnedUsed - 130 | Used Car Fair Purchase PriceUsed - 4   | Trade-In Value: GoodUsed - 3   | Trade-In Value: FairUsed - 5   | Trade-In Value: ExcellentUsed - 109 | Trade-In Value: Very GoodUsed - 12  | New Car Fair Purchase PriceNew - 10  | MSRPNew - 112 | Resale at 12 MonthsNew - 26  | Resale at 24 MonthsNew - 27  | Resale at 36 MonthsNew - 28  | Resale at 48 MonthsNew - 29  | Resale at 60 MonthsNew ```
+
+              '
+            properties:
+              name:
+                type: string
+              id:
+                type: integer
+              price:
+                type: number
+                format: float
+              percent:
+                type: number
+                format: float
+    CTO:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        zipCode:
+          type: string
+        regionId:
+          type: integer
+        isNationalPricing:
+          type: boolean
+        costPerMile:
+          type: number
+          format: float
+        fiveYearTotalCostSum:
+          type: integer
+        fiveYearTotalCostAvg:
+          type: integer
+        fuel:
+          $ref: '#/components/schemas/CTOAttribute'
+        insurance:
+          $ref: '#/components/schemas/CTOAttribute'
+        finance:
+          $ref: '#/components/schemas/CTOAttribute'
+        stateFees:
+          $ref: '#/components/schemas/CTOAttribute'
+        maintenance:
+          $ref: '#/components/schemas/CTOAttribute'
+        repairs:
+          $ref: '#/components/schemas/CTOAttribute'
+        depreciation:
+          $ref: '#/components/schemas/CTOAttribute'
+        yearSummary:
+          $ref: '#/components/schemas/CTOYearSummary'
+    CTOYearSummary:
+      type: object
+      properties:
+        yearId:
+          type: integer
+        totalSum:
+          type: integer
+    ConsumerRatings:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        numberOfRatings:
+          type: integer
+        generationBeginYear:
+          type: integer
+        generationEndYear:
+          type: integer
+        ratings:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: integer
+    AwardBrand:
+      type: object
+      properties:
+        awardName:
+          type: string
+        vehicleId:
+          type: integer
+        yearId:
+          type: integer
+        makeId:
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          type: integer
+        modelName:
+          type: string
+        awardDisplayName:
+          type: string
+        description:
+          type: string
+        ymmURL:
+          type: string
+        ymmtBuyUsedUrl:
+          type: string
+        ymmtTradeInUrl:
+          type: string
+        ymmtNewCarUrl:
+          type: string
+        awardsURL:
+          type: string
+        awardType:
+          type: string
+        classification:
+          type: string
+    VehicleLinks:
+      type: object
+      properties:
+        makeUrl:
+          type: string
+        modelUrl:
+          type: string
+        ymmUrl:
+          type: string
+        styleUrl:
+          type: string
+        optionsUrl:
+          type: string
+        ymmtUrl:
+          type: string
+        ymmtPhotosUrl:
+          type: string
+        ymmtSpecificationsUrl:
+          type: string
+        ymmtExpertReviewsUrl:
+          type: string
+        ymmtConsumerReviewsUrl:
+          type: string
+        ymmtRatingsUrl:
+          type: string
+        ymmtCompareUrl:
+          type: string
+        styleTradeInUrl:
+          type: string
+        optionsTradeInUrl:
+          type: string
+        ymmtTradeInUrl:
+          type: string
+        ymmtHouseImageUrl:
+          type: string
+        ymmt5yrCostToOwnUrl:
+          type: string
+        ymmtIncentivesUrl:
+          type: string
+        ymmtEvoxImageUrl:
+          type: string
+        ymmHouseImageUrl:
+          type: string
+        ymmEvoxImageUrl:
+          type: string
+    SpecsEdts:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        driveTrains:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleOptionId:
+                type: integer
+              isDefault:
+                type: boolean
+              driveTrainType:
+                type: string
+        engines:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleOptionId:
+                type: integer
+              isDefault:
+                type: boolean
+              bore:
+                type: number
+                format: float
+              compressionRatio:
+                type: number
+                format: float
+              cylinders:
+                type: integer
+              displacement:
+                type: number
+                format: float
+              emissionsRatings:
+                type: string
+              engineConfiguration:
+                type: string
+              engineType:
+                type: string
+              fuelInduction:
+                type: string
+              horsepower:
+                type: integer
+              horsepowerRPM:
+                type: integer
+              maxRPM:
+                type: integer
+              recommendedFuel:
+                type: string
+              stroke:
+                type: number
+                format: float
+              torque:
+                type: integer
+              torqueRPM:
+                type: integer
+              valves:
+                type: integer
+              valveTrain:
+                type: string
+        transmissions:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleOptionId:
+                type: integer
+              isDefault:
+                type: boolean
+              tranmissionType:
+                type: string
+              transmissionSubType:
+                type: string
+              numberOfSpeeds:
+                type: integer
+              manualMode:
+                type: string
+    FuelCost:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        isDefault:
+          type: boolean
+        engineOptionId:
+          type: integer
+        drivetrainOptionId:
+          type: integer
+        transmissionOptionId:
+          type: integer
+        fuel:
+          $ref: '#/components/schemas/FuelCostDetail'
+        electric:
+          $ref: '#/components/schemas/FuelCostDetail'
+    ExpertReveiws:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        year:
+          type: integer
+        contentId:
+          type: integer
+        reviewSections:
+          type: array
+          items:
+            type: object
+            properties:
+              contentSectionId:
+                type: integer
+              sectionName:
+                type: integer
+              textVersion:
+                type: string
+              htmlVersion:
+                type: string
+    Vehicle:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        year:
+          type: integer
+        make:
+          type: string
+        model:
+          type: string
+        trim:
+          type: string
+    AwardCto:
+      type: object
+      properties:
+        awardName:
+          type: string
+        vehicleId:
+          type: integer
+        yearId:
+          type: integer
+        makeId:
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          type: integer
+        modelName:
+          type: string
+        awardDisplayName:
+          type: string
+        description:
+          type: string
+        ymmURL:
+          type: string
+        ymmtBuyUsedUrl:
+          type: string
+        ymmtTradeInUrl:
+          type: string
+        ymmtNewCarUrl:
+          type: string
+        awardsURL:
+          type: string
+        awardType:
+          type: string
+        classification:
+          type: string
+        modelRanking:
+          type: integer
+        cto5YearTotal:
+          type: number
+          format: float
+    Awards:
+      type: object
+      properties:
+        brandImageAwards:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwardBrand'
+        brvaAwards:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwardBrva'
+        ctoAwards:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwardCto'
+    ExpertRatings:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        contentId:
+          type: integer
+        year:
+          type: integer
+        ratings:
+          type: array
+          items:
+            type: object
+            properties:
+              contentSectionId:
+                type: integer
+              name:
+                type: string
+              value:
+                type: number
+                format: float
+    SpecsMpgs:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        mpgs:
+          type: array
+          items:
+            type: object
+            properties:
+              mpgCity:
+                type: integer
+              mpgCombined:
+                type: integer
+              mpgHwy:
+                type: integer
+              mpgECity:
+                type: integer
+              mpgEHwy:
+                type: integer
+              mpgeCombined:
+                type: integer
+    ConsumerReviews:
+      type: object
+      properties:
+        VehicleId:
+          type: integer
+        TotalReviewCount:
+          type: integer
+        StartYear:
+          type: integer
+        EndYear:
+          type: integer
+        NumberOfPages:
+          type: integer
+        NumberOfReviewsPerPage:
+          type: integer
+        CurrentPage:
+          type: integer
+        Reviews:
+          type: array
+          items:
+            type: object
+            properties:
+              ProductId:
+                type: string
+              ReviewId:
+                type: string
+              SubmissionDate:
+                type: string
+              NickName:
+                type: string
+              Year:
+                type: string
+              Title:
+                type: string
+              Pros:
+                type: string
+              Cons:
+                type: string
+              CharacterCount:
+                type: string
+              Text:
+                type: string
+              OwnershipStatus:
+                type: string
+              OwnerMileage:
+                type: string
+              SoldReason:
+                type: string
+              SoldMileage:
+                type: string
+              NumberOfFeedbacks:
+                type: string
+              NumberOfPositiveFeedbacks:
+                type: string
+              Photo1Caption:
+                type: string
+              Photo1Thumbnail:
+                type: string
+              Photo1Normal:
+                type: string
+              VideoCaption:
+                type: string
+              VideoHost:
+                type: string
+              VideoURL:
+                type: string
+              OverallRating:
+                type: string
+              Value:
+                type: string
+              Reliability:
+                type: string
+              Comfort:
+                type: string
+              Quality:
+                type: string
+              Performance:
+                type: string
+              Styling:
+                type: string
+              Recommendation:
+                type: string
+    FuelCostDetail:
+      type: object
+      properties:
+        annualFuelCost:
+          type: number
+          format: float
+        cityMiles:
+          type: integer
+        combinedMiles:
+          type: integer
+        fuelCost:
+          type: number
+          format: float
+        highwayMiles:
+          type: integer
+        recommendedFuel:
+          type: string
+    Specs:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        driveTrains:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleOptionId:
+                type: integer
+              isDefault:
+                type: boolean
+              driveTrainType:
+                type: string
+        engines:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleOptionId:
+                type: integer
+              isDefault:
+                type: boolean
+              bore:
+                type: number
+                format: float
+              compressionRatio:
+                type: number
+                format: float
+              cylinders:
+                type: integer
+              displacement:
+                type: number
+                format: float
+              emissionsRatings:
+                type: string
+              engineConfiguration:
+                type: string
+              engineType:
+                type: string
+              fuelInduction:
+                type: string
+              horsepower:
+                type: integer
+              horsepowerRPM:
+                type: integer
+              maxRPM:
+                type: integer
+              recommendedFuel:
+                type: string
+              stroke:
+                type: number
+                format: float
+              torque:
+                type: integer
+              torqueRPM:
+                type: integer
+              valves:
+                type: integer
+              valveTrain:
+                type: string
+        mpgs:
+          type: array
+          items:
+            type: object
+            properties:
+              mpgCity:
+                type: integer
+              mpgCombined:
+                type: integer
+              mpgHwy:
+                type: integer
+              mpgECity:
+                type: integer
+              mpgEHwy:
+                type: integer
+              mpgeCombined:
+                type: integer
+        transmissions:
+          type: array
+          items:
+            type: object
+            properties:
+              vehicleOptionId:
+                type: integer
+              isDefault:
+                type: boolean
+              tranmissionType:
+                type: string
+              transmissionSubType:
+                type: string
+              numberOfSpeeds:
+                type: integer
+              manualMode:
+                type: string
+        vehicleSpecs:
+          type: array
+          items:
+            type: object
+            properties:
+              epaPassenger:
+                type: number
+                format: float
+              epaTotalInterior:
+                type: number
+                format: float
+              headRoomFront:
+                type: number
+                format: float
+              headRoomRear:
+                type: number
+                format: float
+              height:
+                type: number
+                format: float
+              legRoomFront:
+                type: number
+                format: float
+              legRoomRear:
+                type: number
+                format: float
+              maximumGroundClearance:
+                type: number
+                format: float
+              minimumGroundClearance:
+                type: number
+                format: float
+              overallLength:
+                type: number
+                format: float
+              shoulderRoomFront:
+                type: number
+                format: float
+              shoulderRoomRear:
+                type: number
+                format: float
+              truckBedVolume:
+                type: number
+                format: float
+              trunkOrCargoCapacity:
+                type: number
+                format: float
+              turningDiameter:
+                type: number
+                format: float
+              wheelBase:
+                type: number
+                format: float
+              widthWithMirrors:
+                type: number
+                format: float
+              widthWithoutMirrors:
+                type: number
+                format: float
+    DataVersion:
+      type: object
+      required:
+      - dataVersionId
+      - startDate
+      - endDate
+      properties:
+        dataVersionId:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          format: date
+          type: string
+    AwardBrva:
+      type: object
+      properties:
+        awardName:
+          type: string
+        vehicleId:
+          type: integer
+        yearId:
+          type: integer
+        makeId:
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          type: integer
+        modelName:
+          type: string
+        awardDisplayName:
+          type: string
+        description:
+          type: string
+        ymmURL:
+          type: string
+        ymmtBuyUsedUrl:
+          type: string
+        ymmtTradeInUrl:
+          type: string
+        ymmtNewCarUrl:
+          type: string
+        awardsURL:
+          type: string
+        awardType:
+          type: string
+        classification:
+          type: string
+        modelRanking:
+          type: integer
+        12MonthResidualPercentage:
+          type: number
+          format: float
+        24MonthResidualPercentage:
+          type: number
+          format: float
+        36MonthResidualPercentage:
+          type: number
+          format: float
+        48MonthResidualPercentage:
+          type: number
+          format: float
+        60MonthResidualPercentage:
+          type: number
+          format: float
+    IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse_Vehicle:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        vehicleClass:
+          type: string
+        vehicleName:
+          type: string
+        secondaryName:
+          type: string
+        yearId:
+          format: int32
+          type: integer
+        makeId:
+          format: int32
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          format: int32
+          type: integer
+        modelName:
+          type: string
+        modelMarketName:
+          type: string
+        modelYearId:
+          format: int32
+          type: integer
+        trimId:
+          format: int32
+          type: integer
+        trimName:
+          type: string
+        modelPlusTrimName:
+          type: string
+        oemCode:
+          type: string
+        doors:
+          format: int32
+          type: integer
+        bedLength:
+          type: string
+        bodyStyle:
+          type: string
+        genericBodyStyle:
+          type: string
+        oemBodyStyle:
+          type: string
+        sortOrder:
+          format: int32
+          type: integer
+        standardEngine:
+          type: string
+        standardDrivetrain:
+          type: string
+        standardTransmission:
+          type: string
+        isConsumer:
+          type: boolean
+        relatedVehicleIds:
+          type: array
+          items:
+            format: int32
+            type: integer
+        msrp:
+          format: double
+          type: number
+        invoice:
+          format: double
+          type: number
+        freight:
+          format: double
+          type: number
+        originalMSRP:
+          format: double
+          type: number
+        generationId:
+          format: int32
+          type: integer
+        generationInstanceId:
+          format: int32
+          type: integer
+        generationSequence:
+          format: int32
+          type: integer
+        generationName:
+          type: string
+        generationStartYear:
+          type: string
+        generationEndYear:
+          type: string
+        size:
+          type: string
+        luxuryType:
+          type: string
+        sportType:
+          type: string
+        cabType:
+          type: string
+        secondaryBodyStyles:
+          type: array
+          items:
+            type: string
+        secondaryGenericBodyStyles:
+          type: array
+          items:
+            type: string
+        marketingCategories:
+          type: array
+          items:
+            type: string
+        kbbCategories:
+          type: array
+          items:
+            type: string
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse_Vehicle'
+        first:
+          type: string
+        next:
+          type: string
+        previous:
+          type: string
+        limit:
+          format: int32
+          type: integer
+        count:
+          format: int32
+          type: integer
+    Engine:
+      type: object
+      required:
+      - engineId
+      properties:
+        engineId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Response_2:
+      properties:
+        meta:
+          type: object
+          required:
+          - codes
+          properties:
+            codes:
+              type: array
+              items:
+                type: integer
+                minimum: 0
+            links:
+              type: array
+              items:
+                type: object
+                properties:
+                  rel:
+                    type: string
+                    enum:
+                    - required
+                    - optional
+                    - self
+                    - doc
+                    - deprecated
+                    - next
+                    - error
+                  href:
+                    type: string
+                    format: uri
+                  method:
+                    type: string
+                    enum:
+                    - GET
+                    - POST
+                    - PATCH
+                  properties:
+                    type: object
+                  templated:
+                    type: boolean
+    OptionRequest:
+      type: object
+      required:
+      - optionId
+      - isSelected
+      properties:
+        optionId:
+          type: integer
+          minimum: 0
+        isSelected:
+          type: boolean
+    Transmissions:
+      description: An array of vehicle transmissions.
+      type: array
+      items:
+        $ref: '#/components/schemas/Transmission'
+    VehicleEligibility:
+      type: object
+      properties:
+        isEligible:
+          type: boolean
+        excludedEngines:
+          type: array
+          items:
+            type: integer
+        excludedDrivetrains:
+          type: array
+          items:
+            type: integer
+        excludedTransmissions:
+          type: array
+          items:
+            type: integer
+    Colors:
+      description: An array of vehicle colors.
+      type: array
+      items:
+        $ref: '#/components/schemas/Color'
+    DecodedVin:
+      type: object
+      properties:
+        possibilities:
+          type: array
+          description: This array of possible vehicle components based on the VIN.
+          items:
+            $ref: '#/components/schemas/VinPossibility'
+    Option:
+      allOf:
+      - $ref: '#/components/schemas/OptionRequest'
+      - type: object
+        properties:
+          displayName:
+            type: string
+          groupName:
+            type: string
+    Trims:
+      description: An array of vehicle trims.
+      type: array
+      items:
+        $ref: '#/components/schemas/Trim'
+    Drivetrain:
+      type: object
+      required:
+      - drivetrainId
+      properties:
+        drivetrainId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Plate2VinState:
+      type: object
+      properties:
+        name:
+          type: string
+        abbreviation:
+          type: string
+    Makes:
+      description: An array of vehicle makes.
+      type: array
+      items:
+        $ref: '#/components/schemas/Make'
+    Trim:
+      type: object
+      required:
+      - trimId
+      properties:
+        trimId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Plate2VinStateResponse:
+      type: object
+      properties:
+        states:
+          type: array
+          description: This array of possible states for Plate2Vin Request.
+          items:
+            $ref: '#/components/schemas/Plate2VinState'
+    Color:
+      type: object
+      required:
+      - colorId
+      properties:
+        colorId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Transmission:
+      type: object
+      required:
+      - transmissionId
+      properties:
+        transmissionId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Options:
+      description: An array of vehicle makes.
+      type: array
+      items:
+        $ref: '#/components/schemas/Option'
+    Drivetrains:
+      description: An array of vehicle drivetrains.
+      type: array
+      items:
+        $ref: '#/components/schemas/Drivetrain'
+    Make:
+      type: object
+      required:
+      - makeId
+      properties:
+        makeId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Engines:
+      description: An array of vehicle engines.
+      type: array
+      items:
+        $ref: '#/components/schemas/Engine'
+    Plate2VinResponse:
+      type: object
+      properties:
+        possibilities:
+          type: array
+          description: This array of possible VINs based on the Plate.
+          items:
+            $ref: '#/components/schemas/Plate2Vin'
+    Year:
+      type: object
+      required:
+      - yearId
+      - displayName
+      properties:
+        yearId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    VinPossibility:
+      type: object
+      properties:
+        year:
+          $ref: '#/components/schemas/Year'
+        make:
+          $ref: '#/components/schemas/Make'
+        model:
+          $ref: '#/components/schemas/Model'
+        trim:
+          $ref: '#/components/schemas/Trim'
+        drivetrains:
+          type: array
+          description: The possible drivetrains for this Trim based on the VIN. It is possible that only one item will be present, in which case it is the only item applicable for the trim.
+          items:
+            $ref: '#/components/schemas/Drivetrain'
+        engines:
+          type: array
+          description: The possible engines for this Trim based on the VIN. It is possible that only one item will be present, in which case it is the only item applicable for this Trim.
+          items:
+            $ref: '#/components/schemas/Engine'
+        transmissions:
+          type: array
+          description: The possible transmissions for this Trim based on the VIN. It is possible that only one item will be present, in which case it is the only item applicable for the trim.
+          items:
+            $ref: '#/components/schemas/Transmission'
+        options:
+          type: array
+          description: All of the options applicable for this Trim based on the VIN. Whether the Option is selected by default is determined by the VIN.
+          items:
+            $ref: '#/components/schemas/Option'
+    Plate2Vin:
+      type: object
+      properties:
+        vin:
+          type: string
+          minLength: 0
+          maxLength: 17
+    Models:
+      description: An array of vehicle models.
+      type: array
+      items:
+        $ref: '#/components/schemas/Model'
+    Years:
+      description: An array of vehicle years.
+      type: array
+      items:
+        $ref: '#/components/schemas/Year'
+    Model:
+      type: object
+      required:
+      - modelId
+      properties:
+        modelId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+  parameters:
+    version:
+      name: version
+      in: path
+      description: API Version
+      required: true
+      schema:
+        type: string
+        enum:
+        - v1
+    dataVersionId:
+      name: dataVersionId
+      in: query
+      description: The version to override
+      required: false
+      schema:
+        type: integer
+    zipcode:
+      name: zipcode
+      in: query
+      description: Desired zipcode to use for regionality
+      required: true
+      schema:
+        type: string
+    campaign-key:
+      name: campaign-key
+      in: query
+      description: The campaign identifier
+      required: false
+      schema:
+        type: string
+    vehicleIds:
+      name: vehicleIds
+      in: query
+      description: Comma seperated list of Vehicle id's
+      required: true
+      schema:
+        type: string
+    trimId:
+      name: trimId
+      description: a numeric ID representing the Trim of the vehicle
+      in: query
+      required: true
+      x-valid: 410336
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+    modelId:
+      name: modelId
+      description: a numeric ID representing the model of the vehicle
+      in: query
+      required: true
+      x-valid: 951
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+    include:
+      name: include
+      in: query
+      description: The fields that should be included in the returned object.
+      required: false
+      x-valid: foo
+      x-invalid: 123
+      schema:
+        type: string
+        pattern: /([a-zA-Z]+),?/g
+    filter:
+      name: filter
+      in: query
+      description: A list of fields that should be filtered on
+      required: false
+      x-valid: foo=bar
+      x-invalid: 123
+      schema:
+        type: string
+        pattern: /([a-zA-Z]+\:[a-zA-Z\,]+);?/g
+    count:
+      name: count
+      in: query
+      description: The number of items returned in a collection
+      required: false
+      x-valid: 100
+      x-invalid: -1
+      schema:
+        type: integer
+        default: 100
+    apiKey:
+      name: api_key
+      description: Unique identifier to authorize the request
+      in: query
+      required: true
+      x-valid: b0afc168-ff1d-4858-955e-4a375189ecd0
+      x-invalid: afc168-ff1d-4858-955e-4a375189ecd
+      schema:
+        type: string
+    yearId:
+      name: yearId
+      description: a numeric ID representing the year of a vehicle
+      in: query
+      required: true
+      x-valid: 2015
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+    exclude:
+      name: exclude
+      in: query
+      description: The fields that should be included in the returned object.
+      required: false
+      x-valid: foo
+      x-invalid: 123
+      schema:
+        type: string
+        pattern: /([a-zA-Z]+),?/g
+    makeId:
+      name: makeId
+      description: a numeric ID representing the make of the vehicle
+      in: query
+      required: true
+      x-valid: 5
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+  responses:
+    ServerError:
+      description: An internal server error has occured
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response_2'
+    InvalidAuth:
+      description: An unauthenticated operation has been attempted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response_2'
+  securitySchemes:
+    keyQuery:
+      type: apiKey
+      name: api_key
+      in: query
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key
+x-refined-from:
+- cox-automotive-kbb-advertising-data-openapi.yaml
+- cox-automotive-kbb-idws-vehicle-openapi.json
+- cox-automotive-kbb-instant-cash-offer-openapi.yaml

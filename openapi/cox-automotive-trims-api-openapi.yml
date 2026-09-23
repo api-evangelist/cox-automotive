@@ -1,0 +1,214 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Vehicle Service Trims API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: Trims
+paths:
+  /idws/vehicle/trims/id/{trimId}:
+    get:
+      tags:
+      - Trims
+      summary: Gets a single trim
+      operationId: IdwsVehicleTrimsIdByTrimIdGet
+      parameters:
+      - name: trimId
+        in: path
+        description: The desired trim
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse_TrimModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+  /idws/vehicle/trims:
+    get:
+      tags:
+      - Trims
+      summary: Gets a list of trims
+      operationId: IdwsVehicleTrimsGet
+      parameters:
+      - name: vehicleClass
+        in: query
+        description: NewCar or UsedCar. If not specified, all trims will be returned.
+        required: false
+        schema:
+          type: string
+      - name: applicationFilter
+        in: query
+        description: Dealer or Consumer. If not specified, all trims will be returned.
+        required: false
+        schema:
+          type: string
+      - name: yearId
+        in: query
+        description: Limits the output to only those trims available for the specified year
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: makeId
+        in: query
+        description: Limits the output to only those trims available for the specified make
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: modelId
+        in: query
+        description: Limits the output to only those trims available for the specified model
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: modelYearId
+        in: query
+        description: Limits the output to only those trims available for the specified model year
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: bodyStyle
+        in: query
+        description: Limits the output to only those vehicle available for the specified body style
+        required: false
+        schema:
+          type: string
+      - name: marketingCategory
+        in: query
+        description: Limits the output to only those vehicle available for the specified marketing category
+        required: false
+        schema:
+          type: string
+      - name: isCPOEligible
+        in: query
+        description: Limits the output to only those vehicle eligible for CPO
+        required: false
+        schema:
+          type: boolean
+      - name: limit
+        in: query
+        description: Maximum number of trims to return. Default is 25.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: Index of the trim that begins the returned set.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse_TrimModel:
+      type: object
+      properties:
+        trimId:
+          format: int32
+          type: integer
+        trimName:
+          type: string
+        vehicleClass:
+          type: string
+        modelYearId:
+          format: int32
+          type: integer
+        yearId:
+          format: int32
+          type: integer
+        makeId:
+          format: int32
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          format: int32
+          type: integer
+        modelName:
+          type: string
+        modelPlusTrimName:
+          type: string
+        sortOrder:
+          format: int32
+          type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.TrimsResponse_TrimModel'
+        first:
+          type: string
+        next:
+          type: string
+        previous:
+          type: string
+        limit:
+          format: int32
+          type: integer
+        count:
+          format: int32
+          type: integer
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key

@@ -1,0 +1,113 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: IDWS Vehicle Service Vehicle Specs API
+servers:
+- url: https://idws-sandbox.datasolutions.coxautoinc.com
+security:
+- apiKey: []
+tags:
+- name: VehicleSpecs
+paths:
+  /idws/vehicle/vehiclespecs:
+    get:
+      tags:
+      - VehicleSpecs
+      summary: Gets a list of Vehicle Specifications
+      operationId: IdwsVehicleVehiclespecsGet
+      parameters:
+      - name: vehicleId
+        in: query
+        description: Limits the output based on vehicleId specified.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: vehicleOptionIds
+        in: query
+        description: Limits the output based on vehicleId and vehicleOptionIds specified.
+        required: false
+        schema:
+          type: string
+      - name: vehicleSpecIds
+        in: query
+        description: Limits the output based on vehicleId and vehicleSpecIds specified.
+        required: false
+        schema:
+          type: string
+      - name: vehicleSpecNames
+        in: query
+        description: Limits the output based on vehicleId and vehicleSpecNames specified.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Maximum number of vehicle specifications to return.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: start
+        in: query
+        description: Index of the vehicle specs that begins the returned set.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse_VehicleSpecs:
+      type: object
+      properties:
+        specId:
+          format: int32
+          type: integer
+        specName:
+          type: string
+        specValue:
+          type: string
+        vehicleOptionIds:
+          type: array
+          items:
+            type: string
+        units:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse_VehicleSpecs'
+        first:
+          type: string
+        next:
+          type: string
+        previous:
+          type: string
+        limit:
+          format: int32
+          type: integer
+        count:
+          format: int32
+          type: integer
+  securitySchemes:
+    apiKey:
+      name: api_key
+      in: query
+      type: apiKey
+      description: Mashery API Key
