@@ -2237,205 +2237,148 @@ paths:
     servers:
     - url: https://api.kbb.com/ico/v1
 components:
+  parameters:
+    zipcode:
+      name: zipcode
+      in: query
+      description: Desired zipcode to use for regionality
+      required: true
+      schema:
+        type: string
+    vehicleIds:
+      name: vehicleIds
+      in: query
+      description: Comma seperated list of Vehicle id's
+      required: true
+      schema:
+        type: string
+    version:
+      name: version
+      in: path
+      description: API Version
+      required: true
+      schema:
+        type: string
+        enum:
+        - v1
+    dataVersionId:
+      name: dataVersionId
+      in: query
+      description: The version to override
+      required: false
+      schema:
+        type: integer
+    campaign-key:
+      name: campaign-key
+      in: query
+      description: The campaign identifier
+      required: false
+      schema:
+        type: string
+    exclude:
+      name: exclude
+      in: query
+      description: The fields that should be included in the returned object.
+      required: false
+      x-valid: foo
+      x-invalid: 123
+      schema:
+        type: string
+        pattern: /([a-zA-Z]+),?/g
+    include:
+      name: include
+      in: query
+      description: The fields that should be included in the returned object.
+      required: false
+      x-valid: foo
+      x-invalid: 123
+      schema:
+        type: string
+        pattern: /([a-zA-Z]+),?/g
+    yearId:
+      name: yearId
+      description: a numeric ID representing the year of a vehicle
+      in: query
+      required: true
+      x-valid: 2015
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+    filter:
+      name: filter
+      in: query
+      description: A list of fields that should be filtered on
+      required: false
+      x-valid: foo=bar
+      x-invalid: 123
+      schema:
+        type: string
+        pattern: /([a-zA-Z]+\:[a-zA-Z\,]+);?/g
+    apiKey:
+      name: api_key
+      description: Unique identifier to authorize the request
+      in: query
+      required: true
+      x-valid: b0afc168-ff1d-4858-955e-4a375189ecd0
+      x-invalid: afc168-ff1d-4858-955e-4a375189ecd
+      schema:
+        type: string
+    modelId:
+      name: modelId
+      description: a numeric ID representing the model of the vehicle
+      in: query
+      required: true
+      x-valid: 951
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+    trimId:
+      name: trimId
+      description: a numeric ID representing the Trim of the vehicle
+      in: query
+      required: true
+      x-valid: 410336
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+    makeId:
+      name: makeId
+      description: a numeric ID representing the make of the vehicle
+      in: query
+      required: true
+      x-valid: 5
+      x-invalid: foo
+      schema:
+        type: integer
+        minimum: 0
+    count:
+      name: count
+      in: query
+      description: The number of items returned in a collection
+      required: false
+      x-valid: 100
+      x-invalid: -1
+      schema:
+        type: integer
+        default: 100
   schemas:
-    Response:
+    DataVersion:
       type: object
+      required:
+      - dataVersionId
+      - startDate
+      - endDate
       properties:
-        dataVersion:
-          $ref: '#/components/schemas/DataVersion'
-    CTOAttribute:
-      type: object
-      properties:
-        description:
+        dataVersionId:
           type: string
-        label:
+        startDate:
           type: string
-        totalSum:
-          type: integer
-        totalAvg:
-          type: integer
-        years:
-          type: object
-          properties:
-            1:
-              type: integer
-            2:
-              type: integer
-            3:
-              type: integer
-            4:
-              type: integer
-            5:
-              type: integer
-    Pricing:
-      type: object
-      properties:
-        vehicleId:
-          type: integer
-        zipCode:
-          type: integer
-        regionId:
-          type: integer
-        isNationalPricing:
-          type: boolean
-        prices:
-          type: array
-          items:
-            type: object
-            description: '``` - 108 | Certified Pre-OwnedUsed - 130 | Used Car Fair Purchase PriceUsed - 4   | Trade-In Value: GoodUsed - 3   | Trade-In Value: FairUsed - 5   | Trade-In Value: ExcellentUsed - 109 | Trade-In Value: Very GoodUsed - 12  | New Car Fair Purchase PriceNew - 10  | MSRPNew - 112 | Resale at 12 MonthsNew - 26  | Resale at 24 MonthsNew - 27  | Resale at 36 MonthsNew - 28  | Resale at 48 MonthsNew - 29  | Resale at 60 MonthsNew ```
-
-              '
-            properties:
-              name:
-                type: string
-              id:
-                type: integer
-              price:
-                type: number
-                format: float
-              percent:
-                type: number
-                format: float
-    CTO:
-      type: object
-      properties:
-        vehicleId:
-          type: integer
-        zipCode:
-          type: string
-        regionId:
-          type: integer
-        isNationalPricing:
-          type: boolean
-        costPerMile:
-          type: number
-          format: float
-        fiveYearTotalCostSum:
-          type: integer
-        fiveYearTotalCostAvg:
-          type: integer
-        fuel:
-          $ref: '#/components/schemas/CTOAttribute'
-        insurance:
-          $ref: '#/components/schemas/CTOAttribute'
-        finance:
-          $ref: '#/components/schemas/CTOAttribute'
-        stateFees:
-          $ref: '#/components/schemas/CTOAttribute'
-        maintenance:
-          $ref: '#/components/schemas/CTOAttribute'
-        repairs:
-          $ref: '#/components/schemas/CTOAttribute'
-        depreciation:
-          $ref: '#/components/schemas/CTOAttribute'
-        yearSummary:
-          $ref: '#/components/schemas/CTOYearSummary'
-    CTOYearSummary:
-      type: object
-      properties:
-        yearId:
-          type: integer
-        totalSum:
-          type: integer
-    ConsumerRatings:
-      type: object
-      properties:
-        vehicleId:
-          type: integer
-        numberOfRatings:
-          type: integer
-        generationBeginYear:
-          type: integer
-        generationEndYear:
-          type: integer
-        ratings:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              value:
-                type: integer
-    AwardBrand:
-      type: object
-      properties:
-        awardName:
-          type: string
-        vehicleId:
-          type: integer
-        yearId:
-          type: integer
-        makeId:
-          type: integer
-        makeName:
-          type: string
-        modelId:
-          type: integer
-        modelName:
-          type: string
-        awardDisplayName:
-          type: string
-        description:
-          type: string
-        ymmURL:
-          type: string
-        ymmtBuyUsedUrl:
-          type: string
-        ymmtTradeInUrl:
-          type: string
-        ymmtNewCarUrl:
-          type: string
-        awardsURL:
-          type: string
-        awardType:
-          type: string
-        classification:
-          type: string
-    VehicleLinks:
-      type: object
-      properties:
-        makeUrl:
-          type: string
-        modelUrl:
-          type: string
-        ymmUrl:
-          type: string
-        styleUrl:
-          type: string
-        optionsUrl:
-          type: string
-        ymmtUrl:
-          type: string
-        ymmtPhotosUrl:
-          type: string
-        ymmtSpecificationsUrl:
-          type: string
-        ymmtExpertReviewsUrl:
-          type: string
-        ymmtConsumerReviewsUrl:
-          type: string
-        ymmtRatingsUrl:
-          type: string
-        ymmtCompareUrl:
-          type: string
-        styleTradeInUrl:
-          type: string
-        optionsTradeInUrl:
-          type: string
-        ymmtTradeInUrl:
-          type: string
-        ymmtHouseImageUrl:
-          type: string
-        ymmt5yrCostToOwnUrl:
-          type: string
-        ymmtIncentivesUrl:
-          type: string
-        ymmtEvoxImageUrl:
-          type: string
-        ymmHouseImageUrl:
-          type: string
-        ymmEvoxImageUrl:
+          format: date
+        endDate:
+          format: date
           type: string
     SpecsEdts:
       type: object
@@ -2517,6 +2460,11 @@ components:
                 type: integer
               manualMode:
                 type: string
+    Response:
+      type: object
+      properties:
+        dataVersion:
+          $ref: '#/components/schemas/DataVersion'
     FuelCost:
       type: object
       properties:
@@ -2534,6 +2482,125 @@ components:
           $ref: '#/components/schemas/FuelCostDetail'
         electric:
           $ref: '#/components/schemas/FuelCostDetail'
+    Pricing:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        zipCode:
+          type: integer
+        regionId:
+          type: integer
+        isNationalPricing:
+          type: boolean
+        prices:
+          type: array
+          items:
+            type: object
+            description: '``` - 108 | Certified Pre-OwnedUsed - 130 | Used Car Fair Purchase PriceUsed - 4   | Trade-In Value: GoodUsed - 3   | Trade-In Value: FairUsed - 5   | Trade-In Value: ExcellentUsed - 109 | Trade-In Value: Very GoodUsed - 12  | New Car Fair Purchase PriceNew - 10  | MSRPNew - 112 | Resale at 12 MonthsNew - 26  | Resale at 24 MonthsNew - 27  | Resale at 36 MonthsNew - 28  | Resale at 48 MonthsNew - 29  | Resale at 60 MonthsNew ```
+
+              '
+            properties:
+              name:
+                type: string
+              id:
+                type: integer
+              price:
+                type: number
+                format: float
+              percent:
+                type: number
+                format: float
+    CTOAttribute:
+      type: object
+      properties:
+        description:
+          type: string
+        label:
+          type: string
+        totalSum:
+          type: integer
+        totalAvg:
+          type: integer
+        years:
+          type: object
+          properties:
+            1:
+              type: integer
+            2:
+              type: integer
+            3:
+              type: integer
+            4:
+              type: integer
+            5:
+              type: integer
+    ExpertRatings:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        contentId:
+          type: integer
+        year:
+          type: integer
+        ratings:
+          type: array
+          items:
+            type: object
+            properties:
+              contentSectionId:
+                type: integer
+              name:
+                type: string
+              value:
+                type: number
+                format: float
+    VehicleLinks:
+      type: object
+      properties:
+        makeUrl:
+          type: string
+        modelUrl:
+          type: string
+        ymmUrl:
+          type: string
+        styleUrl:
+          type: string
+        optionsUrl:
+          type: string
+        ymmtUrl:
+          type: string
+        ymmtPhotosUrl:
+          type: string
+        ymmtSpecificationsUrl:
+          type: string
+        ymmtExpertReviewsUrl:
+          type: string
+        ymmtConsumerReviewsUrl:
+          type: string
+        ymmtRatingsUrl:
+          type: string
+        ymmtCompareUrl:
+          type: string
+        styleTradeInUrl:
+          type: string
+        optionsTradeInUrl:
+          type: string
+        ymmtTradeInUrl:
+          type: string
+        ymmtHouseImageUrl:
+          type: string
+        ymmt5yrCostToOwnUrl:
+          type: string
+        ymmtIncentivesUrl:
+          type: string
+        ymmtEvoxImageUrl:
+          type: string
+        ymmHouseImageUrl:
+          type: string
+        ymmEvoxImageUrl:
+          type: string
     ExpertReveiws:
       type: object
       properties:
@@ -2556,20 +2623,56 @@ components:
                 type: string
               htmlVersion:
                 type: string
-    Vehicle:
+    ConsumerRatings:
       type: object
       properties:
         vehicleId:
           type: integer
-        year:
+        numberOfRatings:
           type: integer
-        make:
-          type: string
-        model:
-          type: string
-        trim:
-          type: string
-    AwardCto:
+        generationBeginYear:
+          type: integer
+        generationEndYear:
+          type: integer
+        ratings:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: integer
+    SpecsMpgs:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        mpgs:
+          type: array
+          items:
+            type: object
+            properties:
+              mpgCity:
+                type: integer
+              mpgCombined:
+                type: integer
+              mpgHwy:
+                type: integer
+              mpgECity:
+                type: integer
+              mpgEHwy:
+                type: integer
+              mpgeCombined:
+                type: integer
+    CTOYearSummary:
+      type: object
+      properties:
+        yearId:
+          type: integer
+        totalSum:
+          type: integer
+    AwardBrand:
       type: object
       properties:
         awardName:
@@ -2604,69 +2707,6 @@ components:
           type: string
         classification:
           type: string
-        modelRanking:
-          type: integer
-        cto5YearTotal:
-          type: number
-          format: float
-    Awards:
-      type: object
-      properties:
-        brandImageAwards:
-          type: array
-          items:
-            $ref: '#/components/schemas/AwardBrand'
-        brvaAwards:
-          type: array
-          items:
-            $ref: '#/components/schemas/AwardBrva'
-        ctoAwards:
-          type: array
-          items:
-            $ref: '#/components/schemas/AwardCto'
-    ExpertRatings:
-      type: object
-      properties:
-        vehicleId:
-          type: integer
-        contentId:
-          type: integer
-        year:
-          type: integer
-        ratings:
-          type: array
-          items:
-            type: object
-            properties:
-              contentSectionId:
-                type: integer
-              name:
-                type: string
-              value:
-                type: number
-                format: float
-    SpecsMpgs:
-      type: object
-      properties:
-        vehicleId:
-          type: integer
-        mpgs:
-          type: array
-          items:
-            type: object
-            properties:
-              mpgCity:
-                type: integer
-              mpgCombined:
-                type: integer
-              mpgHwy:
-                type: integer
-              mpgECity:
-                type: integer
-              mpgEHwy:
-                type: integer
-              mpgeCombined:
-                type: integer
     ConsumerReviews:
       type: object
       properties:
@@ -2749,6 +2789,40 @@ components:
                 type: string
               Recommendation:
                 type: string
+    CTO:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        zipCode:
+          type: string
+        regionId:
+          type: integer
+        isNationalPricing:
+          type: boolean
+        costPerMile:
+          type: number
+          format: float
+        fiveYearTotalCostSum:
+          type: integer
+        fiveYearTotalCostAvg:
+          type: integer
+        fuel:
+          $ref: '#/components/schemas/CTOAttribute'
+        insurance:
+          $ref: '#/components/schemas/CTOAttribute'
+        finance:
+          $ref: '#/components/schemas/CTOAttribute'
+        stateFees:
+          $ref: '#/components/schemas/CTOAttribute'
+        maintenance:
+          $ref: '#/components/schemas/CTOAttribute'
+        repairs:
+          $ref: '#/components/schemas/CTOAttribute'
+        depreciation:
+          $ref: '#/components/schemas/CTOAttribute'
+        yearSummary:
+          $ref: '#/components/schemas/CTOYearSummary'
     FuelCostDetail:
       type: object
       properties:
@@ -2765,6 +2839,126 @@ components:
         highwayMiles:
           type: integer
         recommendedFuel:
+          type: string
+    Awards:
+      type: object
+      properties:
+        brandImageAwards:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwardBrand'
+        brvaAwards:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwardBrva'
+        ctoAwards:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwardCto'
+    AwardBrva:
+      type: object
+      properties:
+        awardName:
+          type: string
+        vehicleId:
+          type: integer
+        yearId:
+          type: integer
+        makeId:
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          type: integer
+        modelName:
+          type: string
+        awardDisplayName:
+          type: string
+        description:
+          type: string
+        ymmURL:
+          type: string
+        ymmtBuyUsedUrl:
+          type: string
+        ymmtTradeInUrl:
+          type: string
+        ymmtNewCarUrl:
+          type: string
+        awardsURL:
+          type: string
+        awardType:
+          type: string
+        classification:
+          type: string
+        modelRanking:
+          type: integer
+        12MonthResidualPercentage:
+          type: number
+          format: float
+        24MonthResidualPercentage:
+          type: number
+          format: float
+        36MonthResidualPercentage:
+          type: number
+          format: float
+        48MonthResidualPercentage:
+          type: number
+          format: float
+        60MonthResidualPercentage:
+          type: number
+          format: float
+    AwardCto:
+      type: object
+      properties:
+        awardName:
+          type: string
+        vehicleId:
+          type: integer
+        yearId:
+          type: integer
+        makeId:
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          type: integer
+        modelName:
+          type: string
+        awardDisplayName:
+          type: string
+        description:
+          type: string
+        ymmURL:
+          type: string
+        ymmtBuyUsedUrl:
+          type: string
+        ymmtTradeInUrl:
+          type: string
+        ymmtNewCarUrl:
+          type: string
+        awardsURL:
+          type: string
+        awardType:
+          type: string
+        classification:
+          type: string
+        modelRanking:
+          type: integer
+        cto5YearTotal:
+          type: number
+          format: float
+    Vehicle:
+      type: object
+      properties:
+        vehicleId:
+          type: integer
+        year:
+          type: integer
+        make:
+          type: string
+        model:
+          type: string
+        trim:
           type: string
     Specs:
       type: object
@@ -2922,73 +3116,24 @@ components:
               widthWithoutMirrors:
                 type: number
                 format: float
-    DataVersion:
-      type: object
-      required:
-      - dataVersionId
-      - startDate
-      - endDate
-      properties:
-        dataVersionId:
-          type: string
-        startDate:
-          type: string
-          format: date
-        endDate:
-          format: date
-          type: string
-    AwardBrva:
+    IDWS.Platform.ResponseMessage.ReturnResponse:
       type: object
       properties:
-        awardName:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
           type: string
-        vehicleId:
-          type: integer
-        yearId:
-          type: integer
-        makeId:
-          type: integer
-        makeName:
+        message:
           type: string
-        modelId:
-          type: integer
-        modelName:
-          type: string
-        awardDisplayName:
-          type: string
-        description:
-          type: string
-        ymmURL:
-          type: string
-        ymmtBuyUsedUrl:
-          type: string
-        ymmtTradeInUrl:
-          type: string
-        ymmtNewCarUrl:
-          type: string
-        awardsURL:
-          type: string
-        awardType:
-          type: string
-        classification:
-          type: string
-        modelRanking:
-          type: integer
-        12MonthResidualPercentage:
-          type: number
-          format: float
-        24MonthResidualPercentage:
-          type: number
-          format: float
-        36MonthResidualPercentage:
-          type: number
-          format: float
-        48MonthResidualPercentage:
-          type: number
-          format: float
-        60MonthResidualPercentage:
-          type: number
-          format: float
     IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse_Vehicle:
       type: object
       properties:
@@ -3106,24 +3251,6 @@ components:
           type: array
           items:
             type: string
-    IDWS.Platform.ResponseMessage.ReturnResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.VehicleResponse:
       type: object
       properties:
@@ -3143,16 +3270,38 @@ components:
         count:
           format: int32
           type: integer
-    Engine:
+    Transmission:
       type: object
       required:
-      - engineId
+      - transmissionId
       properties:
-        engineId:
+        transmissionId:
           type: integer
           minimum: 0
         displayName:
           type: string
+    VehicleEligibility:
+      type: object
+      properties:
+        isEligible:
+          type: boolean
+        excludedEngines:
+          type: array
+          items:
+            type: integer
+        excludedDrivetrains:
+          type: array
+          items:
+            type: integer
+        excludedTransmissions:
+          type: array
+          items:
+            type: integer
+    Trims:
+      description: An array of vehicle trims.
+      type: array
+      items:
+        $ref: '#/components/schemas/Trim'
     Response_2:
       properties:
         meta:
@@ -3193,106 +3342,13 @@ components:
                     type: object
                   templated:
                     type: boolean
-    OptionRequest:
-      type: object
-      required:
-      - optionId
-      - isSelected
-      properties:
-        optionId:
-          type: integer
-          minimum: 0
-        isSelected:
-          type: boolean
-    Transmissions:
-      description: An array of vehicle transmissions.
-      type: array
-      items:
-        $ref: '#/components/schemas/Transmission'
-    VehicleEligibility:
+    Plate2Vin:
       type: object
       properties:
-        isEligible:
-          type: boolean
-        excludedEngines:
-          type: array
-          items:
-            type: integer
-        excludedDrivetrains:
-          type: array
-          items:
-            type: integer
-        excludedTransmissions:
-          type: array
-          items:
-            type: integer
-    Colors:
-      description: An array of vehicle colors.
-      type: array
-      items:
-        $ref: '#/components/schemas/Color'
-    DecodedVin:
-      type: object
-      properties:
-        possibilities:
-          type: array
-          description: This array of possible vehicle components based on the VIN.
-          items:
-            $ref: '#/components/schemas/VinPossibility'
-    Option:
-      allOf:
-      - $ref: '#/components/schemas/OptionRequest'
-      - type: object
-        properties:
-          displayName:
-            type: string
-          groupName:
-            type: string
-    Trims:
-      description: An array of vehicle trims.
-      type: array
-      items:
-        $ref: '#/components/schemas/Trim'
-    Drivetrain:
-      type: object
-      required:
-      - drivetrainId
-      properties:
-        drivetrainId:
-          type: integer
-          minimum: 0
-        displayName:
+        vin:
           type: string
-    Plate2VinState:
-      type: object
-      properties:
-        name:
-          type: string
-        abbreviation:
-          type: string
-    Makes:
-      description: An array of vehicle makes.
-      type: array
-      items:
-        $ref: '#/components/schemas/Make'
-    Trim:
-      type: object
-      required:
-      - trimId
-      properties:
-        trimId:
-          type: integer
-          minimum: 0
-        displayName:
-          type: string
-    Plate2VinStateResponse:
-      type: object
-      properties:
-        states:
-          type: array
-          description: This array of possible states for Plate2Vin Request.
-          items:
-            $ref: '#/components/schemas/Plate2VinState'
+          minLength: 0
+          maxLength: 17
     Color:
       type: object
       required:
@@ -3303,41 +3359,16 @@ components:
           minimum: 0
         displayName:
           type: string
-    Transmission:
+    Trim:
       type: object
       required:
-      - transmissionId
+      - trimId
       properties:
-        transmissionId:
+        trimId:
           type: integer
           minimum: 0
         displayName:
           type: string
-    Options:
-      description: An array of vehicle makes.
-      type: array
-      items:
-        $ref: '#/components/schemas/Option'
-    Drivetrains:
-      description: An array of vehicle drivetrains.
-      type: array
-      items:
-        $ref: '#/components/schemas/Drivetrain'
-    Make:
-      type: object
-      required:
-      - makeId
-      properties:
-        makeId:
-          type: integer
-          minimum: 0
-        displayName:
-          type: string
-    Engines:
-      description: An array of vehicle engines.
-      type: array
-      items:
-        $ref: '#/components/schemas/Engine'
     Plate2VinResponse:
       type: object
       properties:
@@ -3346,13 +3377,32 @@ components:
           description: This array of possible VINs based on the Plate.
           items:
             $ref: '#/components/schemas/Plate2Vin'
-    Year:
+    Years:
+      description: An array of vehicle years.
+      type: array
+      items:
+        $ref: '#/components/schemas/Year'
+    Makes:
+      description: An array of vehicle makes.
+      type: array
+      items:
+        $ref: '#/components/schemas/Make'
+    Models:
+      description: An array of vehicle models.
+      type: array
+      items:
+        $ref: '#/components/schemas/Model'
+    Transmissions:
+      description: An array of vehicle transmissions.
+      type: array
+      items:
+        $ref: '#/components/schemas/Transmission'
+    Engine:
       type: object
       required:
-      - yearId
-      - displayName
+      - engineId
       properties:
-        yearId:
+        engineId:
           type: integer
           minimum: 0
         displayName:
@@ -3388,23 +3438,22 @@ components:
           description: All of the options applicable for this Trim based on the VIN. Whether the Option is selected by default is determined by the VIN.
           items:
             $ref: '#/components/schemas/Option'
-    Plate2Vin:
+    Plate2VinStateResponse:
       type: object
       properties:
-        vin:
-          type: string
-          minLength: 0
-          maxLength: 17
-    Models:
-      description: An array of vehicle models.
-      type: array
-      items:
-        $ref: '#/components/schemas/Model'
-    Years:
-      description: An array of vehicle years.
-      type: array
-      items:
-        $ref: '#/components/schemas/Year'
+        states:
+          type: array
+          description: This array of possible states for Plate2Vin Request.
+          items:
+            $ref: '#/components/schemas/Plate2VinState'
+    DecodedVin:
+      type: object
+      properties:
+        possibilities:
+          type: array
+          description: This array of possible vehicle components based on the VIN.
+          items:
+            $ref: '#/components/schemas/VinPossibility'
     Model:
       type: object
       required:
@@ -3415,133 +3464,84 @@ components:
           minimum: 0
         displayName:
           type: string
-  parameters:
-    version:
-      name: version
-      in: path
-      description: API Version
-      required: true
-      schema:
-        type: string
-        enum:
-        - v1
-    dataVersionId:
-      name: dataVersionId
-      in: query
-      description: The version to override
-      required: false
-      schema:
-        type: integer
-    zipcode:
-      name: zipcode
-      in: query
-      description: Desired zipcode to use for regionality
-      required: true
-      schema:
-        type: string
-    campaign-key:
-      name: campaign-key
-      in: query
-      description: The campaign identifier
-      required: false
-      schema:
-        type: string
-    vehicleIds:
-      name: vehicleIds
-      in: query
-      description: Comma seperated list of Vehicle id's
-      required: true
-      schema:
-        type: string
-    trimId:
-      name: trimId
-      description: a numeric ID representing the Trim of the vehicle
-      in: query
-      required: true
-      x-valid: 410336
-      x-invalid: foo
-      schema:
-        type: integer
-        minimum: 0
-    modelId:
-      name: modelId
-      description: a numeric ID representing the model of the vehicle
-      in: query
-      required: true
-      x-valid: 951
-      x-invalid: foo
-      schema:
-        type: integer
-        minimum: 0
-    include:
-      name: include
-      in: query
-      description: The fields that should be included in the returned object.
-      required: false
-      x-valid: foo
-      x-invalid: 123
-      schema:
-        type: string
-        pattern: /([a-zA-Z]+),?/g
-    filter:
-      name: filter
-      in: query
-      description: A list of fields that should be filtered on
-      required: false
-      x-valid: foo=bar
-      x-invalid: 123
-      schema:
-        type: string
-        pattern: /([a-zA-Z]+\:[a-zA-Z\,]+);?/g
-    count:
-      name: count
-      in: query
-      description: The number of items returned in a collection
-      required: false
-      x-valid: 100
-      x-invalid: -1
-      schema:
-        type: integer
-        default: 100
-    apiKey:
-      name: api_key
-      description: Unique identifier to authorize the request
-      in: query
-      required: true
-      x-valid: b0afc168-ff1d-4858-955e-4a375189ecd0
-      x-invalid: afc168-ff1d-4858-955e-4a375189ecd
-      schema:
-        type: string
-    yearId:
-      name: yearId
-      description: a numeric ID representing the year of a vehicle
-      in: query
-      required: true
-      x-valid: 2015
-      x-invalid: foo
-      schema:
-        type: integer
-        minimum: 0
-    exclude:
-      name: exclude
-      in: query
-      description: The fields that should be included in the returned object.
-      required: false
-      x-valid: foo
-      x-invalid: 123
-      schema:
-        type: string
-        pattern: /([a-zA-Z]+),?/g
-    makeId:
-      name: makeId
-      description: a numeric ID representing the make of the vehicle
-      in: query
-      required: true
-      x-valid: 5
-      x-invalid: foo
-      schema:
-        type: integer
-        minimum: 0
+    Option:
+      allOf:
+      - $ref: '#/components/schemas/OptionRequest'
+      - type: object
+        properties:
+          displayName:
+            type: string
+          groupName:
+            type: string
+    Colors:
+      description: An array of vehicle colors.
+      type: array
+      items:
+        $ref: '#/components/schemas/Color'
+    Year:
+      type: object
+      required:
+      - yearId
+      - displayName
+      properties:
+        yearId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Drivetrains:
+      description: An array of vehicle drivetrains.
+      type: array
+      items:
+        $ref: '#/components/schemas/Drivetrain'
+    Options:
+      description: An array of vehicle makes.
+      type: array
+      items:
+        $ref: '#/components/schemas/Option'
+    Engines:
+      description: An array of vehicle engines.
+      type: array
+      items:
+        $ref: '#/components/schemas/Engine'
+    Plate2VinState:
+      type: object
+      properties:
+        name:
+          type: string
+        abbreviation:
+          type: string
+    OptionRequest:
+      type: object
+      required:
+      - optionId
+      - isSelected
+      properties:
+        optionId:
+          type: integer
+          minimum: 0
+        isSelected:
+          type: boolean
+    Drivetrain:
+      type: object
+      required:
+      - drivetrainId
+      properties:
+        drivetrainId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
+    Make:
+      type: object
+      required:
+      - makeId
+      properties:
+        makeId:
+          type: integer
+          minimum: 0
+        displayName:
+          type: string
   responses:
     ServerError:
       description: An internal server error has occured

@@ -70,22 +70,6 @@ paths:
           description: Server Error
 components:
   schemas:
-    IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse_VehicleSpecs:
-      type: object
-      properties:
-        specId:
-          format: int32
-          type: integer
-        specName:
-          type: string
-        specValue:
-          type: string
-        vehicleOptionIds:
-          type: array
-          items:
-            type: string
-        units:
-          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse:
       type: object
       properties:
@@ -105,6 +89,22 @@ components:
         count:
           format: int32
           type: integer
+    IDWS.Vehicle.Contracts.Contracts.V1.VehicleSpecsResponse_VehicleSpecs:
+      type: object
+      properties:
+        specId:
+          format: int32
+          type: integer
+        specName:
+          type: string
+        specValue:
+          type: string
+        vehicleOptionIds:
+          type: array
+          items:
+            type: string
+        units:
+          type: string
   securitySchemes:
     apiKey:
       name: api_key

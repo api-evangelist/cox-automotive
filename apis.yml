@@ -30,7 +30,7 @@ tags:
 - Dealer Software
 - Automotive Retail
 - VIN Decoding
-- Inventory Management
+- Inventory
 - Remarketing
 - Event
 - Webhook
@@ -47,6 +47,7 @@ tags_raw:
 - remarketing
 - events
 - webhooks
+- Inventory Management
 apis:
 - aid: cox-automotive:manheim
   name: Manheim Hypermedia API Suite
@@ -61,6 +62,12 @@ apis:
   baseURL: https://api.manheim.com
   position: Producing
   tags:
+  - Auctions
+  - Remarketing
+  - Vehicle Valuations
+  - Inventory
+  - Automotive
+  tags_raw:
   - Auctions
   - Remarketing
   - Vehicle Valuations
