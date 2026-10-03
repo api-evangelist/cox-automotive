@@ -131,36 +131,6 @@ paths:
           description: Server Error
 components:
   schemas:
-    IDWS.Platform.ResponseMessage.ReturnResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-    IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse_ModelYear:
-      type: object
-      properties:
-        modelYearId:
-          format: int32
-          type: integer
-        yearId:
-          format: int32
-          type: integer
-        makeId:
-          format: int32
-          type: integer
-        makeName:
-          type: string
-        modelId:
-          format: int32
-          type: integer
-        modelName:
-          type: string
     IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
       type: object
       properties:
@@ -187,6 +157,36 @@ components:
         count:
           format: int32
           type: integer
+    IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse_ModelYear:
+      type: object
+      properties:
+        modelYearId:
+          format: int32
+          type: integer
+        yearId:
+          format: int32
+          type: integer
+        makeId:
+          format: int32
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          format: int32
+          type: integer
+        modelName:
+          type: string
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
   securitySchemes:
     apiKey:
       name: api_key

@@ -56,17 +56,13 @@ paths:
           description: Server Error
 components:
   schemas:
-    IDWS.Platform.ResponseMessage.ReturnResponse:
+    IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        code:
+          type: string
+        message:
+          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.VinResponse_VinResult:
       type: object
       properties:
@@ -171,20 +167,6 @@ components:
           type: boolean
         hasRelationships:
           type: boolean
-    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.VinResponse:
       type: object
       properties:
@@ -196,6 +178,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
   securitySchemes:
     apiKey:
       name: api_key

@@ -42,17 +42,6 @@ paths:
           description: Server Error
 components:
   schemas:
-    IDWS.Platform.ResponseMessage.ReturnResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
     IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
       type: object
       properties:
@@ -68,6 +57,17 @@ components:
           type: integer
         ymmURL:
           type: string
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
   securitySchemes:
     apiKey:
       name: api_key

@@ -48,48 +48,26 @@ paths:
               $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest'
 components:
   schemas:
-    IDWS.Platform.ResponseMessage.ReturnResponse:
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel:
-      type: object
-      properties:
-        vehicleId:
+        configuration:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+        zipCode:
+          type: string
+        annualMileage:
           format: int32
           type: integer
-        vehicleOptionIds:
-          type: array
-          items:
-            format: int32
-            type: integer
-    IDWS.Vehicle.Contracts.Contracts.V1.Cto.ValueRatingAttributes:
-      type: object
-      properties:
-        description:
-          type: string
-        label:
-          type: string
-        rating:
-          type: string
-    IDWS.Vehicle.Contracts.Contracts.V1.Cto.CostPerMileAttributes:
-      type: object
-      properties:
-        description:
-          type: string
-        label:
-          type: string
-        cost:
+        loanTerm:
+          format: int32
+          type: integer
+        apr:
           format: double
           type: number
-    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+        downPaymentAmount:
+          format: double
+          type: number
+    IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
       type: object
       properties:
         code:
@@ -124,6 +102,15 @@ components:
         year5:
           format: int32
           type: integer
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.ValueRatingAttributes:
+      type: object
+      properties:
+        description:
+          type: string
+        label:
+          type: string
+        rating:
+          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoResponse:
       type: object
       properties:
@@ -156,30 +143,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage'
-    IDWS.Vehicle.Contracts.Contracts.V1.IDWSMessage:
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        vehicleOptionIds:
+          type: array
+          items:
+            format: int32
+            type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
       type: object
       properties:
         code:
           type: string
         message:
           type: string
-    IDWS.Vehicle.Contracts.Contracts.V1.Cto.CtoRequest:
+    IDWS.Vehicle.Contracts.Contracts.V1.Cto.CostPerMileAttributes:
       type: object
       properties:
-        configuration:
-          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
-        zipCode:
+        description:
           type: string
-        annualMileage:
-          format: int32
-          type: integer
-        loanTerm:
-          format: int32
-          type: integer
-        apr:
-          format: double
-          type: number
-        downPaymentAmount:
+        label:
+          type: string
+        cost:
           format: double
           type: number
   securitySchemes:
