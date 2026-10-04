@@ -1082,6 +1082,9 @@ apis:
   - type: APIReference
     url: https://developer.kbb.com/batchvin/99-Swagger
 common:
+- type: CapabilityMap
+  url: capabilities/cox-automotive-capability-edges.yml
+  name: Cox Automotive Business Capability Map
 - type: Overlay
   url: overlays/cox-automotive-kbb-idws-editorial-overlay.yaml
 - type: Overlay
