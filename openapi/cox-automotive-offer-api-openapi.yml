@@ -93,11 +93,129 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ContactInfoRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        email:
+          type: string
+          format: email
+        confirmEmail:
+          type: string
+          format: email
+        phone:
+          type: string
+          format: phone
+        zip:
+          type: string
+          minLength: 1
+          maxLength: 5
+        legalAcceptance:
+          type: boolean
+    ProspectRequest:
+      type: object
+      required:
+      - vehicle
+      - mileage
+      - dealerId
+      properties:
+        vehicle:
+          $ref: '#/components/schemas/VehicleIdentity'
+        mileage:
+          type: integer
+          minimum: 0
+          maximum: 1000000
+        dealerId:
+          type: integer
+          minimum: 0
+        incomingUrl:
+          type: string
+    VehicleIdentity:
+      type: object
+      required:
+      - yearId
+      - makeId
+      - modelId
+      - trimId
+      - transmissionId
+      - engineId
+      - drivetrainId
+      - colorId
+      properties:
+        yearId:
+          type: integer
+          minimum: 0
+        makeId:
+          type: integer
+          minimum: 0
+        modelId:
+          type: integer
+          minimum: 0
+        trimId:
+          type: integer
+          minimum: 0
+        transmissionId:
+          type: integer
+          minimum: 0
+        engineId:
+          type: integer
+          minimum: 0
+        drivetrainId:
+          type: integer
+          minimum: 0
+        colorId:
+          type: integer
+          minimum: 0
+        vin:
+          type: string
+          minLength: 0
+          maxLength: 17
+    Questions:
+      description: An array of questions.
+      type: array
+      items:
+        $ref: '#/components/schemas/Question'
+    url:
+      type: string
+      pattern: ^(https?:\/\/)?[\w-]+\.[\w-]+(:\d+)?(\/)?\S*$
     Options:
       description: An array of vehicle makes.
       type: array
       items:
         $ref: '#/components/schemas/Option'
+    Prospect:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ProspectRequest'
+      - type: object
+        required:
+        - prospectId
+        - status
+        properties:
+          prospectId:
+            type: string
+            format: uuid
+          status:
+            type: string
+            enum:
+            - inProgress
+            - submitted
+            - canSubmit
+          history:
+            $ref: '#/components/schemas/Questions'
+          options:
+            $ref: '#/components/schemas/Options'
+          conditions:
+            $ref: '#/components/schemas/Questions'
+          contactInfo:
+            $ref: '#/components/schemas/ContactInfo'
     Question:
       allOf:
       - $ref: '#/components/schemas/QuestionRequest'
@@ -279,135 +397,15 @@ components:
             - Enum
           label:
             type: string
-    OptionRequest:
-      type: object
-      required:
-      - optionId
-      - isSelected
-      properties:
-        optionId:
-          type: integer
-          minimum: 0
-        isSelected:
-          type: boolean
-    ProspectRequest:
-      type: object
-      required:
-      - vehicle
-      - mileage
-      - dealerId
-      properties:
-        vehicle:
-          $ref: '#/components/schemas/VehicleIdentity'
-        mileage:
-          type: integer
-          minimum: 0
-          maximum: 1000000
-        dealerId:
-          type: integer
-          minimum: 0
-        incomingUrl:
-          type: string
-    Prospect:
-      type: object
+    Option:
       allOf:
-      - $ref: '#/components/schemas/ProspectRequest'
+      - $ref: '#/components/schemas/OptionRequest'
       - type: object
-        required:
-        - prospectId
-        - status
         properties:
-          prospectId:
+          displayName:
             type: string
-            format: uuid
-          status:
+          groupName:
             type: string
-            enum:
-            - inProgress
-            - submitted
-            - canSubmit
-          history:
-            $ref: '#/components/schemas/Questions'
-          options:
-            $ref: '#/components/schemas/Options'
-          conditions:
-            $ref: '#/components/schemas/Questions'
-          contactInfo:
-            $ref: '#/components/schemas/ContactInfo'
-    VehicleIdentity:
-      type: object
-      required:
-      - yearId
-      - makeId
-      - modelId
-      - trimId
-      - transmissionId
-      - engineId
-      - drivetrainId
-      - colorId
-      properties:
-        yearId:
-          type: integer
-          minimum: 0
-        makeId:
-          type: integer
-          minimum: 0
-        modelId:
-          type: integer
-          minimum: 0
-        trimId:
-          type: integer
-          minimum: 0
-        transmissionId:
-          type: integer
-          minimum: 0
-        engineId:
-          type: integer
-          minimum: 0
-        drivetrainId:
-          type: integer
-          minimum: 0
-        colorId:
-          type: integer
-          minimum: 0
-        vin:
-          type: string
-          minLength: 0
-          maxLength: 17
-    ContactInfoRequest:
-      type: object
-      properties:
-        firstName:
-          type: string
-          minLength: 1
-          maxLength: 50
-        lastName:
-          type: string
-          minLength: 1
-          maxLength: 50
-        email:
-          type: string
-          format: email
-        confirmEmail:
-          type: string
-          format: email
-        phone:
-          type: string
-          format: phone
-        zip:
-          type: string
-          minLength: 1
-          maxLength: 5
-        legalAcceptance:
-          type: boolean
-    Questions:
-      description: An array of questions.
-      type: array
-      items:
-        $ref: '#/components/schemas/Question'
-    uuid:
-      type: string
-      pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
     Response:
       properties:
         meta:
@@ -448,63 +446,20 @@ components:
                     type: object
                   templated:
                     type: boolean
-    ContactInfo:
-      allOf:
-      - $ref: '#/components/schemas/ContactInfoRequest'
-      - type: object
-        properties:
-          required:
-            type: array
-            description: This array of property names indicates which fields are required
-            items:
-              type: string
-              enum:
-              - firstName
-              - lastName
-              - email
-              - confirmEmail
-              - phone
-              - legalAcceptance
-              - zip
-    QuestionRequest:
-      allOf:
-      - type: object
-        required:
-        - questionId
-        properties:
-          questionId:
-            type: string
-            pattern: ^[a-zA-Z0-9\/]+$
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: boolean
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: string
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: number
-    Option:
-      allOf:
-      - $ref: '#/components/schemas/OptionRequest'
-      - type: object
-        properties:
-          displayName:
-            type: string
-          groupName:
-            type: string
-    url:
+    uuid:
       type: string
-      pattern: ^(https?:\/\/)?[\w-]+\.[\w-]+(:\d+)?(\/)?\S*$
+      pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    OptionRequest:
+      type: object
+      required:
+      - optionId
+      - isSelected
+      properties:
+        optionId:
+          type: integer
+          minimum: 0
+        isSelected:
+          type: boolean
     Offer:
       type: object
       allOf:
@@ -539,15 +494,60 @@ components:
             - PURCHASED
             - RECEIVED
             - SOLD
+    QuestionRequest:
+      allOf:
+      - type: object
+        required:
+        - questionId
+        properties:
+          questionId:
+            type: string
+            pattern: ^[a-zA-Z0-9\/]+$
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: boolean
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: string
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: number
+    ContactInfo:
+      allOf:
+      - $ref: '#/components/schemas/ContactInfoRequest'
+      - type: object
+        properties:
+          required:
+            type: array
+            description: This array of property names indicates which fields are required
+            items:
+              type: string
+              enum:
+              - firstName
+              - lastName
+              - email
+              - confirmEmail
+              - phone
+              - legalAcceptance
+              - zip
   responses:
-    ServerError:
-      description: An internal server error has occured
+    InvalidAuth:
+      description: An unauthenticated operation has been attempted
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Response'
-    InvalidAuth:
-      description: An unauthenticated operation has been attempted
+    ServerError:
+      description: An internal server error has occured
       content:
         application/json:
           schema:

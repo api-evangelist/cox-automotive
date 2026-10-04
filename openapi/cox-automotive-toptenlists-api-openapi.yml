@@ -77,13 +77,17 @@ paths:
           description: Server Error
 components:
   schemas:
-    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse:
+    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList:
       type: object
       properties:
-        topTenLists:
+        topTenListTitle:
+          type: string
+        overviewUrl:
+          type: string
+        vehicles:
           type: array
           items:
-            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList'
+            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle'
     IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle:
       type: object
       properties:
@@ -106,6 +110,20 @@ components:
         vehicleId:
           format: int32
           type: integer
+    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse:
+      type: object
+      properties:
+        topTenLists:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList'
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     IDWS.Platform.ResponseMessage.ReturnResponse:
       type: object
       properties:
@@ -117,24 +135,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList:
-      type: object
-      properties:
-        topTenListTitle:
-          type: string
-        overviewUrl:
-          type: string
-        vehicles:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle'
   securitySchemes:
     apiKey:
       name: api_key

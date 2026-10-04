@@ -100,6 +100,17 @@ components:
           type: string
         message:
           type: string
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
     IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse:
       type: object
       properties:
@@ -125,17 +136,6 @@ components:
         yearId:
           format: int32
           type: integer
-    IDWS.Platform.ResponseMessage.ReturnResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
   securitySchemes:
     apiKey:
       name: api_key

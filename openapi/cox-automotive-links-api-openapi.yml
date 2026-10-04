@@ -49,14 +49,6 @@ components:
           type: string
         message:
           type: string
-    IDWS.Vehicle.Domain.Common.Models.External.LinksResponseModel:
-      type: object
-      properties:
-        vehicleId:
-          format: int32
-          type: integer
-        ymmURL:
-          type: string
     IDWS.Platform.ResponseMessage.ReturnResponse:
       type: object
       properties:
@@ -68,6 +60,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Domain.Common.Models.External.LinksResponseModel:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        ymmURL:
+          type: string
   securitySchemes:
     apiKey:
       name: api_key

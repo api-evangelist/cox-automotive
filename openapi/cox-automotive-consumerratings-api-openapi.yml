@@ -44,13 +44,6 @@ paths:
           description: Server Error
 components:
   schemas:
-    IDWS.Editorial.Contracts.Contracts.V1.Rating:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
     IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
       type: object
       properties:
@@ -91,6 +84,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Editorial.Contracts.Contracts.V1.Rating:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
   securitySchemes:
     apiKey:
       name: api_key

@@ -222,6 +222,9 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    Object:
+      type: object
+      properties: {}
     BatchJobPostDetails:
       type: object
       properties:
@@ -405,9 +408,6 @@ components:
           required: true
         CheckDigitFlag:
           type: boolean
-    Object:
-      type: object
-      properties: {}
   securitySchemes:
     Authorization:
       type: apiKey

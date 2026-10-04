@@ -55,6 +55,42 @@ paths:
               $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationRequest'
 components:
   schemas:
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationResponse:
+      type: object
+      properties:
+        finalConfiguration:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.WarningModel'
+    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationRequest:
+      type: object
+      properties:
+        startingConfiguration:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
+        configurationChanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationChangeModel'
     IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.WarningModel:
       type: object
       properties:
@@ -72,35 +108,6 @@ components:
           items:
             format: int32
             type: integer
-    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationRequest:
-      type: object
-      properties:
-        startingConfiguration:
-          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
-        configurationChanges:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationChangeModel'
-    IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.ApplyConfigurationResponse:
-      type: object
-      properties:
-        finalConfiguration:
-          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.WarningModel'
-    IDWS.Platform.ResponseMessage.ReturnResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
     IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationModel:
       type: object
       properties:
@@ -112,13 +119,6 @@ components:
           items:
             format: int32
             type: integer
-    IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.ApplyConfiguration.VehicleConfigurationChangeModel:
       type: object
       properties:

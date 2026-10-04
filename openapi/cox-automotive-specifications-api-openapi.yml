@@ -53,14 +53,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse_SpecificationModel:
-      type: object
-      properties:
-        specId:
-          format: int32
-          type: integer
-        specName:
-          type: string
     IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
       type: object
       properties:
@@ -68,17 +60,6 @@ components:
           type: string
         message:
           type: string
-    IDWS.Platform.ResponseMessage.ReturnResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
     IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse:
       type: object
       properties:
@@ -98,6 +79,25 @@ components:
         count:
           format: int32
           type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse_SpecificationModel:
+      type: object
+      properties:
+        specId:
+          format: int32
+          type: integer
+        specName:
+          type: string
   securitySchemes:
     apiKey:
       name: api_key

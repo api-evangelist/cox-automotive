@@ -87,17 +87,6 @@ components:
         count:
           format: int32
           type: integer
-    IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse_TypiacalResponseModel:
-      type: object
-      properties:
-        vehicleId:
-          format: int32
-          type: integer
-        valuationDate:
-          type: string
-        mileage:
-          format: int32
-          type: integer
     IDWS.Platform.ResponseMessage.ReturnResponse:
       type: object
       properties:
@@ -109,6 +98,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+    IDWS.Vehicle.Contracts.Contracts.V1.Typicals.TypicalsResponse_TypiacalResponseModel:
+      type: object
+      properties:
+        vehicleId:
+          format: int32
+          type: integer
+        valuationDate:
+          type: string
+        mileage:
+          format: int32
+          type: integer
   securitySchemes:
     apiKey:
       name: api_key
