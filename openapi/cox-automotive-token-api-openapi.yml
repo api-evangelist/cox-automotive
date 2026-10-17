@@ -35,9 +35,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    Object:
-      type: object
-      properties: {}
     TokenRequestModel:
       type: object
       properties:
@@ -47,6 +44,9 @@ components:
         client_secret:
           type: string
           required: true
+    Object:
+      type: object
+      properties: {}
   securitySchemes:
     Authorization:
       type: apiKey

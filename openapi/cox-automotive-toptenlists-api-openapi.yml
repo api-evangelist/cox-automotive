@@ -77,17 +77,6 @@ paths:
           description: Server Error
 components:
   schemas:
-    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList:
-      type: object
-      properties:
-        topTenListTitle:
-          type: string
-        overviewUrl:
-          type: string
-        vehicles:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle'
     IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle:
       type: object
       properties:
@@ -110,6 +99,17 @@ components:
         vehicleId:
           format: int32
           type: integer
+    IDWS.Platform.ResponseMessage.ReturnResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
     IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse:
       type: object
       properties:
@@ -124,17 +124,17 @@ components:
           type: string
         message:
           type: string
-    IDWS.Platform.ResponseMessage.ReturnResponse:
+    IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenList:
       type: object
       properties:
-        errors:
+        topTenListTitle:
+          type: string
+        overviewUrl:
+          type: string
+        vehicles:
           type: array
           items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+            $ref: '#/components/schemas/IDWS.Editorial.Contracts.Contracts.V1.TopTenListsResponse_TopTenVehicle'
   securitySchemes:
     apiKey:
       name: api_key

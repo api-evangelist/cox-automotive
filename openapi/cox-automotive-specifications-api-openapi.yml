@@ -60,6 +60,14 @@ components:
           type: string
         message:
           type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse_SpecificationModel:
+      type: object
+      properties:
+        specId:
+          format: int32
+          type: integer
+        specName:
+          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse:
       type: object
       properties:
@@ -90,14 +98,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-    IDWS.Vehicle.Contracts.Contracts.V1.SpecificationsResponse_SpecificationModel:
-      type: object
-      properties:
-        specId:
-          format: int32
-          type: integer
-        specName:
-          type: string
   securitySchemes:
     apiKey:
       name: api_key

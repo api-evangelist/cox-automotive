@@ -974,103 +974,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ContactInfoRequest:
-      type: object
-      properties:
-        firstName:
-          type: string
-          minLength: 1
-          maxLength: 50
-        lastName:
-          type: string
-          minLength: 1
-          maxLength: 50
-        email:
-          type: string
-          format: email
-        confirmEmail:
-          type: string
-          format: email
-        phone:
-          type: string
-          format: phone
-        zip:
-          type: string
-          minLength: 1
-          maxLength: 5
-        legalAcceptance:
-          type: boolean
-    ProspectRequest:
-      type: object
-      required:
-      - vehicle
-      - mileage
-      - dealerId
-      properties:
-        vehicle:
-          $ref: '#/components/schemas/VehicleIdentity'
-        mileage:
-          type: integer
-          minimum: 0
-          maximum: 1000000
-        dealerId:
-          type: integer
-          minimum: 0
-        incomingUrl:
-          type: string
-    VehicleIdentity:
-      type: object
-      required:
-      - yearId
-      - makeId
-      - modelId
-      - trimId
-      - transmissionId
-      - engineId
-      - drivetrainId
-      - colorId
-      properties:
-        yearId:
-          type: integer
-          minimum: 0
-        makeId:
-          type: integer
-          minimum: 0
-        modelId:
-          type: integer
-          minimum: 0
-        trimId:
-          type: integer
-          minimum: 0
-        transmissionId:
-          type: integer
-          minimum: 0
-        engineId:
-          type: integer
-          minimum: 0
-        drivetrainId:
-          type: integer
-          minimum: 0
-        colorId:
-          type: integer
-          minimum: 0
-        vin:
-          type: string
-          minLength: 0
-          maxLength: 17
-    Questions:
-      description: An array of questions.
-      type: array
-      items:
-        $ref: '#/components/schemas/Question'
-    url:
-      type: string
-      pattern: ^(https?:\/\/)?[\w-]+\.[\w-]+(:\d+)?(\/)?\S*$
-    Options:
-      description: An array of vehicle makes.
-      type: array
-      items:
-        $ref: '#/components/schemas/Option'
     Prospect:
       type: object
       allOf:
@@ -1278,25 +1181,6 @@ components:
             - Enum
           label:
             type: string
-    OptionsRequest:
-      description: An Option with its selected value.
-      type: array
-      items:
-        $ref: '#/components/schemas/OptionRequest'
-    QuestionsRequest:
-      description: An array of questions with their values.
-      type: array
-      items:
-        $ref: '#/components/schemas/QuestionRequest'
-    Option:
-      allOf:
-      - $ref: '#/components/schemas/OptionRequest'
-      - type: object
-        properties:
-          displayName:
-            type: string
-          groupName:
-            type: string
     Response:
       properties:
         meta:
@@ -1340,6 +1224,87 @@ components:
     uuid:
       type: string
       pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    QuestionsRequest:
+      description: An array of questions with their values.
+      type: array
+      items:
+        $ref: '#/components/schemas/QuestionRequest'
+    QuestionRequest:
+      allOf:
+      - type: object
+        required:
+        - questionId
+        properties:
+          questionId:
+            type: string
+            pattern: ^[a-zA-Z0-9\/]+$
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: boolean
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: string
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: number
+    VehicleIdentity:
+      type: object
+      required:
+      - yearId
+      - makeId
+      - modelId
+      - trimId
+      - transmissionId
+      - engineId
+      - drivetrainId
+      - colorId
+      properties:
+        yearId:
+          type: integer
+          minimum: 0
+        makeId:
+          type: integer
+          minimum: 0
+        modelId:
+          type: integer
+          minimum: 0
+        trimId:
+          type: integer
+          minimum: 0
+        transmissionId:
+          type: integer
+          minimum: 0
+        engineId:
+          type: integer
+          minimum: 0
+        drivetrainId:
+          type: integer
+          minimum: 0
+        colorId:
+          type: integer
+          minimum: 0
+        vin:
+          type: string
+          minLength: 0
+          maxLength: 17
+    Option:
+      allOf:
+      - $ref: '#/components/schemas/OptionRequest'
+      - type: object
+        properties:
+          displayName:
+            type: string
+          groupName:
+            type: string
     OptionRequest:
       type: object
       required:
@@ -1385,33 +1350,14 @@ components:
             - PURCHASED
             - RECEIVED
             - SOLD
-    QuestionRequest:
-      allOf:
-      - type: object
-        required:
-        - questionId
-        properties:
-          questionId:
-            type: string
-            pattern: ^[a-zA-Z0-9\/]+$
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: boolean
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: string
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: number
+    Questions:
+      description: An array of questions.
+      type: array
+      items:
+        $ref: '#/components/schemas/Question'
+    url:
+      type: string
+      pattern: ^(https?:\/\/)?[\w-]+\.[\w-]+(:\d+)?(\/)?\S*$
     ContactInfo:
       allOf:
       - $ref: '#/components/schemas/ContactInfoRequest'
@@ -1430,6 +1376,60 @@ components:
               - phone
               - legalAcceptance
               - zip
+    ContactInfoRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        email:
+          type: string
+          format: email
+        confirmEmail:
+          type: string
+          format: email
+        phone:
+          type: string
+          format: phone
+        zip:
+          type: string
+          minLength: 1
+          maxLength: 5
+        legalAcceptance:
+          type: boolean
+    OptionsRequest:
+      description: An Option with its selected value.
+      type: array
+      items:
+        $ref: '#/components/schemas/OptionRequest'
+    Options:
+      description: An array of vehicle makes.
+      type: array
+      items:
+        $ref: '#/components/schemas/Option'
+    ProspectRequest:
+      type: object
+      required:
+      - vehicle
+      - mileage
+      - dealerId
+      properties:
+        vehicle:
+          $ref: '#/components/schemas/VehicleIdentity'
+        mileage:
+          type: integer
+          minimum: 0
+          maximum: 1000000
+        dealerId:
+          type: integer
+          minimum: 0
+        incomingUrl:
+          type: string
   responses:
     InvalidAuth:
       description: An unauthenticated operation has been attempted
@@ -1444,6 +1444,15 @@ components:
           schema:
             $ref: '#/components/schemas/Response'
   parameters:
+    apiKey:
+      name: api_key
+      description: Unique identifier to authorize the request
+      in: query
+      required: true
+      x-valid: b0afc168-ff1d-4858-955e-4a375189ecd0
+      x-invalid: afc168-ff1d-4858-955e-4a375189ecd
+      schema:
+        type: string
     prospectId:
       name: prospectId
       description: Unique identifier to represent all aspects of a prospective vehicle offer including vehicle configuration, condition, and contact info.
@@ -1453,6 +1462,16 @@ components:
       x-invalid: afc168-ff1d-4858-955e-4a375189ecdd
       schema:
         type: string
+    filter:
+      name: filter
+      in: query
+      description: A list of fields that should be filtered on
+      required: false
+      x-valid: foo=bar
+      x-invalid: 123
+      schema:
+        type: string
+        pattern: /([a-zA-Z]+\:[a-zA-Z\,]+);?/g
     include:
       name: include
       in: query
@@ -1483,25 +1502,6 @@ components:
       schema:
         type: integer
         default: 100
-    apiKey:
-      name: api_key
-      description: Unique identifier to authorize the request
-      in: query
-      required: true
-      x-valid: b0afc168-ff1d-4858-955e-4a375189ecd0
-      x-invalid: afc168-ff1d-4858-955e-4a375189ecd
-      schema:
-        type: string
-    filter:
-      name: filter
-      in: query
-      description: A list of fields that should be filtered on
-      required: false
-      x-valid: foo=bar
-      x-invalid: 123
-      schema:
-        type: string
-        pattern: /([a-zA-Z]+\:[a-zA-Z\,]+);?/g
   securitySchemes:
     keyQuery:
       type: apiKey

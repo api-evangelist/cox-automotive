@@ -138,6 +138,25 @@ components:
           type: string
         message:
           type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse_ModelYear:
+      type: object
+      properties:
+        modelYearId:
+          format: int32
+          type: integer
+        yearId:
+          format: int32
+          type: integer
+        makeId:
+          format: int32
+          type: integer
+        makeName:
+          type: string
+        modelId:
+          format: int32
+          type: integer
+        modelName:
+          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse:
       type: object
       properties:
@@ -168,25 +187,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-    IDWS.Vehicle.Contracts.Contracts.V1.ModelYearsResponse_ModelYear:
-      type: object
-      properties:
-        modelYearId:
-          format: int32
-          type: integer
-        yearId:
-          format: int32
-          type: integer
-        makeId:
-          format: int32
-          type: integer
-        makeName:
-          type: string
-        modelId:
-          format: int32
-          type: integer
-        modelName:
-          type: string
   securitySchemes:
     apiKey:
       name: api_key

@@ -55,6 +55,11 @@ paths:
               $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationRequest'
 components:
   schemas:
+    IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationRequest:
+      type: object
+      properties:
+        startingConfiguration:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel'
     IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel:
       type: object
       properties:
@@ -66,17 +71,6 @@ components:
           items:
             format: int32
             type: integer
-    IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationResponse:
-      type: object
-      properties:
-        isValid:
-          type: boolean
-        finalConfiguration:
-          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.WarningModel'
     IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.WarningModel:
       type: object
       properties:
@@ -94,6 +88,17 @@ components:
           items:
             format: int32
             type: integer
+    IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationResponse:
+      type: object
+      properties:
+        isValid:
+          type: boolean
+        finalConfiguration:
+          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.WarningModel'
     IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage:
       type: object
       properties:
@@ -112,11 +117,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-    IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.ValidateConfigurationRequest:
-      type: object
-      properties:
-        startingConfiguration:
-          $ref: '#/components/schemas/IDWS.Vehicle.Contracts.Contracts.V1.ValidateConfiguration.VehicleConfigurationModel'
   securitySchemes:
     apiKey:
       name: api_key

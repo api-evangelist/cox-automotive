@@ -124,17 +124,14 @@ components:
           type: string
         message:
           type: string
-    IDWS.Platform.ResponseMessage.ReturnResponse:
+    IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse_MakeModel:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        makeId:
+          format: int32
+          type: integer
+        makeName:
+          type: string
     IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse:
       type: object
       properties:
@@ -154,14 +151,17 @@ components:
         count:
           format: int32
           type: integer
-    IDWS.Vehicle.Contracts.Contracts.V1.MakesResponse_MakeModel:
+    IDWS.Platform.ResponseMessage.ReturnResponse:
       type: object
       properties:
-        makeId:
-          format: int32
-          type: integer
-        makeName:
-          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDWS.Platform.ResponseMessage.ReturnResponse_ResponseMessage'
   securitySchemes:
     apiKey:
       name: api_key

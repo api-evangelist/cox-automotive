@@ -100,6 +100,12 @@ components:
           type: string
         message:
           type: string
+    IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse_YearModel:
+      type: object
+      properties:
+        yearId:
+          format: int32
+          type: integer
     IDWS.Platform.ResponseMessage.ReturnResponse:
       type: object
       properties:
@@ -128,12 +134,6 @@ components:
           format: int32
           type: integer
         count:
-          format: int32
-          type: integer
-    IDWS.Vehicle.Contracts.Contracts.V1.YearsResponse_YearModel:
-      type: object
-      properties:
-        yearId:
           format: int32
           type: integer
   securitySchemes:
