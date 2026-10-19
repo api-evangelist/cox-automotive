@@ -1,0 +1,76 @@
+edges:
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@cox-automotive/yaml-changelog
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@cox-automotive/yaml-changelog'
+      version: 0.1.9
+      released: '2024-11-06'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@cox-automotive/yaml-changelog
+      repo_leg: github-org:cox-automotive
+      publisher_leg: email:coxautoinc.com
+      matched_by: domain
+    - name: alks
+      version: 4.2.2
+      released: '2026-10-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/alks
+      repo_leg: domain:coxautoinc.com
+      publisher_leg: email:coxautoinc.com
+      matched_by: domain
+    - name: alks-node
+      version: 0.12.1
+      released: '2024-11-06'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/alks-node
+      repo_leg: github-org:cox-automotive
+      publisher_leg: email:coxautoinc.com
+      matched_by: domain
+    - name: alks.js
+      version: 2.15.7
+      released: '2026-10-02'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/alks.js
+      repo_leg: domain:coxautoinc.com
+      publisher_leg: email:coxautoinc.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+generated: '2026-10-18'
+method: searched
+source:
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
+checked:
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
