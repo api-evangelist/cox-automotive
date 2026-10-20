@@ -56,6 +56,46 @@ edges:
     detected: '2026-10-18'
   detected_by: sweep-official-sdks.py
   first_seen: '2026-10-18'
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official CLI (npm registry)
+  evidence: https://www.npmjs.com/package/@cox-automotive/yaml-changelog
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public package index)
+    spec_file: null
+    packages:
+    - name: '@cox-automotive/yaml-changelog'
+      version: 0.1.9
+      released: '2024-11-06'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@cox-automotive/yaml-changelog
+      cli: bin yaml-changelog
+      repo_leg: github-org:cox-automotive
+      publisher_leg: email:coxautoinc.com
+      matched_by: domain
+    - name: alks
+      version: 4.2.2
+      released: '2026-10-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/alks
+      cli: bin alks
+      repo_leg: domain:coxautoinc.com
+      publisher_leg: email:coxautoinc.com
+      matched_by: domain
+    current: true
+    signal_note: 'the provider''s own command-line tool on a package manager: distribution, not an integration;
+      lapsed = no release in 24 months or deprecated / disabled by the manager'
+    detected_by: sweep-official-clis.py
+    detected: '2026-10-20'
+  detected_by: sweep-official-clis.py
+  first_seen: '2026-10-20'
 generated: '2026-10-18'
 method: searched
 source:
@@ -68,7 +108,12 @@ source:
 - https://rubygems.org/api/v1
 checked:
 - https://api.nuget.org/v3
+- https://cdn.winget.microsoft.com/cache
 - https://crates.io/api/v1
+- https://formulae.brew.sh/api/cask.json
+- https://formulae.brew.sh/api/formula.json
+- https://github.com/ScoopInstaller/Extras
+- https://github.com/ScoopInstaller/Main
 - https://proxy.golang.org
 - https://pypi.org/pypi
 - https://registry.npmjs.org
