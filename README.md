@@ -64,38 +64,175 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cox Automotive is one of the world's largest providers of products and services spanning the automotive
-ecosystem, operating a portfolio that includes **Manheim** (wholesale vehicle auctions and remarketing),
-**Kelley Blue Book** (vehicle valuations and editorial data), **Autotrader**, **Dealertrack**, **vAuto**,
-**VinSolutions**, **Xtime**, **Dealer.com** and **HomeNet**.
+Cox Automotive is one of the world's largest providers of products and services spanning the automotive ecosystem, operating a portfolio of brands that includes Manheim (wholesale vehicle auctions and remarketing), Kelley Blue Book (vehicle valuations and editorial data), Autotrader, Dealertrack (DMS, registration and titling, credit applications), vAuto, VinSolutions, Xtime, Dealer.com, HomeNet and Esntial. Its public API surface is split across several developer properties: the Kelley Blue Book Developer Portal (developer.kbb.com) publishes Swagger 2.0 contracts for the IDWS 4.0 vehicle and editorial services, the Advertising Data API, the Instant Cash Offer API and the Batch VIN API; the Manheim Developer Portal (developer.manheim.com) documents a hypermedia REST suite covering auctions, inventory, marketplace offerings, valuations, condition reports, images, users and a publish/subscribe event notification service; and the Cox Automotive Integration Platform / API Storefront (developer.coxautoinc.com) fronts the partner-gated catalogue of more than seventy runtime services visible on the public Cox Automotive API status page. Access to every environment is granted after a review by a Cox Automotive account representative, with keys issued through the Boomi/Mashery gateway.
 
-## What this profile covers
+**Areas:** Cox Automotive · Automotive · Vehicle Data · Vehicle Valuations · Auctions · Dealer Software · Automotive Retail · VIN Decoding · Inventory · Remarketing · Event · Webhook
 
-Cox Automotive's public API surface is split across three developer properties, with three different
-authentication models and three different error envelopes:
+## Cox Automotive on APIs.io
 
-| Property | What it publishes | Machine-readable contract |
-|---|---|---|
-| [developer.kbb.com](https://developer.kbb.com/) | IDWS 4.0 Vehicle and Editorial, Advertising Data, Instant Cash Offer, Batch VIN | **Yes** — five Swagger 2.0 specs, 78 paths |
-| [developer.manheim.com](https://developer.manheim.com/) | Hypermedia REST suite over the auction lifecycle, plus a publish/subscribe event service | No |
-| [developer.coxautoinc.com](https://developer.coxautoinc.com/) | The company-wide API Storefront; 72 runtime components are named on the public status page | No — behind Okta / Entra ID sign-in |
+Everything profiled for Cox Automotive is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cox-automotive/](https://apis.io/providers/cox-automotive/)** — or go straight to one of the APIs or properties below.
 
-All five Kelley Blue Book contracts are harvested verbatim into `openapi/_original/`. Everything else in
-this repository is derived from those contracts or read from a public reference page, with the source URL
-recorded on each artifact.
+### APIs (32)
 
-## Notable findings
+- [Manheim Hypermedia API Suite](https://apis.io/apis/cox-automotive/manheim/) — Manheim's third-party integration surface — a suite of hypermedia (href-linked) JSON REST APIs over the wholesale vehicle remarketing lifecycle: auction…
+- [Manheim Event Notifications](https://apis.io/apis/cox-automotive/manheim-events/) — Publish/subscribe business-event notification service for the Manheim auction lifecycle. Consumers register a subscriber, create subscriptions with…
+- [Cox Automotive Integration Platform (API Storefront)](https://apis.io/apis/cox-automotive/integration-platform/) — The company-wide API storefront and integration platform fronting Cox Automotive's partner APIs — Dealertrack credit application, registration and titling,…
+- [Cox Automotive Apply Configuration API](https://apis.io/apis/cox-automotive/cox-automotive-applyconfiguration-api/) — The ApplyConfiguration API from Cox Automotive — 1 operation(s) for applyconfiguration.
+- [Cox Automotive Body Styles API](https://apis.io/apis/cox-automotive/cox-automotive-bodystyles-api/) — The BodyStyles API from Cox Automotive — 1 operation(s) for bodystyles.
+- [Cox Automotive Consumer Ratings API](https://apis.io/apis/cox-automotive/cox-automotive-consumerratings-api/) — The ConsumerRatings API from Cox Automotive — 1 operation(s) for consumerratings.
+- [Cox Automotive Consumer Reviews API](https://apis.io/apis/cox-automotive/cox-automotive-consumerreviews-api/) — The ConsumerReviews API from Cox Automotive — 1 operation(s) for consumerreviews.
+- [Cox Automotive Cost To Own API](https://apis.io/apis/cox-automotive/cox-automotive-costtoown-api/) — The CostToOwn API from Cox Automotive — 1 operation(s) for costtoown.
+- [Cox Automotive Cpo Programs API](https://apis.io/apis/cox-automotive/cox-automotive-cpoprograms-api/) — The CpoPrograms API from Cox Automotive — 1 operation(s) for cpoprograms.
+- [Cox Automotive Error Codes API](https://apis.io/apis/cox-automotive/cox-automotive-errorcodes-api/) — The ErrorCodes API from Cox Automotive — 2 operation(s) for errorcodes.
+- [Cox Automotive Expert Ratings API](https://apis.io/apis/cox-automotive/cox-automotive-expertratings-api/) — The ExpertRatings API from Cox Automotive — 1 operation(s) for expertratings.
+- [Cox Automotive Expert Reviews API](https://apis.io/apis/cox-automotive/cox-automotive-expertreviews-api/) — The ExpertReviews API from Cox Automotive — 1 operation(s) for expertreviews.
+- [Cox Automotive Links API](https://apis.io/apis/cox-automotive/cox-automotive-links-api/) — The Links API from Cox Automotive — 1 operation(s) for links.
+- [Cox Automotive Makes API](https://apis.io/apis/cox-automotive/cox-automotive-makes-api/) — The Makes API from Cox Automotive — 2 operation(s) for makes.
+- [Cox Automotive Marketing Categories API](https://apis.io/apis/cox-automotive/cox-automotive-marketingcategories-api/) — The MarketingCategories API from Cox Automotive — 1 operation(s) for marketingcategories.
+- [Cox Automotive Models API](https://apis.io/apis/cox-automotive/cox-automotive-models-api/) — The Models API from Cox Automotive — 2 operation(s) for models.
+- [Cox Automotive Model Years API](https://apis.io/apis/cox-automotive/cox-automotive-modelyears-api/) — The ModelYears API from Cox Automotive — 2 operation(s) for modelyears.
+- [Cox Automotive Offer API](https://apis.io/apis/cox-automotive/cox-automotive-offer-api/) — All methods related to an offer
+- [Cox Automotive Prospect API](https://apis.io/apis/cox-automotive/cox-automotive-prospect-api/) — All methods related to a prospect
+- [Cox Automotive Specifications API](https://apis.io/apis/cox-automotive/cox-automotive-specifications-api/) — The Specifications API from Cox Automotive — 1 operation(s) for specifications.
+- [Cox Automotive Token API](https://apis.io/apis/cox-automotive/cox-automotive-token-api/) — The Token API from Cox Automotive — 1 operation(s) for token.
+- [Cox Automotive Top Ten Lists API](https://apis.io/apis/cox-automotive/cox-automotive-toptenlists-api/) — The TopTenLists API from Cox Automotive — 1 operation(s) for toptenlists.
+- [Cox Automotive Trims API](https://apis.io/apis/cox-automotive/cox-automotive-trims-api/) — The Trims API from Cox Automotive — 2 operation(s) for trims.
+- [Cox Automotive Typicals API](https://apis.io/apis/cox-automotive/cox-automotive-typicals-api/) — The Typicals API from Cox Automotive — 1 operation(s) for typicals.
+- [Cox Automotive Validate Configuration API](https://apis.io/apis/cox-automotive/cox-automotive-validateconfiguration-api/) — The ValidateConfiguration API from Cox Automotive — 1 operation(s) for validateconfiguration.
+- [Cox Automotive Values API](https://apis.io/apis/cox-automotive/cox-automotive-values-api/) — The Values API from Cox Automotive — 1 operation(s) for values.
+- [Cox Automotive Vehicle API](https://apis.io/apis/cox-automotive/cox-automotive-vehicle-api/) — All methods related to vehicles
+- [Cox Automotive Vehicle Options API](https://apis.io/apis/cox-automotive/cox-automotive-vehicleoptions-api/) — The VehicleOptions API from Cox Automotive — 1 operation(s) for vehicleoptions.
+- [Cox Automotive Vehicle Specs API](https://apis.io/apis/cox-automotive/cox-automotive-vehiclespecs-api/) — The VehicleSpecs API from Cox Automotive — 1 operation(s) for vehiclespecs.
+- [Cox Automotive Vin API](https://apis.io/apis/cox-automotive/cox-automotive-vin-api/) — The Vin API from Cox Automotive — 1 operation(s) for vin.
+- [Cox Automotive Years API](https://apis.io/apis/cox-automotive/cox-automotive-years-api/) — The Years API from Cox Automotive — 1 operation(s) for years.
+- [Cox Automotive Batch Jobs API](https://apis.io/apis/cox-automotive/cox-automotive-batch-jobs-api/) — The Batch Jobs API from Cox Automotive — 5 operation(s) for batch jobs.
 
-- **No OpenAPI 3.x anywhere.** Every published contract is Swagger 2.0.
-- **No idempotency contract**, across a write surface that includes unit creation, auction offering
-  creation, lane assignment and instant-cash-offer creation.
-- **A real event service with no AsyncAPI.** Manheim Events supports resource/type/VIN/expression
-  filtering, replay and response expansion, and is documented only in prose. It is also mid-migration to
-  *Eventer* on the API Storefront, which is closed to unauthenticated readers.
-- **OAuth scopes are enforced but undocumented** — the token endpoint accepts a `scope` parameter and no
-  scope vocabulary is published.
-- **No first-party SDK, CLI, MCP server or A2A agent card.**
-- **Two RFC 9116 `security.txt` documents** are served, both pointing at one responsible-disclosure
-  policy. No bug bounty is offered.
-- Access is never self-serve. Every environment on every property requires a human review before a key
-  is issued.
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Cox Automotive Manheim Events Webhooks](https://apis.io/asyncapis/cox-automotive/cox-automotive-manheim-events-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [cox-automotive](https://apis.io/servers/cox-automotive/cox-automotive/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Cox Automotive Agentic Access](https://apis.io/agentic-access/cox-automotive/cox-automotive-agentic-access/)
+
+#### Overlays (5)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Cox Automotive Kbb Advertising Data Overlay](https://apis.io/overlays/cox-automotive/cox-automotive-kbb-advertising-data-overlay/)
+- [Cox Automotive Kbb Batch Vin Overlay](https://apis.io/overlays/cox-automotive/cox-automotive-kbb-batch-vin-overlay/)
+- [Cox Automotive Kbb Idws Editorial Overlay](https://apis.io/overlays/cox-automotive/cox-automotive-kbb-idws-editorial-overlay/)
+- [Cox Automotive Kbb Idws Vehicle Overlay](https://apis.io/overlays/cox-automotive/cox-automotive-kbb-idws-vehicle-overlay/)
+- [Cox Automotive Kbb Instant Cash Offer Overlay](https://apis.io/overlays/cox-automotive/cox-automotive-kbb-instant-cash-offer-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Cox Automotive Authentication](https://apis.io/security/cox-automotive/cox-automotive-authentication/)
+- [Cox Automotive Domain Security](https://apis.io/security/cox-automotive/cox-automotive-domain-security/)
+- [Cox Automotive Vulnerability Disclosure](https://apis.io/security/cox-automotive/cox-automotive-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Cox Automotive Scopes](https://apis.io/scopes/cox-automotive/cox-automotive-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Cox Automotive Plans Pricing](https://apis.io/plans/cox-automotive/cox-automotive-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Cox Automotive Rate Limits](https://apis.io/rate-limits/cox-automotive/cox-automotive-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.coxautoinc.com/)
+- [Documentation](https://developer.manheim.com/)
+- [Getting started](https://developer.manheim.com/pages/accessAndEnvironments.html)
+- [API reference](https://developer.kbb.com/)
+- [Sign up](https://developer.coxautoinc.com/signup)
+- [Support](https://developer.manheim.com/support/help.html)
+- [Blog](https://www.coxautoinc.com/insights/)
+- [Security](https://www.coxautoinc.com/responsible-disclosure)
+- [Terms of service](https://www.coxautoinc.com/terms/)
+- [Privacy policy](https://www.coxautoinc.com/privacy-statement/)
+- [GitHub](https://github.com/Cox-Automotive)
+- [Status](https://coxautoapi.statuspage.io/)
+
+## API Evangelist rating
+
+**Kin Score 51.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 47.8 |
+| Contract governance | 18.2 |
+| Operational transparency | 57.9 |
+| Developer ergonomics | 70.8 |
+| Access clarity | 27.6 |
+
+**Agent readiness 34.5** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 40.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cox-automotive/](https://apis.io/providers/cox-automotive/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cox Automotive: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cox-automotive/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
